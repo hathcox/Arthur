@@ -3,7 +3,7 @@
 {% block title %}Login{% end %}
 
 {% block content %}
-  <h1>Agent Authentication</h1>
+  <h1>Login</h1>
   <br />
   {% if errors != None and len(errors) != 0 %}
     {% for error in errors %}
@@ -18,7 +18,7 @@
     <form action="/login" method="post" autocomplete="off">  
       {% raw xsrf_form_html() %}
       <fieldset>
-        <legend>Login</legend>
+        <legend>Ready for Adventure?</legend>
         <p>
           <label for="username">Username</label>
           <input name="username" id="username" placeholder="Username" type="text" />

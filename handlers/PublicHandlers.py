@@ -70,7 +70,7 @@ class LoginHandler(RequestHandler):
         session_manager = SessionManager.Instance()
         sid, session = session_manager.start_session()
         self.set_secure_cookie(name='auth', value=str(sid), expires_days=1, HttpOnly=True)
-        session.data['handle'] = str(user.handle)
+        session.data['name'] = str(user.name)
         session.data['ip'] = str(self.request.remote_ip)
         if user.has_permission('admin'):
             session.data['menu'] = 'admin'

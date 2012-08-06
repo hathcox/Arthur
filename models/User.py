@@ -54,6 +54,7 @@ class User(BaseObject):
     ))
     salt = Column(
         Unicode(32), unique=True, nullable=False, default=get_salt)
+    avatar = Column(Unicode(128), default=unicode("default_avatar.jpeg"))
     gold = Column(Integer, default=0, nullable=False)
     health = Column(Integer, default=100, nullable=False)
     mana = Column(Integer, default=100, nullable=False)
