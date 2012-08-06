@@ -89,7 +89,7 @@ class RegistrationHandler(RequestHandler):
     def initialize(self, dbsession):
         self.dbsession = dbsession
         self.form = Form(
-            name="Please enter an username name",
+            username="Please enter an username",
             pass1="Please enter a password",
             pass2="Please confirm your password",
         )
@@ -102,26 +102,27 @@ class RegistrationHandler(RequestHandler):
         ''' Attempts to create an username, with shitty form validation '''
         if self.form.validate(self.request.arguments):
             config = ConfigManager.Instance()
-            if User.by_username(self.request.arguments['username']) != None:
+            if User.by_name(self.request.arguments['username'][0]) != None:
                 self.render('public/registration.html',
                             errors=['username name already taken'])
-            elif not self.request.arguments['pass1'] == self.request.arguments['pass2']:
+            elif not self.request.arguments['pass1'][0] == self.request.arguments['pass2'][0]:
                 self.render(
                     'public/registration.html', errors=['Passwords do not match'])
-            elif not 8 <= len(self.request.arguments['pass1']):
+            elif len(self.request.arguments['pass1'][0]) < 8:
                 self.render('public/registration.html',
                             errors=['Passwords must be at least 8 characters'])
             else:
-                self.create_user(self.request.arguments['username'],  self.request.arguments['password'])
+                self.create_user(self.request.arguments['username'][0],  self.request.arguments['pass1'][0])
+                self.redirect("/login", errors=None)
         elif 0 < len(self.form.errors):
             self.render('public/registration.html', errors=self.form.errors)
         else:
             self.render('public/registration.html', errors=['Unknown error'])
 
-    def create_user(self, name, password):
+    def create_user(self, username, password):
         ''' Creates a user in the database '''
         user = User(
-            name=unicode(name),
+            name=unicode(username),
         )
         self.dbsession.add(user)
         self.dbsession.flush()

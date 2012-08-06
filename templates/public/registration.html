@@ -17,17 +17,13 @@
     <div class="well">
       <form action="/registration" method="post">  
         {% raw xsrf_form_html() %}
-        <fieldset><legend>Agent Enrollment</legend>
+        <fieldset><legend>Become a Knight</legend>
           <p>
-            <label for="account">Account Name (Alpha-numeric Only)</label>
-            <input name="account" id="account" placeholder="Account Name" type="text" />
+            <label for="username">Username</label>
+            <input name="username" id="username" placeholder="Username" type="text" />
           </p>
           <p>
-            <label for="handle">Hacker Name (Alpha-numeric Only)</label>
-            <input name="handle" placeholder="Hacker Name" type="text" />
-          </p>
-          <p>
-            <label for="pass1">Password (Ascii Only)</label>
+            <label for="pass1">Password</label>
             <input name="pass1" placeholder="Password" type="password" autocomplete="off" />
           </p>
           <p>
@@ -36,11 +32,11 @@
           </p> 
         </fieldset>
         <p class="submit">
-          <button class="btn btn-primary btn-large" type="submit">&nbsp;Register Account&nbsp;</button>
+          <button class="btn btn-primary btn-large" type="submit">&nbsp;Register&nbsp;</button>
         </p>
       </form>
     </div>
     <script>
-        document.getElementById('account').focus();
+        document.getElementById('username').focus();
     </script>
 {% end %}

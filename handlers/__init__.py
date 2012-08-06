@@ -40,39 +40,40 @@ application = Application([
         (r'/static/(.*)', StaticFileHandler, {'path': 'static/'}),
       
         # Public Handlers
-        (r'/login', LoginHandler, {'dbsession': dbsession}),
+        (r'/login', LoginHandler),
         (r'/registration', RegistrationHandler, {'dbsession': dbsession}),
+        (r'/about', AboutHandler),
         (r'/', HomePageHandler),
 
         #This is the Default Handler generated for you!
       	(r'/(.*)', NotFoundHandler),
-],
+        ],
 
     # Template directory
-    template_path = 'templates',
+    template_path='templates',
 
     # Randomly generated secret key
-    cookie_secret = b64encode(urandom(64)),
+    cookie_secret=b64encode(urandom(64)),
 
     # Debug mode
-    debug = config.debug,
+    debug=config.debug,
 
     # Enable XSRF forms
-    xsrf_cookies = True,
+    xsrf_cookies=True,
 
     # Recaptcha Settings
-    recaptcha_enable = config.recaptcha_enable,
-    recaptcha_private_key = config.recaptcha_private_key,
+    recaptcha_enable=config.recaptcha_enable,
+    recaptcha_private_key=config.recaptcha_private_key,
 
     # WebSocket Host IP Address
-    ws_ip_address = config.websocket_host,
-    ws_port = config.listen_port,
+    ws_ip_address=config.websocket_host,
+    ws_port=config.listen_port,
 
     # UI Modules
     ui_modules={"Menu": Menu},
     
     # Application version
-    version = '0.1'
+    version='0.1'
 )
 
 # Main entry point
