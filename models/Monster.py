@@ -23,6 +23,8 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
+from string import ascii_letters, digits
+
 
 class Monster(BaseObject):
 
@@ -32,8 +34,6 @@ class Monster(BaseObject):
         lambda self, name: setattr(
             self, '_name', self.__class__.filter_string(name, " _-"))
     ))
-
-
 
     @classmethod
     def filter_string(cls, string, extra_chars=''):

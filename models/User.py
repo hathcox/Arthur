@@ -22,12 +22,13 @@ Created on Mar 12, 2012
 from os import urandom
 from base64 import b64encode
 from hashlib import sha256
-from models import dbsession
+from models import dbsession, Weapon, Armor, Potion
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 from models.Permission import Permission
+from string import ascii_letters, digits
 
 def get_salt():
     ''' Generate a 24-byte random salt '''

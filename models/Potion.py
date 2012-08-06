@@ -23,10 +23,12 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
+from string import ascii_letters, digits
 
 
 class Potion(BaseObject):
 
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     _name = Column(Unicode(64), unique=True, nullable=False)
     name = synonym('_name', descriptor=property(
         lambda self: self._name,
