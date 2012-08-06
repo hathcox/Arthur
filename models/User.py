@@ -19,11 +19,15 @@ Created on Mar 12, 2012
 '''
 
 
+from os import urandom
+from base64 import b64encode
+from hashlib import sha256
+from models import dbsession
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
-
+from models.Permission import Permission
 
 def get_salt():
     ''' Generate a 24-byte random salt '''
@@ -39,6 +43,8 @@ class User(BaseObject):
         lambda self, name: setattr(
             self, '_name', self.__class__.filter_string(name, " _-"))
     ))
+    permissions = relationship("Permission", backref=backref(
+        "User", lazy="joined"), cascade="all, delete-orphan")
     _password = Column('password', Unicode(128))
     password = synonym('_password', descriptor=property(
         lambda self: self._password,

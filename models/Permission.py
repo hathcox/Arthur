@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 '''
-Created on Mar 15, 2012
+Created on Mar 12, 2012
 
-@author: hathcox
+@author: moloch
 
  Copyright [2012] [Redacted Labs]
 
@@ -17,18 +18,20 @@ Created on Mar 15, 2012
    See the License for the specific language governing permissions and
    limitations under the License.
 '''
-from tornado.web import RequestHandler
 
-class DefaultHandler(RequestHandler):
-    def get(self, *args, **kwargs):
-        self.render("main.html")
+from sqlalchemy.types import Unicode, Integer
+from sqlalchemy import Column, ForeignKey
+from models.BaseObject import BaseObject
 
-    def post(self, *args, **kwargs):
-        self.render("main.html")
 
-class WelcomeHandler(RequestHandler):
-    def get(self, *args, **kwargs):
-        self.render("public/welcome.html")
+class Permission(BaseObject):
+    """ Permission definition """
 
-    def post(self, *args, **kwargs):
-        self.render("main.html")
+    permission_name = Column(Unicode(64), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return ('<Permission - name: %s, user_id: %d>' % (self.permission_name, self.user_id)).encode('utf-8')
+
+    def __unicode__(self):
+        return self.permission_name

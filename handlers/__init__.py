@@ -20,10 +20,11 @@
 import logging
 import tornado.web
 from tornado.web import Application
+from modules.Menu import Menu
 from tornado.web import StaticFileHandler 
 from os import urandom, path
 from base64 import b64encode
-from handlers.BaseHandler import DefaultHandler
+from handlers.BaseHandler import *
 #Don't remove this comment, this is used as a pointhook to magically generate more handlers
 #HANDLER_IMPORT_POINT_HOOK
 
@@ -40,8 +41,11 @@ application = Application([
         #Static Handlers - Serves static CSS, JavaScript and image files
         (r'/static/(.*)', StaticFileHandler, {'path': 'static'}),
       
+        #Public Handlers
+        (r'/', WelcomeHandler),
+
         #This is the Default Handler generated for you!
-      	(r'/(.*)', DefaultHandler)
+      	(r'/(.*)', DefaultHandler),
 ],
 
     # Template directory
@@ -52,6 +56,9 @@ application = Application([
 
     # Debug mode
     debug = True,
+
+    # UI Modules
+    ui_modules={"Menu": Menu},
     
     # Application version
     version = '0.0.1'
