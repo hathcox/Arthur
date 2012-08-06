@@ -21,7 +21,7 @@ Created on Mar 12, 2012
 
 from sqlalchemy.types import Unicode, Integer
 from sqlalchemy import Column, ForeignKey
-from models.BaseObject import BaseObject
+from models.BaseGameObject import BaseObject
 
 
 class Permission(BaseObject):

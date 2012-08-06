@@ -23,7 +23,6 @@ Created on Mar 13, 2012
 import logging
 
 from models.User import User
-from models.Team import Team
 from libs.Form import Form
 from libs.ConfigManager import ConfigManager
 from libs.Session import SessionManager
@@ -84,7 +83,7 @@ class LoginHandler(RequestHandler):
         self.render('public/login.html', errors=["Bad username and/or password, try again"])
 
 
-class UserRegistraionHandler(RequestHandler):
+class RegistrationHandler(RequestHandler):
     ''' Registration Code '''
 
     def initialize(self, dbsession):

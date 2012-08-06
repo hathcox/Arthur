@@ -20,32 +20,26 @@
 import logging
 import tornado.web
 from tornado.web import Application
+from models import dbsession
 from modules.Menu import Menu
-from tornado.web import StaticFileHandler 
 from os import urandom, path
 from base64 import b64encode
-from handlers.BaseHandler import *
-#Don't remove this comment, this is used as a pointhook to magically generate more handlers
-#HANDLER_IMPORT_POINT_HOOK
-
-logging.basicConfig(format = '[%(levelname)s] %(asctime)s - %(message)s', level = logging.DEBUG)
-
-fileLogger = logging.FileHandler(filename = 'Arthur.log')
-fileLogger.setLevel(logging.DEBUG)
-logging.getLogger('').addHandler(fileLogger)
+from handlers.StaticFileHandler import StaticFileHandler
+from PublicHandlers import *
+from ErrorHandlers import *
 
 application = Application([
-        #Don't remove this comment, this is used as a pointhook to magically generate more handlers
-        #HANDLER_APPLICATION_POINT_HOOK
 
         #Static Handlers - Serves static CSS, JavaScript and image files
-        (r'/static/(.*)', StaticFileHandler, {'path': 'static'}),
+        (r'/static/(.*)', StaticFileHandler, {'path': 'static/'}),
       
-        #Public Handlers
-        (r'/', WelcomeHandler),
+        # Public Handlers
+        (r'/login', LoginHandler, {'dbsession': dbsession}),
+        (r'/registration', RegistrationHandler, {'dbsession': dbsession}),
+        (r'/', HomePageHandler),
 
         #This is the Default Handler generated for you!
-      	(r'/(.*)', DefaultHandler),
+      	(r'/(.*)', NotFoundHandler),
 ],
 
     # Template directory
