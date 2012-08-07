@@ -19,9 +19,12 @@ Created on Mar 13, 2012
     limitations under the License.
 '''
 
-from libs.Armory import Items
-from handlers.BaseHandlers import UserBaseHandler
+
+import json
+
 from libs.SecurityDecorators import authenticated
+from handlers.BaseHandlers import UserBaseHandler
+from models import ArmoryWeapon, ArmoryArmor
 
 
 class ShopWeaponsHandler(UserBaseHandler):
@@ -29,7 +32,7 @@ class ShopWeaponsHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders weapons store page '''
-        self.render("store/weapons.html", weapons=Items.get_weapons())
+        self.render("store/weapons.html", weapons=ArmoryWeapon.get_all())
 
     @authenticated
     def post(self, *args, **kwargs):
@@ -41,7 +44,7 @@ class ShopArmorHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders armor store page '''
-        self.render("store/armor.html", armor=Items.get_armor())
+        self.render("store/armor.html", armor=ArmoryArmor.get_all())
 
 
 class ShopPotionsHandler(UserBaseHandler):
@@ -50,3 +53,35 @@ class ShopPotionsHandler(UserBaseHandler):
     def get(self, *args, **kwargs):
         ''' Renders potions store page '''
         self.render("store/potions.html", potions=Items.get_potions())
+
+
+class ShopAjaxHandler(UserBaseHandler):
+
+    @authenticated
+    def get(self, *args, **kwargs):
+        ''' Sends item details via ajax '''
+        try:
+            classification = self.get_argument("cls")
+            uuid = self.get_argument("uuid")
+        except:
+            self.write(json.dumps({"Error": "Missing parameter"}))
+            return
+        if classification == "weapon":
+            weapon = ArmoryWeapon.by_uuid(uuid)
+            details = {
+                'Name': weapon.name,
+                'Description': weapon.description,
+                'Avatar': weapon.avatar,
+            }
+            self.write(json.dumps(details))
+        elif classification == "armor":
+            armor = ArmoryArmor.by_uuid(uuid)
+            details = {
+                'Name': armor.name,
+                'Description': armor.description,
+                'Avatar': armor.avatar,
+            }
+            self.write(json.dumps(details))
+        else:
+            self.write(json.dump({"Error": "Item not found"}))
+        self.finish()
