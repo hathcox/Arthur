@@ -43,6 +43,7 @@ class Items(object):
             'classification': MELEE,
         }
         items['Short Sword'] = {
+            'name':'Short Sword',
             'description': 'A small blade',
             'damage': 20,
             'required_level': 1,
@@ -50,6 +51,8 @@ class Items(object):
             'cost': 50,
             'rating': 20,
             'advanced': False,
+            'required_level':1,
+            'damage':10,
             'classification': MELEE,
         }
         return items

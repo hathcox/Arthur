@@ -23,6 +23,7 @@ Created on Mar 13, 2012
 import logging
 
 from models.User import User
+from models.Weapon import Weapon
 from libs.Form import Form
 from libs.ConfigManager import ConfigManager
 from libs.Session import SessionManager
@@ -131,23 +132,33 @@ class RegistrationHandler(RequestHandler):
         self.dbsession.flush()
 
         #Add start Weapon and Armor
-        setup_new_weapon(user)
-        setup_new_armor(armor)
+        self.setup_new_weapon(user)
+        self.setup_new_armor(user)
 
     def setup_new_weapon(self, user):
+        all_weapons = Items.get_weapons()
+        short_sword = all_weapons['Short Sword']
         weapon = Weapon(
-            name = 'Basic Sword',
-            description = 'This is the starting weapon',
-            required_level = 1,
-            cost = 0,
-            )
+            user_id = user.id,
+            name = short_sword['name'],
+            description = short_sword['description'],
+            required_level = short_sword['name'],
+            cost = short_sword['cost'],
+            rating = short_sword['rating'],
+            damage = short_sword['damage'],
+            advanced = short_sword['advanced'],
+            avatar = short_sword['avatar'],
+            classification = short_sword['classification'],
+            equiped = True,
+        )
         self.dbsession.add(weapon)
+        self.dbsession.flush()
 
     def setup_new_armor(self, user):
-        armor = Armor (
+        # armor = Armor (
 
-            )
-        self.dbsession.add(armor)
+        #     )
+        # self.dbsession.add(armor)
         pass
 
 

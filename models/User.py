@@ -29,6 +29,7 @@ from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 from models.Permission import Permission
 from string import ascii_letters, digits
+from models.Weapon import Weapon
 
 def get_salt():
     ''' Generate a 24-byte random salt '''
@@ -95,6 +96,11 @@ class User(BaseObject):
     def has_permission(self, permission):
         ''' Return True if 'permission' is in permissions_names '''
         return True if permission in self.permissions_names else False
+
+    @property
+    def equiped_weapon(self):
+        ''' Returns the current equiped weapon on that user '''
+        return dbsession.query(Weapon).filter_by(id=self.id).filter_by(equiped=True).first()
 
     @property
     def permissions_names(self):

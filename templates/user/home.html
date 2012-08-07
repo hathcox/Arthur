@@ -22,16 +22,16 @@
 	<hr>
 	<div class="row">
 		<div class="well span5">
-			<h2>Current Weapon - [{{ user.name }}]</h2>
+			<h2>Current Weapon - [{{ user.equiped_weapon.name }}]</h2>
 			<hr>
 			<div class="span2" id="stats">
-				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
-				<p><i class="icon-tags"></i> Damage - [{{user.defense}}]</p>
-				<p><i class="icon-tags"></i> Rating - [{{user.defense}}]</p>
-				<p><i class="icon-tags"></i> Advanced - [{{user.defense}}]</p>
-				<p><i class="icon-tags"></i> Classification - [{{user.defense}}]</p>
+				<p><i class="icon-plus"></i> Required Level - [{{ user.equiped_weapon.required_level }}]</p>
+				<p><i class="icon-tags"></i> Damage - [{{ user.equiped_weapon.damage }}]</p>
+				<p><i class="icon-tags"></i> Rating - [{{ user.equiped_weapon.rating }}]</p>
+				<p><i class="icon-tags"></i> Advanced - [{{ user.equiped_weapon.advanced }}]</p>
+				<p><i class="icon-tags"></i> Classification - [{{ user.equiped_weapon.classification }}]</p>
 				<p><i class="icon-tags"></i> Description:</p>
-				<p>{{ user.name }}</p>
+				<blockquote>{{ user.equiped_weapon.description }}</blockquote>
 			</div>
 			<div class="span2" id="mini-avatar">
 				<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png"></img>
