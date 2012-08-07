@@ -37,12 +37,14 @@ from recaptcha.client import captcha
 
 
 class WelcomeUserHandler(UserBaseHandler):
-
+    ''' This is the handler served when the user first logs in (Profile) '''
     @authenticated
     def get(self, *args, **kwargs):
         ''' Display the default user page '''
         user = self.get_current_user()
         self.render('user/home.html', user=user)
+
+
 
 
 class SettingsHandler(RequestHandler):

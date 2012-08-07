@@ -3,8 +3,53 @@
 {% block title %}User Home{% end %}
 
 {% block content %}
-	<h1>Home</h1>
+	<h1>{{ user.name }}</h1>
 	<br />
+	<div class="row" id="stats-container">
+		<!-- Sorry for this css hack -->
+		<div class="span4 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
+		</div>
+		<div class="well span6" id="stats">
+			<h2>Stats:</h2>
+			<hr>
+			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
+			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
+			<p><i class="icon-heart"></i> Health - [{{user.health}}]</p>
+			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="well span5">
+			<h2>Current Weapon:</h2>
+			<div class="span2" id="stats">
+				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
+				<p><i class="icon-tags"></i> Damage - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Rating - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Advanced - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Classification - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Description:</p>
+				<p>{{ user.name }}</p>
+			</div>
+			<div class="span2" id="mini-avatar">
+				<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png"></img>
+			</div>
+		</div>
+		<div class="well span5">
+			<h2>Current Armor:</h2>
+			<div class="span2" id="stats">
+				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
+				<p><i class="icon-tags"></i> Rating - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Classification - [{{user.defense}}]</p>
+				<p><i class="icon-tags"></i> Description:</p>
+				<p>{{ user.name }}</p>
+			</div>
+			<div class="span2" id="mini-avatar">
+				<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png"></img>
+			</div>
+		</div>
+	</div>
+
 	
 
 {% end %}

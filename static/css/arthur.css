@@ -1,0 +1,17 @@
+/* Custom CSS for Arthur website */
+
+#avatar {
+	float:left;
+	max-width:100%; 
+	max-height:100%;
+    background-size:contain;
+    background-size:100%;
+    height:180px;
+}
+
+#mini-avatar {
+	float:right;
+	max-width:100%; 
+	max-height:100%;
+
+}

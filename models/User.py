@@ -58,6 +58,9 @@ class User(BaseObject):
     gold = Column(Integer, default=0, nullable=False)
     health = Column(Integer, default=100, nullable=False)
     mana = Column(Integer, default=100, nullable=False)
+    strength = Column(Integer, default=1, nullable=False)
+    defense = Column(Integer, default=1, nullable=False)
+    experience = Column(Integer, default=0, nullable=False)
     weapons = relationship("Weapon", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
     armors = relationship("Armor", backref=backref("User",
