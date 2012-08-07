@@ -19,6 +19,7 @@ Created on Mar 13, 2012
     limitations under the License.
 '''
 
+
 import os
 import imghdr
 import logging
@@ -40,6 +41,7 @@ from recaptcha.client import captcha
 
 class WelcomeUserHandler(UserBaseHandler):
     ''' This is the handler served when the user first logs in (Profile) '''
+
     @authenticated
     def get(self, *args, **kwargs):
         ''' Display the default user page '''

@@ -33,6 +33,7 @@ class Items(object):
     def get_weapons(cls):
         items = {}
         items['The Holy Hand Grenade of Antioch'] = {
+            'id': 0,
             'description': 'Count to three',
             'damage': 5000,
             'required_level': 50,
@@ -43,6 +44,7 @@ class Items(object):
             'classification': MELEE,
         }
         items['Short Sword'] = {
+            'id': 1,
             'name':'Short Sword',
             'description': 'A small blade',
             'damage': 20,
@@ -61,6 +63,7 @@ class Items(object):
     def get_armor(cls):
         items = {}
         items['Leather Straps'] = {
+            'id': 0,
             'name':'Leather Straps',
             'description': 'Weak armor',
             'required_level': 1,
@@ -75,6 +78,7 @@ class Items(object):
     def get_potions(cls):
         items = {}
         items['Mana Potion'] = {
+            'id': 0,
             'description': 'Restores 100 mana',
             'required_level': 1,
             'avatar': '/static/images/potions/mana.png',
@@ -82,6 +86,7 @@ class Items(object):
             'classification': MANA,
         }
         items['Health Potion'] = {
+            'id': 1,
             'description': 'Restores 100 health',
             'required_level': 1,
             'avatar': '/static/images/potions/health.png',

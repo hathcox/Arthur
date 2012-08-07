@@ -42,6 +42,9 @@ from models.Potion import Potion
 from models.Quest import Quest
 from models.User import User
 from models.Weapon import Weapon
+from models.ArmoryArmor import ArmoryArmor
+from models.ArmoryWeapon import ArmoryWeapon
+
 
 # calling this will create the tables at the database
 __create__ = lambda: (

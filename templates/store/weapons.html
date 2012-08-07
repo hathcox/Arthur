@@ -4,6 +4,20 @@
 
 {% block content %}
 	<script>
+		function get_weapon(uuid) {
+			$("#weapon-uuid").value = uuid;
+			$.getJSON('/shop/ajax?cls=weapon&uuid='+uuid, function(data) {
+			  $.each(data, function(key, val) {
+				  	if (key !== "Avatar") {
+				    	$("#" + key).html(val);
+				    } else {
+				    	$("#Avatar").attr("src", function() { 
+						    return val; 
+						});
+				    }
+			  });
+			});
+		}
 	</script>
 	<!-- Hidden Download Form -->
 	<div id="weapon-details" class="modal hide fade" style="display: none; ">
@@ -12,18 +26,24 @@
 	        <h3>Weapon Details</h3>
 	    </div>
 	    <div class="modal-body">
-	    	<p id="description">
-	    	</p>
-	        <form id="buy-form" method="post" action="/sendsms">
-	        	<input type="hidden" id="weapon-id" name="weapon_id" value="" />
-			</form>
+	    	<img id="Avatar" src="" hieght="250" width="250" />
+	    	<br />
+		    <strong>Name:</strong>
+		    <div id="Name">
+		    </div>
+	    	<strong>Description:</strong>
+	    	<div id="Description">
+	    	</div>
 	    </div>
+	   	<form id="buy-form" method="post" action="/shop/buy">
+	        <input type="hidden" id="weapon-uuid" name="uuid" value="" />
+	        <input type="hidden" name="classification" value="weapon" />
+		</form>
 	    <div class="modal-footer">
 	        <a href="#" class="btn" data-dismiss="modal">Close</a>
 	        <button type="button" class="btn btn-primary" onclick="alert(1)">Buy</button>
 	    </div>
 	</div>
-
 	<!-- Start Visable -->
 	<h1>Buy Weapons</h1>
 	<br />
@@ -37,15 +57,18 @@
 		    	<th><!-- Empty header for the button --></th>
 			</tr>
 		</thead>
-
 		<tbody>
-		{% for item in weapons.keys() %}
+		{% for weapon in weapons %}
 			<tr>
-		    	<td>{{ item }}</td>
-		    	<td>{{ weapons[item]['damage'] }}</td>
-		    	<td>{{ weapons[item]['rating'] }}</td>
-		    	<td>{{ weapons[item]['cost'] }}</td>
-		    	<td><button class="btn" data-toggle="modal" href="#weapon-details" onclick="">Details</button></td>
+		    	<td>{{ weapon.name }}</td>
+		    	<td>{{ weapon.damage }}</td>
+		    	<td>{{ weapon.rating }}</td>
+		    	<td>{{ weapon.cost }}</td>
+		    	<td>
+		    		<button class="btn" data-toggle="modal" href="#weapon-details" onclick="get_weapon('{{ weapon.uuid }}')">
+		    		Details
+		    		</button>
+		    	</td>
 		    </tr>
 		{% end %}
 	    <!-- End For -->

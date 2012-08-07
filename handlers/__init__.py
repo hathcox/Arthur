@@ -38,7 +38,7 @@ from ShopHandlers import *
 config = ConfigManager.Instance()
 application = Application([
 
-        #Static Handlers - Serves static CSS, JavaScript and image files
+        # Static Handlers - Serves static CSS, JavaScript and image files
         (r'/static/(.*)', StaticFileHandler, {'path': 'static/'}),
         (r'/avatars/(.*)', StaticFileHandler, {'path': path.abspath('files/avatars')}),
       
@@ -61,6 +61,7 @@ application = Application([
         (r'/shop/weapons', ShopWeaponsHandler, {'dbsession': dbsession}),
         (r'/shop/armor', ShopArmorHandler, {'dbsession': dbsession}),
         (r'/shop/potions', ShopPotionsHandler, {'dbsession': dbsession}),
+        (r'/shop/ajax', ShopAjaxHandler, {'dbsession': dbsession}),
 
         # Other Handlers
         (r'/(.*).php(.*)', NoobHandler),
@@ -90,6 +91,7 @@ application = Application([
     # UI Modules
     ui_modules={"Menu": Menu},
 
+    # File directories
     avatar_dir=path.abspath('files/avatars'),
     
     # Application version

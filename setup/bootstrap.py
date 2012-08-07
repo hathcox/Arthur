@@ -22,7 +22,7 @@ import getpass
 
 from libs.ConsoleColors import *
 from libs.ConfigManager import ConfigManager
-from models import dbsession, User, Permission
+from models import dbsession, User, Permission, ArmoryWeapon, ArmoryArmor
 
 
 # Fills the database with some startup data.
@@ -59,6 +59,49 @@ permission = Permission(
 dbsession.add(permission)
 dbsession.flush()
 
+##### BOOT STRAP ITEMS ##### 
+weapon = ArmoryWeapon(
+    name="Short Sword",
+    description="A very short blade",
+    required_level=0,
+    cost=50,
+    damage=20,
+    advanced=False,
+    classification="Sword",
+    rating=20,
+    avatar="/static/images/weapons/short_sword.png",
+)
+dbsession.add(weapon)
+dbsession.flush()
+
+weapon = ArmoryWeapon(
+    name="Small Knife",
+    description="Slightly better than a butter knife",
+    required_level=0,
+    cost=50,
+    damage=10,
+    advanced=False,
+    classification="Sword",
+    rating=10,
+    avatar="/static/images/weapons/small_knife.png",
+)
+dbsession.add(weapon)
+dbsession.flush()
+
+armor = ArmoryArmor(
+    name="Leather Straps",
+    description="Weak armor",
+    required_level=0,
+    cost=50,
+    classification="Light Armor",
+    rating=10,
+    avatar="/static/images/weapons/leather_straps.png",
+)
+dbsession.add(armor)
+dbsession.flush()
+
+
+#### CONSOLE #### 
 if config.debug:
     environ = bold + R + "Developement boot strap" + W
     details = ", default admin password is '%s'." % password
