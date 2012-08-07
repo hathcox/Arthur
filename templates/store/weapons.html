@@ -3,7 +3,8 @@
 {% block title %}Buy Weapons{% end %}
 
 {% block content %}
-
+	<script>
+	</script>
 	<!-- Hidden Download Form -->
 	<div id="weapon-details" class="modal hide fade" style="display: none; ">
 	    <div class="modal-header">
@@ -11,11 +12,10 @@
 	        <h3>Weapon Details</h3>
 	    </div>
 	    <div class="modal-body">
-	        <form id="sms-options" method="post" action="/sendsms">
-	        	<input type="hidden" id="sms-contact" name="sms-contact" value="" />
-	        	<input type="hidden" id="bot-id" name="bot-id" value="" />
-	        	<br />
-				<input type="text" name="sms-text" placeholder="SMS Text Message" />
+	    	<p id="description">
+	    	</p>
+	        <form id="buy-form" method="post" action="/sendsms">
+	        	<input type="hidden" id="weapon-id" name="weapon_id" value="" />
 			</form>
 	    </div>
 	    <div class="modal-footer">
@@ -45,7 +45,7 @@
 		    	<td>{{ weapons[item]['damage'] }}</td>
 		    	<td>{{ weapons[item]['rating'] }}</td>
 		    	<td>{{ weapons[item]['cost'] }}</td>
-		    	<td><button class="btn" data-toggle="modal" href="#weapon-details">Details</button></td>
+		    	<td><button class="btn" data-toggle="modal" href="#weapon-details" onclick="">Details</button></td>
 		    </tr>
 		{% end %}
 	    <!-- End For -->

@@ -32,6 +32,7 @@ from string import ascii_letters, digits
 from models.Weapon import Weapon
 from models.Armor import Armor
 
+
 def get_salt():
     ''' Generate a 24-byte random salt '''
     return unicode(b64encode(urandom(24)))

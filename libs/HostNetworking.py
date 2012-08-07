@@ -23,7 +23,7 @@ import socket
 import logging
 
 
-class HostIpAddress():
+class HostNetworking():
 
     @classmethod
     def get_ip_address(cls, uri="http://google.com/", port=80):
@@ -31,4 +31,4 @@ class HostIpAddress():
         sock.connect((uri, port))
         ip_address = sock.getsockname()[0]
         sock.close()
-            return ip_address
+        return ip_address

@@ -38,7 +38,7 @@ class BaseGameObject(object):
                 lambda letter: "_" + letter.group(0).lower(), name[1:])
         )
         
-    id = Column(Integer, primary_key=True) #@ReservedAssignment
+    id = Column(Integer, primary_key=True)
     created = Column(DateTime, default=datetime.now)
 
 # Create an instance called "BaseObject"
