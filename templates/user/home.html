@@ -21,16 +21,18 @@
 
 	<hr>
 	<div class="row">
+		<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Equipment</h2>
+		<br>
 		<div class="well span5">
-			<h2>Current Weapon - [{{ user.equiped_weapon.name }}]</h2>
+			<h2>{{ user.equiped_weapon.name }}</h2>
 			<hr>
 			<div class="span2" id="stats">
-				<p><i class="icon-plus"></i> Required Level - [{{ user.equiped_weapon.required_level }}]</p>
-				<p><i class="icon-tags"></i> Damage - [{{ user.equiped_weapon.damage }}]</p>
-				<p><i class="icon-tags"></i> Rating - [{{ user.equiped_weapon.rating }}]</p>
-				<p><i class="icon-tags"></i> Advanced - [{{ user.equiped_weapon.advanced }}]</p>
-				<p><i class="icon-tags"></i> Class - [{{ user.equiped_weapon.classification }}]</p>
-				<p><i class="icon-tags"></i> Description:</p>
+				<p><i class="icon-exclamation-sign"></i> Required Level - [{{ user.equiped_weapon.required_level }}]</p>
+				<p><i class="icon-fire"></i> Damage - [{{ user.equiped_weapon.damage }}]</p>
+				<p><i class="icon-screenshot"></i> Rating - [{{ user.equiped_weapon.rating }}]</p>
+				<p><i class="icon-star-empty"></i> Advanced - [{{ user.equiped_weapon.advanced }}]</p>
+				<p><i class="icon-bookmark"></i> Class - [{{ user.equiped_weapon.classification }}]</p>
+				<p><i class="icon-book"></i> Description:</p>
 				<blockquote><small>{{ user.equiped_weapon.description }}</small></blockquote>
 			</div>
 			<div class="span2" id="mini-avatar">
@@ -38,13 +40,13 @@
 			</div>
 		</div>
 		<div class="well span5">
-			<h2>Current Armor - [{{ user.equiped_armor.name }}]</h2>
+			<h2>{{ user.equiped_armor.name }}</h2>
 			<hr>
 			<div class="span2" id="stats">
-				<p><i class="icon-plus"></i> Required Level - [{{ user.equiped_armor.required_level }}]</p>
-				<p><i class="icon-tags"></i> Rating - [{{ user.equiped_armor.rating }}]</p>
-				<p><i class="icon-tags"></i> Class - [{{ user.equiped_armor.classification }}]</p>
-				<p><i class="icon-tags"></i> Description:</p>
+				<p><i class="icon-exclamation-sign"></i> Required Level - [{{ user.equiped_armor.required_level }}]</p>
+				<p><i class="icon-screenshot"></i> Rating - [{{ user.equiped_armor.rating }}]</p>
+				<p><i class="icon-bookmark"></i> Class - [{{ user.equiped_armor.classification }}]</p>
+				<p><i class="icon-book"></i> Description:</p>
 				<blockquote><small>{{ user.equiped_armor.description }}</small></blockquote>
 			</div>
 			<div class="span2" id="mini-avatar">
@@ -63,11 +65,11 @@
 				<thead>
 					<tr>
 				    	<th>Name</th>
-				    	<th>Required Level</th>
-				    	<th>Damage</th>
-				    	<th>Rating</th>
-				    	<th>Advanced</th>
-				    	<th>Classification</th>
+				    	<th><i class="icon-exclamation-sign"></i> Required Level</th>
+				    	<th><i class="icon-fire"></i> Damage</th>
+				    	<th><i class="icon-screenshot"></i> Rating</th>
+				    	<th><i class="icon-star-empty"></i> Advanced</th>
+				    	<th><i class="icon-bookmark"></i> Classification</th>
 				    	<th><!-- Empty header for the button --></th>
 					</tr>
 				</thead>
@@ -111,9 +113,9 @@
 				<thead>
 					<tr>
 				    	<th>Name</th>
-				    	<th>Required Level</th>
-				    	<th>Rating</th>
-				    	<th>Classification</th>
+				    	<th><i class="icon-exclamation-sign"></i> Required Level</th>
+				    	<th><i class="icon-screenshot"></i> Rating</th>
+				    	<th><i class="icon-bookmark"></i> Classification</th>
 				    	<th><!-- Empty header for the button --></th>
 					</tr>
 				</thead>
@@ -124,8 +126,8 @@
 				<tr>
 			    	<td>{{ armor.name }}</td>
 			    	<td>{{ armor.required_level }}</td>
-			    	<td>{{ weapon.rating }}</td>
-			    	<td>{{ weapon.classification }}</td>
+			    	<td>{{ armor.rating }}</td>
+			    	<td>{{ armor.classification }}</td>
 			    	<td>
 			    		<!-- This is kinda growdy, sorry -->
 			    		<form action="/user/equiparmor" method="post" >
