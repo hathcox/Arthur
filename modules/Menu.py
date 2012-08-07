@@ -30,7 +30,7 @@ class Menu(UIModule):
             self.handler.get_secure_cookie('auth'), self.request.remote_ip)
         if session != None:
             if session.data['menu'] == 'user':
-                return self.render_string('menu/user.html')
+                return self.render_string('menu/user.html', name=session.data['name'])
             elif session.data['menu'] == 'admin':
                 return self.render_string('menu/admin.html', uri=self.handler.request.uri)
         return self.render_string('menu/public.html', uri=self.handler.request.uri)

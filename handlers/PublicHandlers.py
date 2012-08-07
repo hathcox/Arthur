@@ -66,7 +66,7 @@ class LoginHandler(RequestHandler):
 
     def successful_login(self, user):
         ''' Called when a user successfully logs in '''
-        logging.info("Successful login: %s/%s from %s" % (user.username, user.handle, self.request.remote_ip))
+        logging.info("Successful login: %s from %s" % (user.name, self.request.remote_ip))
         session_manager = SessionManager.Instance()
         sid, session = session_manager.start_session()
         self.set_secure_cookie(name='auth', value=str(sid), expires_days=1, HttpOnly=True)
@@ -113,7 +113,7 @@ class RegistrationHandler(RequestHandler):
                             errors=['Passwords must be at least 8 characters'])
             else:
                 self.create_user(self.request.arguments['username'][0],  self.request.arguments['pass1'][0])
-                self.redirect("/login", errors=None)
+                self.redirect("/login")
         elif 0 < len(self.form.errors):
             self.render('public/registration.html', errors=self.form.errors)
         else:

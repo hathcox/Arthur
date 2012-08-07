@@ -30,6 +30,7 @@ from os import urandom, path
 from base64 import b64encode
 from handlers.StaticFileHandler import StaticFileHandler
 from PublicHandlers import *
+from UserHandlers import *
 from ErrorHandlers import *
 
 
@@ -39,6 +40,9 @@ application = Application([
         #Static Handlers - Serves static CSS, JavaScript and image files
         (r'/static/(.*)', StaticFileHandler, {'path': 'static/'}),
       
+        # User Handlers
+        (r'/user', WelcomeUserHandler, {'dbsession': dbsession}),
+
         # Public Handlers
         (r'/login', LoginHandler),
         (r'/registration', RegistrationHandler, {'dbsession': dbsession}),

@@ -25,7 +25,7 @@ import logging
 
 from uuid import uuid4
 from base64 import b64encode, b64decode
-from models import User, Team, FileUpload
+from models import User
 from mimetypes import guess_type
 from libs.Session import SessionManager
 from libs.SecurityDecorators import authenticated
@@ -35,7 +35,7 @@ from string import ascii_letters, digits
 from recaptcha.client import captcha
 
 
-class HomeHandler(UserBaseHandler):
+class WelcomeUserHandler(UserBaseHandler):
 
     @authenticated
     def get(self, *args, **kwargs):

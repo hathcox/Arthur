@@ -85,6 +85,19 @@ class User(BaseObject):
         char_white_list = ascii_letters + digits + extra_chars
         return filter(lambda char: char in char_white_list, string)
 
+    def validate_password(self, attempt):
+        ''' Check the password against existing credentials '''
+        return self.password == self._hash_password(attempt, self.salt)
+
+    def has_permission(self, permission):
+        ''' Return True if 'permission' is in permissions_names '''
+        return True if permission in self.permissions_names else False
+
+    @property
+    def permissions_names(self):
+        ''' Return a list with all permissions names granted to the user '''
+        return [permission.permission_name for permission in self.permissions]
+
     @classmethod
     def _hash_password(cls, password, salt):
         '''

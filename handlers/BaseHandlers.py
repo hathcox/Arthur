@@ -49,7 +49,7 @@ class UserBaseHandler(RequestHandler):
 
     def get_current_user(self):
         if self.session != None:
-            return User.by_handle(self.session.data['handle'])
+            return User.by_name(self.session.data['name'])
         return None
 
     @authenticated
