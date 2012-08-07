@@ -1,31 +1,43 @@
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">King Arthur: Quest for the Holy Grail</a>
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> 
-              {{ name }}
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/user/settings">Settings</a></li>
-              <li class="divider"></li>
-              <li><a href="/logout">Logout</a></li>
-            </ul>
-          </div>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li><a href="/login">Login</a></li>
-              <li><a href="/registration">Registration</a></li>
-              <li><a href="/about">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/">King Arthur: Quest for the Holy Grail</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a href="/user">Profile</a></li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Store
+              <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/shop/weapons">Buy Weapons</a></li>
+                <li><a href="/shop/armor">Buy Armor</a></li>
+                <li><a href="/shop/potions">Buy Potions</a></li>
+              </ul>
+          </li>
+          <li><a href="/quest">Quest</a></li>
+          <li><a href="/pvp">PvP</a></li>
+          <li><a href="/highscore">Highscore</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+      <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          <i class="icon-user"></i> 
+          {{ name }}
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="/user/settings">Settings</a></li>
+          <li class="divider"></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
       </div>
     </div>
+  </div>
+</div>

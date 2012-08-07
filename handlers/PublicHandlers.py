@@ -28,7 +28,6 @@ from libs.ConfigManager import ConfigManager
 from libs.Session import SessionManager
 from handlers.BaseHandlers import UserBaseHandler
 from tornado.web import RequestHandler
-from recaptcha.client import captcha
 from string import ascii_letters, digits
 
 
