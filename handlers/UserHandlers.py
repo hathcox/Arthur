@@ -191,3 +191,11 @@ class SettingsHandler(RequestHandler):
             self.render("user/settings.html", errors=form.errors)
                 
 
+class HighscoreHandler(UserBaseHandler):
+
+    @authenticated
+    def get(self, *args, **kwargs):
+        '''Renders Highscore page'''
+        user = self.get_current_user()
+        self.render('public/highscore.html', user=user)
+

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 '''
     Copyright [2012] [Redacted Labs]
 
@@ -47,6 +47,8 @@ application = Application([
         (r'/user/equipweapon', EquipWeaponHandler, {'dbsession': dbsession}),
         (r'/user/equiparmor', EquipArmorHandler, {'dbsession': dbsession}),
         (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
+        (r'/user/highscore', HighscoreHandler, {'dbsession': dbsession}),
+
 
         # Public Handlers
         (r'/login', LoginHandler),
@@ -55,7 +57,7 @@ application = Application([
         (r'/about', AboutHandler),
         (r'/', HomePageHandler),
 
-        # Store handlers
+        # Store Handlers
         (r'/shop/weapons', ShopWeaponsHandler, {'dbsession': dbsession}),
         (r'/shop/armor', ShopArmorHandler, {'dbsession': dbsession}),
         (r'/shop/potions', ShopPotionsHandler, {'dbsession': dbsession}),
