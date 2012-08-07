@@ -19,22 +19,26 @@ Created on Mar 13, 2012
     limitations under the License.
 '''
 
-from libs.armory import items, 
+from libs.Armory import Items
 from handlers.BaseHandlers import UserBaseHandler
+from libs.SecurityDecorators import authenticated
 
 
 class ShopWeaponsHandler(UserBaseHandler):
 
+    @authenticated
     def get(self, *args, **kwargs):
         ''' Renders weapons store page '''
         self.render("store/weapons.html", weapons=Items.get_weapons())
 
+    @authenticated
     def post(self, *args, **kwargs):
         pass
 
 
-class ShopArmorsHandler(UserBaseHandler):
+class ShopArmorHandler(UserBaseHandler):
 
+    @authenticated
     def get(self, *args, **kwargs):
         ''' Renders armor store page '''
         self.render("store/armor.html", armor=Items.get_armor())
@@ -42,6 +46,7 @@ class ShopArmorsHandler(UserBaseHandler):
 
 class ShopPotionsHandler(UserBaseHandler):
 
+    @authenticated
     def get(self, *args, **kwargs):
         ''' Renders potions store page '''
         self.render("store/potions.html", potions=Items.get_potions())

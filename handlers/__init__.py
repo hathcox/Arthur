@@ -32,6 +32,7 @@ from handlers.StaticFileHandler import StaticFileHandler
 from PublicHandlers import *
 from UserHandlers import *
 from ErrorHandlers import *
+from ShopHandlers import *
 
 
 config = ConfigManager.Instance()
@@ -54,7 +55,12 @@ application = Application([
         (r'/about', AboutHandler),
         (r'/', HomePageHandler),
 
-        # Public Handlers
+        # Store handlers
+        (r'/shop/weapons', ShopWeaponsHandler, {'dbsession': dbsession}),
+        (r'/shop/armor', ShopArmorHandler, {'dbsession': dbsession}),
+        (r'/shop/potions', ShopPotionsHandler, {'dbsession': dbsession}),
+
+        # Other Handlers
         (r'/(.*).php(.*)', NoobHandler),
       	(r'/(.*)', NotFoundHandler),
         ],

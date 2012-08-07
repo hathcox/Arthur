@@ -1,0 +1,54 @@
+{% extends "../main.html" %}
+
+{% block title %}Buy Weapons{% end %}
+
+{% block content %}
+
+	<!-- Hidden Download Form -->
+	<div id="weapon-details" class="modal hide fade" style="display: none; ">
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	        <h3>Weapon Details</h3>
+	    </div>
+	    <div class="modal-body">
+	        <form id="sms-options" method="post" action="/sendsms">
+	        	<input type="hidden" id="sms-contact" name="sms-contact" value="" />
+	        	<input type="hidden" id="bot-id" name="bot-id" value="" />
+	        	<br />
+				<input type="text" name="sms-text" placeholder="SMS Text Message" />
+			</form>
+	    </div>
+	    <div class="modal-footer">
+	        <a href="#" class="btn" data-dismiss="modal">Close</a>
+	        <button type="button" class="btn btn-primary" onclick="alert(1)">Buy</button>
+	    </div>
+	</div>
+
+	<!-- Start Visable -->
+	<h1>Buy Weapons</h1>
+	<br />
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+		    	<th>Name</th>
+		    	<th>Damage</th>
+		    	<th>Rating</th>
+		    	<th>Gold</th>
+		    	<th><!-- Empty header for the button --></th>
+			</tr>
+		</thead>
+
+		<tbody>
+		{% for item in weapons.keys() %}
+			<tr>
+		    	<td>{{ item }}</td>
+		    	<td>{{ weapons[item]['damage'] }}</td>
+		    	<td>{{ weapons[item]['rating'] }}</td>
+		    	<td>{{ weapons[item]['cost'] }}</td>
+		    	<td><button class="btn" data-toggle="modal" href="#weapon-details">Details</button></td>
+		    </tr>
+		{% end %}
+	    <!-- End For -->
+	  </tbody>
+	</table>
+{% end %}
