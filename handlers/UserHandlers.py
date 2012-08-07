@@ -125,8 +125,9 @@ class SettingsHandler(RequestHandler):
                 self.render("user/settings.html", errors=["Password must be at least 8 characters long"])
             else:
                 user.password = self.request.arguments['pass1'][0]
-                dbsession.add(user)
-                dbsession.flush()
+                self.dbsession.add(user)
+                self.dbsession.flush()
+                self.redirect("/logout")
         else:
             self.render("user/settings.html", errors=form.errors)
                 
