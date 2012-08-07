@@ -27,6 +27,7 @@ from uuid import uuid4
 from base64 import b64encode, b64decode
 from models import User
 from mimetypes import guess_type
+from libs.Form import Form
 from libs.Session import SessionManager
 from libs.SecurityDecorators import authenticated
 from tornado.web import RequestHandler
@@ -53,12 +54,9 @@ class SettingsHandler(RequestHandler):
         self.session_manager = SessionManager.Instance()
         self.session = self.session_manager.get_session(
             self.get_secure_cookie('auth'), self.request.remote_ip)
-        self.post_functions = {
-            '/avatar': self.post_avatar,
-            '/changepassword': self.post_password
-        }
 
     def get_current_user(self):
+        ''' Returns the currently logged in user '''
         if self.session != None:
             return User.by_name(self.session.data['name'])
         return None
@@ -66,20 +64,23 @@ class SettingsHandler(RequestHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Display the user settings '''
-        user = self.get_current_user()
         self.render('user/settings.html', errors=None)
 
     @authenticated
     def post(self, *args, **kwargs):
         ''' Calls function based on parameter '''
+        self.post_functions = {
+            '/avatar': self.post_avatar,
+            '/changepassword': self.post_password
+        }
         if len(args) == 1 and args[0] in self.post_functions.keys():
-            self.post_functions[args[0]](*args, **kwargs)
+            self.post_functions[args[0]]()
         else:
             self.render("public/404.html")
 
-    def post_avatar(self, *args, **kwargs):
+    def post_avatar(self):
         ''' Saves avatar - Reads file header an only allows approved formats '''
-        user = User.by_name(self.session.data['name'])
+        user = self.get_current_user()
         if self.request.files.has_key('avatar') and len(self.request.files['avatar']) == 1:
             if len(self.request.files['avatar'][0]['body']) < (1024 * 1024):
                 if user.avatar == "default_avatar.jpeg":
@@ -107,12 +108,26 @@ class SettingsHandler(RequestHandler):
         else:
             self.render("user/settings.html", errors=["Please provide and image"])
 
-    def post_password(self, *args, **kwargs):
+    def post_password(self):
+        ''' Changes a user's password '''
         form = Form(
             old_password='Please enter your current password',
             pass1='Please enter a new password',
             pass2='Please enter a new password',
         )
         if form.validate(self.request.arguments):
-            pass
+            user = self.get_current_user()
+            if not user.validate_password(self.request.arguments['old_password'][0]):
+                self.render("user/settings.html", errors=["Incorrect password"])
+            elif not self.request.arguments['pass1'][0] == self.request.arguments['pass2'][0]:
+                self.render("user/settings.html", errors=["Passwords do not match"])
+            elif not 8 <= len(self.request.arguments['pass1'][0]):
+                self.render("user/settings.html", errors=["Password must be at least 8 characters long"])
+            else:
+                user.password = self.request.arguments['pass1'][0]
+                dbsession.add(user)
+                dbsession.flush()
+        else:
+            self.render("user/settings.html", errors=form.errors)
+                
 

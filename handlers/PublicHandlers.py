@@ -138,10 +138,11 @@ class AboutHandler(RequestHandler):
         self.render('public/about.html')
 
 
-class LogoutHandler(UserBaseHandler):
+class LogoutHandler(RequestHandler):
 
     def get(self, *args, **kwargs):
         ''' Clears cookies and session data '''
-        self.session_manager.remove_session(self.get_secure_cookie('auth'))
+        session_manager = SessionManager.Instance()
+        session_manager.remove_session(self.get_secure_cookie('auth'))
         self.clear_all_cookies()
         self.redirect("/")

@@ -39,12 +39,15 @@ application = Application([
 
         #Static Handlers - Serves static CSS, JavaScript and image files
         (r'/static/(.*)', StaticFileHandler, {'path': 'static/'}),
+        (r'/avatars/(.*)', StaticFileHandler, {'path': path.abspath('files/avatars')}),
       
         # User Handlers
         (r'/user', WelcomeUserHandler, {'dbsession': dbsession}),
+        (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
 
         # Public Handlers
         (r'/login', LoginHandler),
+        (r'/logout', LogoutHandler),
         (r'/registration', RegistrationHandler, {'dbsession': dbsession}),
         (r'/about', AboutHandler),
         (r'/', HomePageHandler),
@@ -75,6 +78,8 @@ application = Application([
 
     # UI Modules
     ui_modules={"Menu": Menu},
+
+    avatar_dir=path.abspath('files/avatars'),
     
     # Application version
     version='0.1'
