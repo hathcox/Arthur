@@ -201,3 +201,11 @@ class HighscoreHandler(UserBaseHandler):
         user = self.get_current_user()
         self.render('public/highscore.html', user=user)
 
+class QuestHomeHandler(UserBaseHandler):
+
+    @authenticated
+    def get(self, *args, **kwargs):
+        '''Renders Highscore page'''
+        user = self.get_current_user()
+        self.render('user/quest.html', user=user)
+   

@@ -48,7 +48,7 @@ application = Application([
         (r'/user/equiparmor', EquipArmorHandler, {'dbsession': dbsession}),
         (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
         (r'/user/highscore', HighscoreHandler, {'dbsession': dbsession}),
-
+        (r'/user/quest', QuestHomeHandler, {'dbsession':dbsession}),
 
         # Public Handlers
         (r'/login', LoginHandler),
