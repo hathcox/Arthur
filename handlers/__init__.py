@@ -43,6 +43,8 @@ application = Application([
       
         # User Handlers
         (r'/user', WelcomeUserHandler, {'dbsession': dbsession}),
+        (r'/user/equipweapon', EquipWeaponHandler, {'dbsession': dbsession}),
+        (r'/user/equiparmor', EquipArmorHandler, {'dbsession': dbsession}),
         (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
 
         # Public Handlers

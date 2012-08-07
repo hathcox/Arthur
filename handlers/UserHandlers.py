@@ -44,8 +44,23 @@ class WelcomeUserHandler(UserBaseHandler):
         user = self.get_current_user()
         self.render('user/home.html', user=user)
 
+class EquipWeaponHandler(UserBaseHandler):
+    ''' This is the handler that allows to equiping of weapons from the profile '''
 
+    @authenticated
+    def post(self, *args, **kwargs):
+        ''' Display the default user page '''
+        user = self.get_current_user()
+        self.render('user/home.html', user=user)
 
+class EquipArmorHandler(UserBaseHandler):
+    ''' This is the handler that allows to equiping of armors from the profile '''
+
+    @authenticated
+    def post(self, *args, **kwargs):
+        ''' Display the default user page '''
+        user = self.get_current_user()
+        self.render('user/home.html', user=user)
 
 class SettingsHandler(RequestHandler):
     ''' Does NOT extend BaseUserHandler '''

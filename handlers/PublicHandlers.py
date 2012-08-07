@@ -29,6 +29,7 @@ from libs.Session import SessionManager
 from handlers.BaseHandlers import UserBaseHandler
 from tornado.web import RequestHandler
 from string import ascii_letters, digits
+from libs.Armory import Items
 
 
 class HomePageHandler(RequestHandler):
@@ -128,6 +129,26 @@ class RegistrationHandler(RequestHandler):
         user.password = password
         self.dbsession.add(user)
         self.dbsession.flush()
+
+        #Add start Weapon and Armor
+        setup_new_weapon(user)
+        setup_new_armor(armor)
+
+    def setup_new_weapon(self, user):
+        weapon = Weapon(
+            name = 'Basic Sword',
+            description = 'This is the starting weapon',
+            required_level = 1,
+            cost = 0,
+            )
+        self.dbsession.add(weapon)
+
+    def setup_new_armor(self, user):
+        armor = Armor (
+
+            )
+        self.dbsession.add(armor)
+        pass
 
 
 class AboutHandler(RequestHandler):

@@ -10,7 +10,7 @@
 		<div class="span4 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
 		</div>
 		<div class="well span6" id="stats">
-			<h2>Stats:</h2>
+			<h2>Stats</h2>
 			<hr>
 			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
 			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
@@ -18,10 +18,12 @@
 			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
 		</div>
 	</div>
+
 	<hr>
 	<div class="row">
 		<div class="well span5">
-			<h2>Current Weapon:</h2>
+			<h2>Current Weapon - [{{ user.name }}]</h2>
+			<hr>
 			<div class="span2" id="stats">
 				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
 				<p><i class="icon-tags"></i> Damage - [{{user.defense}}]</p>
@@ -36,7 +38,8 @@
 			</div>
 		</div>
 		<div class="well span5">
-			<h2>Current Armor:</h2>
+			<h2>Current Armor - [{{ user.name }}]</h2>
+			<hr>
 			<div class="span2" id="stats">
 				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
 				<p><i class="icon-tags"></i> Rating - [{{user.defense}}]</p>
@@ -50,6 +53,92 @@
 		</div>
 	</div>
 
-	
+	<hr>
+	<div class="span12">
+		<h2>Owned Weapons</h2>
+		<br>
+		<div class="span10 well">
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+				    	<th>Name</th>
+				    	<th>Required Level</th>
+				    	<th>Damage</th>
+				    	<th>Rating</th>
+				    	<th>Advanced</th>
+				    	<th>Classification</th>
+				    	<th><!-- Empty header for the button --></th>
+					</tr>
+				</thead>
 
+				<tbody>
+				<!-- For Every Weapon the player owns -->
+				<tr>
+			    	<td>The Vaginator</td>
+			    	<td>69</td>
+			    	<td>1337</td>
+			    	<td>12</td>
+			    	<td>True</td>
+			    	<td>Fist Weapon</td>
+			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    </tr>
+			    <tr>
+			    	<td>The Vaginator</td>
+			    	<td>69</td>
+			    	<td>1337</td>
+			    	<td>12</td>
+			    	<td>True</td>
+			    	<td>Fist Weapon</td>
+			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    </tr>
+			    <!-- End For -->
+			  </tbody>
+			</table>
+		</div>
+	</div>
+
+	<hr>
+	<div class="span12">
+		<h2>Owned Armur</h2>
+		<br>
+		<div class="span10 well">
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+				    	<th>Name</th>
+				    	<th>Required Level</th>
+				    	<th>Damage</th>
+				    	<th>Rating</th>
+				    	<th>Advanced</th>
+				    	<th>Classification</th>
+				    	<th><!-- Empty header for the button --></th>
+					</tr>
+				</thead>
+
+				<tbody>
+				<!-- For Every Weapon the player owns -->
+				<tr>
+			    	<td>The Vaginator</td>
+			    	<td>69</td>
+			    	<td>1337</td>
+			    	<td>12</td>
+			    	<td>True</td>
+			    	<td>Fist Weapon</td>
+			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    </tr>
+			    <tr>
+			    	<td>The Vaginator</td>
+			    	<td>69</td>
+			    	<td>1337</td>
+			    	<td>12</td>
+			    	<td>True</td>
+			    	<td>Fist Weapon</td>
+			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    </tr>
+			    <!-- End For -->
+			  </tbody>
+			</table>
+		</div>
+	</div>
+	<hr>
 {% end %}
