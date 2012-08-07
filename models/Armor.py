@@ -29,17 +29,19 @@ from string import ascii_letters, digits
 class Armor(BaseObject):
 
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    _name = Column(Unicode(64), unique=True, nullable=False)
+    _name = Column(Unicode(64), nullable=False)
     name = synonym('_name', descriptor=property(
         lambda self: self._name,
         lambda self, name: setattr(
             self, '_name', self.__class__.filter_string(name, " _-"))
     ))
     description = Column(Unicode(1024), nullable=False)
+    avatar = Column(Unicode(1024), nullable=False)
     required_level = Column(Integer, nullable=False)
     cost = Column(Integer, nullable=False)
     rating = Column(Integer, nullable=False)
     classification = Column(Unicode(64), nullable=False)
+    equiped = Column(Boolean, nullable=False)
 
     @classmethod
     def filter_string(cls, string, extra_chars=''):

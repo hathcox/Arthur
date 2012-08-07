@@ -30,6 +30,7 @@ from models.BaseGameObject import BaseObject
 from models.Permission import Permission
 from string import ascii_letters, digits
 from models.Weapon import Weapon
+from models.Armor import Armor
 
 def get_salt():
     ''' Generate a 24-byte random salt '''
@@ -64,7 +65,7 @@ class User(BaseObject):
     experience = Column(Integer, default=0, nullable=False)
     weapons = relationship("Weapon", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
-    armors = relationship("Armor", backref=backref("User",
+    armor = relationship("Armor", backref=backref("User",
                                                    lazy="joined"), cascade="all, delete-orphan")
     potions = relationship("Potion", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
@@ -97,10 +98,23 @@ class User(BaseObject):
         ''' Return True if 'permission' is in permissions_names '''
         return True if permission in self.permissions_names else False
 
+    def get_all_weapons(self):
+        ''' Returns all weapons that are not equiped '''
+        return dbsession.query(Weapon).filter_by(user_id = self.id).filter_by(equiped=False).all()
+
+    def get_all_armor(self):
+        ''' Returns all armor that are not equiped '''
+        return dbsession.query(Armor).filter_by(user_id = self.id).filter_by(equiped=False).all()
+
     @property
     def equiped_weapon(self):
         ''' Returns the current equiped weapon on that user '''
-        return dbsession.query(Weapon).filter_by(id=self.id).filter_by(equiped=True).first()
+        return filter(lambda weapon: weapon.equiped == True, self.weapons)[0]
+
+    @property
+    def equiped_armor(self):
+        ''' Returns the current equiped weapon on that user '''
+        return filter(lambda armor: armor.equiped == True, self.armor)[0]
 
     @property
     def permissions_names(self):

@@ -29,26 +29,26 @@
 				<p><i class="icon-tags"></i> Damage - [{{ user.equiped_weapon.damage }}]</p>
 				<p><i class="icon-tags"></i> Rating - [{{ user.equiped_weapon.rating }}]</p>
 				<p><i class="icon-tags"></i> Advanced - [{{ user.equiped_weapon.advanced }}]</p>
-				<p><i class="icon-tags"></i> Classification - [{{ user.equiped_weapon.classification }}]</p>
+				<p><i class="icon-tags"></i> Class - [{{ user.equiped_weapon.classification }}]</p>
 				<p><i class="icon-tags"></i> Description:</p>
-				<blockquote>{{ user.equiped_weapon.description }}</blockquote>
+				<blockquote><small>{{ user.equiped_weapon.description }}</small></blockquote>
 			</div>
 			<div class="span2" id="mini-avatar">
-				<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png"></img>
+				<img src="{{ user.equiped_weapon.avatar }}"></img>
 			</div>
 		</div>
 		<div class="well span5">
-			<h2>Current Armor - [{{ user.name }}]</h2>
+			<h2>Current Armor - [{{ user.equiped_armor.name }}]</h2>
 			<hr>
 			<div class="span2" id="stats">
-				<p><i class="icon-plus"></i> Required Level - [{{user.strength}}]</p>
-				<p><i class="icon-tags"></i> Rating - [{{user.defense}}]</p>
-				<p><i class="icon-tags"></i> Classification - [{{user.defense}}]</p>
+				<p><i class="icon-plus"></i> Required Level - [{{ user.equiped_armor.required_level }}]</p>
+				<p><i class="icon-tags"></i> Rating - [{{ user.equiped_armor.rating }}]</p>
+				<p><i class="icon-tags"></i> Class - [{{ user.equiped_armor.classification }}]</p>
 				<p><i class="icon-tags"></i> Description:</p>
-				<p>{{ user.name }}</p>
+				<blockquote><small>{{ user.equiped_armor.description }}</small></blockquote>
 			</div>
 			<div class="span2" id="mini-avatar">
-				<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png"></img>
+				<img src="{{ user.equiped_armor.avatar }}"></img>
 			</div>
 		</div>
 	</div>
@@ -73,24 +73,24 @@
 
 				<tbody>
 				<!-- For Every Weapon the player owns -->
+				{% for weapon in user.get_all_weapons() %}
 				<tr>
-			    	<td>The Vaginator</td>
-			    	<td>69</td>
-			    	<td>1337</td>
-			    	<td>12</td>
-			    	<td>True</td>
-			    	<td>Fist Weapon</td>
-			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    	<td>{{ weapon.name }}</td>
+			    	<td>{{ weapon.required_level }}</td>
+			    	<td>{{ weapon.damage }}</td>
+			    	<td>{{ weapon.rating }}</td>
+			    	<td>{{ weapon.advanced }}</td>
+			    	<td>{{ weapon.classification }}</td>
+			    	<td>
+			    		<!-- This is kinda growdy, sorry -->
+			    		<form action="/user/equipweapon" method="post" >
+			    			{% raw xsrf_form_html() %}
+			    			<input type="hidden" name="weapon_id" value="{{ weapon.id }}">
+			    			<input type="submit" class="btn" value="Equip"></input>
+			    		</form>
+			    	</td>
 			    </tr>
-			    <tr>
-			    	<td>The Vaginator</td>
-			    	<td>69</td>
-			    	<td>1337</td>
-			    	<td>12</td>
-			    	<td>True</td>
-			    	<td>Fist Weapon</td>
-			    	<td><button type="submit" class="btn" style="">Equip</button></td>
-			    </tr>
+			    {% end %}
 			    <!-- End For -->
 			  </tbody>
 			</table>
@@ -99,7 +99,7 @@
 
 	<hr>
 	<div class="span12">
-		<h2>Owned Armur</h2>
+		<h2>Owned Armor</h2>
 		<br>
 		<div class="span10 well">
 			<table class="table table-condensed">

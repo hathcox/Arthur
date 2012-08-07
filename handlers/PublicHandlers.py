@@ -24,6 +24,7 @@ import logging
 
 from models.User import User
 from models.Weapon import Weapon
+from models.Armor import Armor
 from libs.Form import Form
 from libs.ConfigManager import ConfigManager
 from libs.Session import SessionManager
@@ -133,8 +134,8 @@ class RegistrationHandler(RequestHandler):
 
         #Add start Weapon and Armor
         self.setup_new_weapon(user)
+        self.setup_new_weapon2(user)
         self.setup_new_armor(user)
-
     def setup_new_weapon(self, user):
         all_weapons = Items.get_weapons()
         short_sword = all_weapons['Short Sword']
@@ -142,7 +143,7 @@ class RegistrationHandler(RequestHandler):
             user_id = user.id,
             name = short_sword['name'],
             description = short_sword['description'],
-            required_level = short_sword['name'],
+            required_level = short_sword['required_level'],
             cost = short_sword['cost'],
             rating = short_sword['rating'],
             damage = short_sword['damage'],
@@ -154,12 +155,41 @@ class RegistrationHandler(RequestHandler):
         self.dbsession.add(weapon)
         self.dbsession.flush()
 
-    def setup_new_armor(self, user):
-        # armor = Armor (
+    def setup_new_weapon2(self, user):
+        all_weapons = Items.get_weapons()
+        short_sword = all_weapons['Short Sword']
+        weapon = Weapon(
+            user_id = user.id,
+            name = "Another",
+            description = "Things",
+            required_level = 99,
+            cost = short_sword['cost'],
+            rating = short_sword['rating'],
+            damage = short_sword['damage'],
+            advanced = short_sword['advanced'],
+            avatar = 'http://files.sharenator.com/hurr_durr_derp_face_leaf_blower_ur_doing_it_wrong-s500x356-128400.jpg',
+            classification = short_sword['classification'],
+            equiped = False,
+        )
+        self.dbsession.add(weapon)
+        self.dbsession.flush()
 
-        #     )
-        # self.dbsession.add(armor)
-        pass
+    def setup_new_armor(self, user):
+        all_armors = Items.get_armor()
+        start_armor = all_armors['Leather Straps']
+        armor = Armor (
+            user_id = user.id,
+            name = start_armor['name'],
+            description = start_armor['description'],
+            required_level = start_armor['required_level'],
+            cost = start_armor['cost'],
+            rating = start_armor['rating'],
+            avatar = start_armor['avatar'],
+            classification = start_armor['classification'],
+            equiped = True,
+        )
+        self.dbsession.add(armor)
+        self.dbsession.flush()
 
 
 class AboutHandler(RequestHandler):

@@ -26,6 +26,7 @@ import logging
 from uuid import uuid4
 from base64 import b64encode, b64decode
 from models import User
+from models.Weapon import Weapon
 from mimetypes import guess_type
 from libs.Form import Form
 from libs.Session import SessionManager
@@ -47,10 +48,30 @@ class WelcomeUserHandler(UserBaseHandler):
 class EquipWeaponHandler(UserBaseHandler):
     ''' This is the handler that allows to equiping of weapons from the profile '''
 
+    def initialize(self, dbsession):
+        self.dbsession = dbsession
+        self.session_manager = SessionManager.Instance()
+        self.session = self.session_manager.get_session(
+            self.get_secure_cookie('auth'), self.request.remote_ip)
+        self.form = Form(
+            weapon_id="You Must Select a Weapon"
+        )
+
     @authenticated
     def post(self, *args, **kwargs):
         ''' Display the default user page '''
         user = self.get_current_user()
+        if self.form.validate(self.request.arguments):
+            if user != None and self.get_argument('weapon_id').isdigit():
+                new_weapon = Weapon.by_id(self.get_argument('weapon_id'))
+                # Make sure that we have the weapon they are attemping to equip
+                if new_weapon in user.get_all_weapons():
+                    old_weapon = user.equiped_weapon
+                    old_weapon.equiped = False
+                    new_weapon.equiped = True
+                    self.dbsession.add(new_weapon)
+                    self.dbsession.add(old_weapon)
+                    self.dbsession.flush()
         self.render('user/home.html', user=user)
 
 class EquipArmorHandler(UserBaseHandler):

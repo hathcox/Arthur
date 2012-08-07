@@ -61,6 +61,7 @@ class Items(object):
     def get_armor(cls):
         items = {}
         items['Leather Straps'] = {
+            'name':'Leather Straps',
             'description': 'Weak armor',
             'required_level': 1,
             'avatar': '/static/images/armor/leather_straps.png',
