@@ -52,7 +52,8 @@ application = Application([
         (r'/about', AboutHandler),
         (r'/', HomePageHandler),
 
-        #This is the Default Handler generated for you!
+        # Public Handlers
+        (r'/(.*).php(.*)', NoobHandler),
       	(r'/(.*)', NotFoundHandler),
         ],
 
