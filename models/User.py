@@ -20,6 +20,7 @@ Created on Mar 12, 2012
 
 
 from os import urandom
+from math import log
 from base64 import b64encode
 from hashlib import sha256
 from models import dbsession, Weapon, Armor, Potion
@@ -70,6 +71,7 @@ class User(BaseObject):
                                                    lazy="joined"), cascade="all, delete-orphan")
     potions = relationship("Potion", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
+    quest_level = Column(Integer, default=1, nullable=False)
 
     @classmethod
     def by_id(cls, uid):
@@ -106,6 +108,13 @@ class User(BaseObject):
     def get_all_armor(self):
         ''' Returns all armor that are not equiped '''
         return dbsession.query(Armor).filter_by(user_id = self.id).filter_by(equiped=False).all()
+
+    @property
+    def level(self):
+        ''' log(exp) = current level '''
+        if self.experience > 100:
+            return int(sqrt(self.experience*.01))
+        return 1
 
     @property
     def equiped_weapon(self):
