@@ -31,34 +31,49 @@ class Items(object):
 
     @classmethod
     def get_weapons(cls):
-        items = []
-        items.append({
-            'name': 'The Holy Handgrande of Antiok',
+        items = {}
+        items['The Holy Hand Grenade of Antioch'] = {
             'description': 'Count to three',
+            'avatar': '/static/images/weapons/antioch.png',
             'cost': 5000,
-            'rating': 100,
+            'rating': 500,
             'advanced': True,
+            'classification': MELEE,
+        })
+        items['Short Sword'] = {
+            'description': 'A small blade',
+            'avatar': '/static/images/weapons/short_sword.png',
+            'cost': 50,
+            'rating': 20,
+            'advanced': False,
             'classification': MELEE,
         })
         return items
 
     @classmethod
     def get_armor(cls):
-        items = []
+        items = {}
+        items['Leather Straps'] = {
+            'description': 'Weak armor',
+            'avatar': '/static/images/armor/leather_straps.png',
+            'cost': 50,
+            'rating': 20,
+            'classification': LIGHT_ARMOR,
+        }
         return items
 
     @classmethod
     def get_potions(cls):
-        items = []
-        items.append({
-            'name': 'Mana Potion',
+        items = {}
+        items['Mana Potion'] = {
             'description': 'Restores 100 mana',
+            'avatar': '/static/images/potions/mana.png',
             'cost': 100,
             'classification': MANA,
-        })
-        items.append({
-            'name': 'Health Potion',
+        }
+        items['Health Potion'] = {
             'description': 'Restores 100 health',
+            'avatar': '/static/images/potions/health.png',
             'cost': 100,
             'classification': HEALTH,
         })
