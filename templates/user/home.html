@@ -55,9 +55,10 @@
 
 	<hr>
 	<div class="span12">
-		<h2>Owned Weapons</h2>
+		<h2>Weapon Rack</h2>
 		<br>
 		<div class="span10 well">
+			{% if len(user.get_all_weapons()) > 0 %}
 			<table class="table table-condensed">
 				<thead>
 					<tr>
@@ -94,22 +95,24 @@
 			    <!-- End For -->
 			  </tbody>
 			</table>
+			{% else %}
+			<p> You don't have any weapons! </p>
+			{% end %}
 		</div>
 	</div>
 
 	<hr>
 	<div class="span12">
-		<h2>Owned Armor</h2>
+		<h2>Armory</h2>
 		<br>
 		<div class="span10 well">
+			{% if len(user.get_all_armor()) > 0 %}
 			<table class="table table-condensed">
 				<thead>
 					<tr>
 				    	<th>Name</th>
 				    	<th>Required Level</th>
-				    	<th>Damage</th>
 				    	<th>Rating</th>
-				    	<th>Advanced</th>
 				    	<th>Classification</th>
 				    	<th><!-- Empty header for the button --></th>
 					</tr>
@@ -117,27 +120,28 @@
 
 				<tbody>
 				<!-- For Every Weapon the player owns -->
+				{% for armor in user.get_all_armor() %}
 				<tr>
-			    	<td>The Vaginator</td>
-			    	<td>69</td>
-			    	<td>1337</td>
-			    	<td>12</td>
-			    	<td>True</td>
-			    	<td>Fist Weapon</td>
-			    	<td><button type="submit" class="btn" style="">Equip</button></td>
+			    	<td>{{ armor.name }}</td>
+			    	<td>{{ armor.required_level }}</td>
+			    	<td>{{ weapon.rating }}</td>
+			    	<td>{{ weapon.classification }}</td>
+			    	<td>
+			    		<!-- This is kinda growdy, sorry -->
+			    		<form action="/user/equiparmor" method="post" >
+			    			{% raw xsrf_form_html() %}
+			    			<input type="hidden" name="armor_id" value="{{ armor.id }}">
+			    			<input type="submit" class="btn" value="Equip"></input>
+			    		</form>
+			    	</td>
 			    </tr>
-			    <tr>
-			    	<td>The Vaginator</td>
-			    	<td>69</td>
-			    	<td>1337</td>
-			    	<td>12</td>
-			    	<td>True</td>
-			    	<td>Fist Weapon</td>
-			    	<td><button type="submit" class="btn" style="">Equip</button></td>
-			    </tr>
+			    {% end %}
 			    <!-- End For -->
 			  </tbody>
 			</table>
+			{% else %}
+			<p>You Don't have any Armor!</p>
+			{% end %}
 		</div>
 	</div>
 	<hr>

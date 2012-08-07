@@ -24,12 +24,14 @@
           <li><a href="/quest">Quest</a></li>
           <li><a href="/pvp">PvP</a></li>
           <li><a href="/highscore">Highscore</a></li>
+          <li><a href="#"><i class="icon-remove-circle"></i> Gold [{{ user.gold }}]</a></li>
+          <li><a href="#"><i class="icon-asterisk"></i> Exp [{{ user.gold }}]</a></li>
         </ul>
       </div><!--/.nav-collapse -->
       <div class="btn-group pull-right">
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
           <i class="icon-user"></i> 
-          {{ name }}
+          {{ user.name }}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">

@@ -131,11 +131,10 @@ class RegistrationHandler(RequestHandler):
         user.password = password
         self.dbsession.add(user)
         self.dbsession.flush()
-
         #Add start Weapon and Armor
         self.setup_new_weapon(user)
-        self.setup_new_weapon2(user)
         self.setup_new_armor(user)
+
     def setup_new_weapon(self, user):
         all_weapons = Items.get_weapons()
         short_sword = all_weapons['Short Sword']
@@ -151,25 +150,6 @@ class RegistrationHandler(RequestHandler):
             avatar = short_sword['avatar'],
             classification = short_sword['classification'],
             equiped = True,
-        )
-        self.dbsession.add(weapon)
-        self.dbsession.flush()
-
-    def setup_new_weapon2(self, user):
-        all_weapons = Items.get_weapons()
-        short_sword = all_weapons['Short Sword']
-        weapon = Weapon(
-            user_id = user.id,
-            name = "Another",
-            description = "Things",
-            required_level = 99,
-            cost = short_sword['cost'],
-            rating = short_sword['rating'],
-            damage = short_sword['damage'],
-            advanced = short_sword['advanced'],
-            avatar = 'http://files.sharenator.com/hurr_durr_derp_face_leaf_blower_ur_doing_it_wrong-s500x356-128400.jpg',
-            classification = short_sword['classification'],
-            equiped = False,
         )
         self.dbsession.add(weapon)
         self.dbsession.flush()
@@ -190,7 +170,6 @@ class RegistrationHandler(RequestHandler):
         )
         self.dbsession.add(armor)
         self.dbsession.flush()
-
 
 class AboutHandler(RequestHandler):
 

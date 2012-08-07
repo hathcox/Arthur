@@ -27,6 +27,7 @@ from uuid import uuid4
 from base64 import b64encode, b64decode
 from models import User
 from models.Weapon import Weapon
+from models.Armor import Armor
 from mimetypes import guess_type
 from libs.Form import Form
 from libs.Session import SessionManager
@@ -72,16 +73,36 @@ class EquipWeaponHandler(UserBaseHandler):
                     self.dbsession.add(new_weapon)
                     self.dbsession.add(old_weapon)
                     self.dbsession.flush()
-        self.render('user/home.html', user=user)
+        self.redirect('/user')
 
 class EquipArmorHandler(UserBaseHandler):
     ''' This is the handler that allows to equiping of armors from the profile '''
+
+    def initialize(self, dbsession):
+        self.dbsession = dbsession
+        self.session_manager = SessionManager.Instance()
+        self.session = self.session_manager.get_session(
+            self.get_secure_cookie('auth'), self.request.remote_ip)
+        self.form = Form(
+            armor_id="You Must Select an Armor"
+        )
 
     @authenticated
     def post(self, *args, **kwargs):
         ''' Display the default user page '''
         user = self.get_current_user()
-        self.render('user/home.html', user=user)
+        if self.form.validate(self.request.arguments):
+            if user != None and self.get_argument('armor_id').isdigit():
+                new_armor = Armor.by_id(self.get_argument('armor_id'))
+                # Make sure that we have the weapon they are attemping to equip
+                if new_armor in user.get_all_armor():
+                    old_armor = user.equiped_armor
+                    old_armor.equiped = False
+                    new_armor.equiped = True
+                    self.dbsession.add(new_armor)
+                    self.dbsession.add(old_armor)
+                    self.dbsession.flush()
+        self.redirect('/user')
 
 class SettingsHandler(RequestHandler):
     ''' Does NOT extend BaseUserHandler '''

@@ -24,7 +24,7 @@ from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 from string import ascii_letters, digits
-
+from models import dbsession
 
 class Armor(BaseObject):
 
@@ -47,5 +47,15 @@ class Armor(BaseObject):
     def filter_string(cls, string, extra_chars=''):
         char_white_list = ascii_letters + digits + extra_chars
         return filter(lambda char: char in char_white_list, string)
+
+    @classmethod
+    def get_all(cls):
+        ''' Return all weapon objects '''
+        return dbsession.query(cls).all()
+
+    @classmethod
+    def by_id(cls, uid):
+        ''' Return the user object whose user id is uid '''
+        return dbsession.query(cls).filter_by(id=unicode(uid)).first()
 
     

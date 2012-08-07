@@ -20,7 +20,7 @@ Created on Mar 14, 2012
 
 from libs.Session import SessionManager
 from tornado.web import UIModule
-
+from models.User import User
 
 class Menu(UIModule):
 
@@ -30,7 +30,9 @@ class Menu(UIModule):
             self.handler.get_secure_cookie('auth'), self.request.remote_ip)
         if session != None:
             if session.data['menu'] == 'user':
-                return self.render_string('menu/user.html', name=session.data['name'])
+                user = User.by_name(session.data['name'])
+                if user != None:
+                    return self.render_string('menu/user.html', user=user)
             elif session.data['menu'] == 'admin':
                 return self.render_string('menu/admin.html', uri=self.handler.request.uri)
         return self.render_string('menu/public.html', uri=self.handler.request.uri)
