@@ -3,5 +3,75 @@
 {% block title %}User Home{% end %}
 
 {% block content %}
-	<h1>{{  }}</h1>
+	<div class="row">
+		<!-- Sorry for this css hack -->
+		<div class="span3 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
+			<h1 style="text-shadow: 3px 3px 3px #000;">{{ user.name }}</h1>
+		</div>
+		<div class="well span2" id="stats">
+			<h2>Stats</h2>
+			<hr>
+			<p><i class="icon-glass"></i> Level - [{{user.level}}]</p>
+			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
+			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
+			<p><i class="icon-heart"></i> Health - [{{user.health}}]</p>
+			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
+		</div>
+		<!-- Sorry for this css hack -->
+		<div class="span3 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
+			<h1 style="text-shadow: 3px 3px 3px #000;" >Monster Name</h1>
+		</div>
+		<div class="well span2" id="stats">
+			<h2>Stats</h2>
+			<hr>
+			<p><i class="icon-glass"></i> Level - [{{user.level}}]</p>
+			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
+			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
+			<p><i class="icon-heart"></i> Health - [{{user.health}}]</p>
+			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
+		</div>
+	</div>
+	<div class="well" >
+		<!-- Sorry I dont want to fix this correctly -->
+		<style type="text/css">
+			button {
+				margin-left:50px;
+				margin-right:130px;
+			}
+		</style>
+		<center>
+
+			<div class="row"> <!-- Button container -->
+				<button class="btn">Attack!</button>
+				<button class="btn">Defend!</button>
+				<button class="btn">Advanced Atack!</button>
+				<button class="btn">Run Away!</button>
+			</div>
+		</center>
+	</div>
+
+	<h2>Game Feed</h2>
+	<div class="well" id="gamefeed" style="overflow:auto; height:120px;" >
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
+	</div>
 {% end %}
