@@ -33,6 +33,7 @@ from PublicHandlers import *
 from UserHandlers import *
 from ErrorHandlers import *
 from ShopHandlers import *
+from QuestHandlers import *
 
 
 config = ConfigManager.Instance()
