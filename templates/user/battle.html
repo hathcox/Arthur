@@ -2,7 +2,78 @@
 
 {% block title %}User Home{% end %}
 
+
 {% block content %}
+
+	<!-- This is gross im so sorry -->
+	<script>
+	$(document).ready(function() {
+
+	 	var ws = new WebSocket("ws://{{ handler.application.settings['ws_ip_address'] }}:{{ handler.application.settings['ws_port'] }}/ws/quest");
+
+	 	ws.onopen = function() {
+        	//Do nothing, just leaving this here incase we need it
+	    };
+
+	    ws.onmessage = function (evt) {
+        	//message = jQuery.parseJSON(evt.data);
+        	console.log(evt.data);
+    	}
+
+    	ws.onclose = function() {
+    		alert("Websocket Closed!");
+    	}
+
+
+    	function sendMessage(type) {
+    		ws.send("{\"message\":\""+type+"\"}");
+    	}
+    	//<!-- Bind to buttons -->
+
+    	$('#attack').bind('click', function() {
+			sendMessage("attack");
+		});
+
+    	$('#defend').bind('click', function() {
+		  sendMessage("defend");
+		});
+
+		$('#advanced').bind('click', function() {
+		  sendMessage("advanced");
+		});
+
+		$('#run').bind('click', function() {
+		  sendMessage("run");
+		});
+
+
+
+	 });
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<div class="row">
 		<!-- Sorry for this css hack -->
 		<div class="span3 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
@@ -42,10 +113,10 @@
 		<center>
 
 			<div class="row"> <!-- Button container -->
-				<button class="btn">Attack!</button>
-				<button class="btn">Defend!</button>
-				<button class="btn">Advanced Atack!</button>
-				<button class="btn">Run Away!</button>
+				<button class="btn" id="attack" >Attack!</button>
+				<button class="btn" id="defend" >Defend!</button>
+				<button class="btn" id="advanced" >Advanced Atack!</button>
+				<button class="btn" id="run" >Run Away!</button>
 			</div>
 		</center>
 	</div>

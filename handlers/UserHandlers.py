@@ -32,6 +32,7 @@ from models.Armor import Armor
 from mimetypes import guess_type
 from libs.Form import Form
 from libs.Session import SessionManager
+from libs.Battle import BattleManager
 from libs.SecurityDecorators import authenticated
 from tornado.web import RequestHandler
 from BaseHandlers import UserBaseHandler
@@ -221,6 +222,18 @@ class QuestBattleHandler(UserBaseHandler):
     def get(self, *args, **kwargs):
         '''Renders Highscore page'''
         user = self.get_current_user()
+        battle_manager = BattleManager.Instance()
+        battle = battle_manager.get_battle(
+            self.get_secure_cookie('battle'), self.request.remote_ip)
+        #If the battle already exists
+        if battle != None:
+            #Kill that shit
+            battle_manager.remove_battle(self.get_secure_cookie('battle'))
+        #Generate a new battle
+        bid, new_battle = battle_manager.start_battle()
+        self.set_secure_cookie(name='battle', value=str(bid), expires_days=1, HttpOnly=True)
+        new_battle.data['ip'] = str(self.request.remote_ip)
+
         self.render('user/battle.html', user=user)
 
 
@@ -229,7 +242,7 @@ class QuestWebsocketHandler(WebSocketHandler):
 
     def open(self):
         print "WebSocket opened"
-
+        
     def on_message(self, message):
         self.write_message(u"You said: " + message)
 
