@@ -68,12 +68,17 @@ application = Application([
         (r'/shop/ajax', ShopAjaxHandler, {'dbsession': dbsession}),
 
         # Other Handlers
+        (r'/403', UnauthorizedHandler),
         (r'/(.*).php', NoobHandler),
       	(r'/(.*)', NotFoundHandler),
         ],
 
     # Template directory
     template_path='templates',
+
+    # Request that does not pass @authorized will be
+    # redirected here
+    forbidden_url = '/403',
 
     # Randomly generated secret key
     cookie_secret=b64encode(urandom(64)),
