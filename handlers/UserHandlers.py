@@ -217,6 +217,7 @@ class QuestHomeHandler(UserBaseHandler):
 
 class QuestBattleHandler(UserBaseHandler):
     ''' This loads the starting point of a given battle '''
+    
     @authenticated
     def get(self, *args, **kwargs):
         '''Renders Highscore page'''

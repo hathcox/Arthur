@@ -26,6 +26,11 @@ from models.BaseGameObject import BaseObject
 from string import ascii_letters, digits
 
 
+def gen_uuid():
+    ''' Generates a random unicode uuid '''
+    return unicode(uuid4())
+    
+
 class Weapon(BaseObject):
 
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)

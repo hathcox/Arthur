@@ -111,7 +111,11 @@ class ShopPotionsHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders potions store page '''
-        self.render("store/potions.html", potions=[])
+        self.render("store/potions.html")
+
+    @authenticated
+    def post(self, *arg, **kwargs):
+        pass
 
 
 class ShopAjaxHandler(UserBaseHandler):
