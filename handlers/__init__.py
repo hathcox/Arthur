@@ -49,6 +49,10 @@ application = Application([
         (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
         (r'/user/highscore', HighscoreHandler, {'dbsession': dbsession}),
         (r'/user/quest', QuestHomeHandler, {'dbsession':dbsession}),
+        (r'/user/battle', QuestBattleHandler, {'dbsession':dbsession}),
+
+        # Websocket Handlers
+        (r'/ws/quest', QuestWebsocketHandler),
 
         # Public Handlers
         (r'/login', LoginHandler),

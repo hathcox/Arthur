@@ -37,7 +37,7 @@ from tornado.web import RequestHandler
 from BaseHandlers import UserBaseHandler
 from string import ascii_letters, digits
 from recaptcha.client import captcha
-
+from tornado.websocket import WebSocketHandler
 
 class WelcomeUserHandler(UserBaseHandler):
     ''' This is the handler served when the user first logs in (Profile) '''
@@ -209,3 +209,23 @@ class QuestHomeHandler(UserBaseHandler):
         user = self.get_current_user()
         self.render('user/quest.html', user=user)
    
+class QuestBattleHandler(UserBaseHandler):
+    ''' This loads the starting point of a given battle '''
+    @authenticated
+    def get(self, *args, **kwargs):
+        '''Renders Highscore page'''
+        user = self.get_current_user()
+        self.render('user/battle.html', user=user)
+
+
+class QuestWebsocketHandler(WebSocketHandler):
+    ''' This deals with a quest when it happens '''
+
+    def open(self):
+        print "WebSocket opened"
+
+    def on_message(self, message):
+        self.write_message(u"You said: " + message)
+
+    def on_close(self):
+        print "WebSocket closed"

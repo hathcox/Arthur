@@ -21,9 +21,20 @@ Created on Mar 12, 2012
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
+from models.Monster import Monster
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 
 class Quest(BaseObject):
-
+    ''' This is what the given User uses to battle monsters'''
+    _name = Column(Unicode(64), unique=True, nullable=False)
+    name = synonym('_name', descriptor=property(
+        lambda self: self._name,
+        lambda self, name: setattr(
+            self, '_name', self.__class__.filter_string(name, " _-"))
+    ))
     level = Column(Integer, nullable=False)
+    max_monster_level = Column(Integer, nullable=False)
+    number_of_battles = Column(Integer, nullable=False)
+    monsters = relationship("Monster", backref=backref("Quest",
+                                                     lazy="joined"), cascade="all, delete-orphan")

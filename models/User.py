@@ -20,7 +20,7 @@ Created on Mar 12, 2012
 
 
 from os import urandom
-from math import log
+from math import sqrt
 from base64 import b64encode
 from hashlib import sha256
 from models import dbsession, Weapon, Armor, Potion
@@ -72,6 +72,8 @@ class User(BaseObject):
     potions = relationship("Potion", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
     quest_level = Column(Integer, default=1, nullable=False)
+    current_quest_battle = Column(Integer, default=0, nullable=False)
+
 
     @classmethod
     def by_id(cls, uid):
