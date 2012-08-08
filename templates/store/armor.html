@@ -1,0 +1,94 @@
+{% extends "../main.html" %}
+
+{% block title %}Buy armors{% end %}
+
+{% block content %}
+	<script>
+		function get_armor(uuid) {
+			$("#uuid").val(uuid);
+			$.getJSON('/shop/ajax?cls=armor&uuid='+uuid, function(data) {
+			  $.each(data, function(key, val) {
+				  	if (key !== "Avatar") {
+				    	$("#" + key).html(val);
+				    } else {
+				    	$("#Avatar").attr("src", function() { 
+						    return val; 
+						});
+				    }
+			  });
+			});
+		}
+	</script>
+	<!-- Hidden Download Form -->
+	<div id="armor-details" class="modal hide fade" style="display: none; ">
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	        <h3>armor Details</h3>
+	    </div>
+	    <div class="modal-body">
+	    	<h2 id="Name"></h2>
+	    	<hr>
+	    	<div class="row">
+				<div class="span3">
+					<img id="Avatar" src=""></img>
+				</div>
+				<div class="span2">
+					<p><i class="icon-exclamation-sign"></i> Required Level - <span id="RequiredLevel"></span> </p>
+					<p><i class="icon-screenshot"></i> Rating - <span id="Rating"></span></p>
+					<p><i class="icon-bookmark"></i> Class - <span id="Classification"></span></p>
+					<p><i class="icon-book"></i> Description:</p>
+					<blockquote><small id="Description"></small></blockquote>
+				</div>
+			</div>
+	    </div>
+	   	<form id="buy-form" method="post" action="/shop/armor">
+	   		{% raw xsrf_form_html() %}
+	        <input type="hidden" id="uuid" name="uuid" value="" />
+		</form>
+	    <div class="modal-footer">
+	        <a href="#" class="btn" data-dismiss="modal">Close</a>
+	        <button type="button" class="btn btn-primary" onclick="document.forms['buy-form'].submit();">Buy</button>
+	    </div>
+	</div>
+	<!-- Start Visable -->
+	<h1>Buy armors</h1>
+	<br />
+	{% if errors != None and len(errors) != 0 %}
+    	{% for error in errors %}
+      		<div class="alert alert-error">
+        		<a class="close" data-dismiss="alert" href="#">×</a>
+        		<h4 class="alert-heading">ERROR</h4>
+        		{{ error }}
+      		</div>
+    	{% end %}
+  	{% end %}
+	<div class="well">
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+			    	<th>Name</th>
+			    	<th>Rating</th>
+			    	<th>Required Level</th>
+			    	<th>Gold</th>
+			    	<th><!-- Empty header for the button --></th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for armor in armors %}
+				<tr>
+			    	<td>{{ armor.name }}</td>
+			    	<td>{{ armor.rating }}</td>
+			    	<td>{{ armor.required_level }}</td>
+			    	<td>{{ armor.cost }}</td>
+			    	<td>
+			    		<button class="btn" data-toggle="modal" href="#armor-details" onclick="get_armor('{{ armor.uuid }}')">
+			    			Details
+			    		</button>
+			    	</td>
+			    </tr>
+			{% end %}
+		    <!-- End For -->
+		  </tbody>
+		</table>
+	</div>
+{% end %}

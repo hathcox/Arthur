@@ -39,6 +39,7 @@ from string import ascii_letters, digits
 from recaptcha.client import captcha
 from tornado.websocket import WebSocketHandler
 
+
 class WelcomeUserHandler(UserBaseHandler):
     ''' This is the handler served when the user first logs in (Profile) '''
 
@@ -47,6 +48,7 @@ class WelcomeUserHandler(UserBaseHandler):
         ''' Display the default user page '''
         user = self.get_current_user()
         self.render('user/home.html', user=user)
+
 
 class EquipWeaponHandler(UserBaseHandler):
     ''' This is the handler that allows to equiping of weapons from the profile '''
@@ -77,6 +79,7 @@ class EquipWeaponHandler(UserBaseHandler):
                     self.dbsession.flush()
         self.redirect('/user')
 
+
 class EquipArmorHandler(UserBaseHandler):
     ''' This is the handler that allows to equiping of armors from the profile '''
 
@@ -105,6 +108,7 @@ class EquipArmorHandler(UserBaseHandler):
                     self.dbsession.add(old_armor)
                     self.dbsession.flush()
         self.redirect('/user')
+
 
 class SettingsHandler(RequestHandler):
     ''' Does NOT extend BaseUserHandler '''
@@ -201,6 +205,7 @@ class HighscoreHandler(UserBaseHandler):
         user = self.get_current_user()
         self.render('public/highscore.html', user=user)
 
+
 class QuestHomeHandler(UserBaseHandler):
 
     @authenticated
@@ -208,7 +213,8 @@ class QuestHomeHandler(UserBaseHandler):
         '''Renders Highscore page'''
         user = self.get_current_user()
         self.render('user/quest.html', user=user)
-   
+
+
 class QuestBattleHandler(UserBaseHandler):
     ''' This loads the starting point of a given battle '''
     @authenticated

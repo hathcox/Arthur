@@ -73,11 +73,37 @@ class ShopArmorHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders armor store page '''
-        self.render("store/armor.html", armor=ArmoryArmor.get_all())
+        self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all())
 
     @authenticated
     def post(self, *args, **kwargs):
-        pass
+        form = Form(
+            uuid="Armor not found",
+        )
+        if form.validate(self.request.arguments):
+            user = self.get_current_user()
+            armor = ArmoryArmor.by_uuid(self.request.arguments['uuid'][0])
+            if user == None or armor == None:
+                self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all())
+            elif user.gold < armor.cost:
+                self.render("store/armor.html", errors=['You cannot afford this armor'], armors=ArmoryArmor.get_all())
+            else:
+                user.gold -= armor.cost
+                new_armor = Armor(
+                    user_id=user.id,
+                    name=armor.name,
+                    description=armor.description,
+                    required_level=armor.required_level,
+                    rating=armor.rating,
+                    classification=armor.classification,
+                    avatar=armor.avatar,
+                )
+                self.dbsession.add(new_armor)
+                self.dbsession.add(user)
+                self.dbsession.flush()
+                self.render("store/purchase.html", item=armor.name)
+        else:
+            self.render("store/armor.html", errors=form.errors, armors=ArmoryArmor.get_all())
 
 
 class ShopPotionsHandler(UserBaseHandler):
@@ -117,7 +143,10 @@ class ShopAjaxHandler(UserBaseHandler):
             details = {
                 'Name': armor.name,
                 'Description': armor.description,
+                'RequiredLevel': armor.required_level,
                 'Avatar': armor.avatar,
+                'Rating': armor.rating,
+                'Classification': armor.classification,
             }
             self.write(json.dumps(details))
         else:
