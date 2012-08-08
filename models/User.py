@@ -19,6 +19,7 @@ Created on Mar 12, 2012
 '''
 
 
+from uuid import uuid4
 from os import urandom
 from math import sqrt
 from base64 import b64encode
@@ -37,6 +38,11 @@ from models.Armor import Armor
 def get_salt():
     ''' Generate a 24-byte random salt '''
     return unicode(b64encode(urandom(24)))
+
+
+def gen_uuid():
+    ''' Generates a random unicode uuid '''
+    return unicode(uuid4())
 
 
 class User(BaseObject):
@@ -58,6 +64,7 @@ class User(BaseObject):
     ))
     salt = Column(
         Unicode(32), unique=True, nullable=False, default=get_salt)
+    uuid = Column(Unicode(36), unique=True, nullable=False, default=gen_uuid)
     avatar = Column(Unicode(128), default=unicode("default_avatar.jpeg"))
     gold = Column(Integer, default=0, nullable=False)
     health = Column(Integer, default=100, nullable=False)
@@ -65,15 +72,14 @@ class User(BaseObject):
     strength = Column(Integer, default=1, nullable=False)
     defense = Column(Integer, default=1, nullable=False)
     experience = Column(Integer, default=0, nullable=False)
+    mana_potions = Column(Integer, default=0, nullable=False)
+    health_potions = Column(Integer, default=0, nullable=False)
     weapons = relationship("Weapon", backref=backref("User",
                                                      lazy="joined"), cascade="all, delete-orphan")
     armor = relationship("Armor", backref=backref("User",
                                                    lazy="joined"), cascade="all, delete-orphan")
-    potions = relationship("Potion", backref=backref("User",
-                                                     lazy="joined"), cascade="all, delete-orphan")
     quest_level = Column(Integer, default=1, nullable=False)
     current_quest_battle = Column(Integer, default=0, nullable=False)
-
 
     @classmethod
     def by_id(cls, uid):
