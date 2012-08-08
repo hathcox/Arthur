@@ -204,5 +204,5 @@ class HighscoreHandler(UserBaseHandler):
     def get(self, *args, **kwargs):
         '''Renders Highscore page'''
         user = self.get_current_user()
-        self.render('public/highscore.html', user=user)
+        self.render('user/highscore.html', user=user)
 

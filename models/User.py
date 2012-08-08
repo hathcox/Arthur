@@ -151,3 +151,24 @@ class User(BaseObject):
         for count in range(0, 15000):
             sha.update(sha.hexdigest() + str(count))
         return unicode(sha.hexdigest())
+
+    @property
+    def gold_rank(self):
+        ''' Returns the users gold rank '''
+        all_users = User.get_all()
+        sorted_list = sorted(all_users, key=lambda user: user.gold)
+        return sorted_list[::-1].index(self) + 1
+
+    @property
+    def experience_rank(self):
+        ''' Returns the users gold rank '''
+        all_users = User.get_all()
+        sorted_list = sorted(all_users, key=lambda user: user.experience)
+        return sorted_list[::-1].index(self) + 1
+
+
+    def test(cls):
+        ''' test func '''
+        all_users = User.get_all()
+        sorted_list = sorted(all_users, key=lambda user: user.experience)
+        return sorted_list.index() 
