@@ -3,5 +3,19 @@
 {% block title %}User Home{% end %}
 
 {% block content %}
-	<h1>Current Quest - [{{ user.quest_level }}]</h1>
+	<h1>Current Quest - [ {{ user.quest_level }} ]</h1>
+	<hr>
+	<h3>Battle Count - [ {{ user.current_quest_battle }} ]</h3>
+	<br>
+
+	<style type="text/css">
+		a:hover {color:black;}
+	</style>
+	<a href="/user/battle" style=":hover">
+		<div class="well" style="background-image: url(/static/images/wood.jpg);">
+			<br>
+			<center><h1 style="color:#FFFFFF;text-shadow: 3px 3px 3px #000;">Continue?</h1></center>
+			<br>
+		</div>
+	</a>
 {% end %}
