@@ -22,9 +22,10 @@ Created on Mar 13, 2012
 
 import json
 
+from libs.Form import Form
 from libs.SecurityDecorators import authenticated
 from handlers.BaseHandlers import UserBaseHandler
-from models import ArmoryWeapon, ArmoryArmor
+from models import ArmoryWeapon, ArmoryArmor, Weapon, Armor
 
 
 class ShopWeaponsHandler(UserBaseHandler):
@@ -32,11 +33,39 @@ class ShopWeaponsHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders weapons store page '''
-        self.render("store/weapons.html", weapons=ArmoryWeapon.get_all())
+        self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all())
 
     @authenticated
     def post(self, *args, **kwargs):
-        pass
+        form = Form(
+            uuid="Weapon not found",
+        )
+        if form.validate(self.request.arguments):
+            user = self.get_current_user()
+            weapon = ArmoryWeapon.by_uuid(self.request.arguments['uuid'][0])
+            if user == None or weapon == None:
+                self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all())
+            elif user.gold < weapon.cost:
+                self.render("store/weapons.html", errors=['You cannot afford this weapon'], weapons=ArmoryWeapon.get_all())
+            else:
+                user.gold -= weapon.cost
+                new_weapon = Weapon(
+                    user_id=user.id,
+                    name=weapon.name,
+                    description=weapon.description,
+                    required_level=weapon.required_level,
+                    damage=weapon.damage,
+                    rating=weapon.rating,
+                    advanced=weapon.advanced,
+                    classification=weapon.classification,
+                    avatar=weapon.avatar,
+                )
+                self.dbsession.add(new_weapon)
+                self.dbsession.add(user)
+                self.dbsession.flush()
+                self.render("store/purchase.html", item=weapon.name)
+        else:
+            self.render("store/weapons.html", errors=form.errors, weapons=ArmoryWeapon.get_all())
 
 
 class ShopArmorHandler(UserBaseHandler):
@@ -46,13 +75,17 @@ class ShopArmorHandler(UserBaseHandler):
         ''' Renders armor store page '''
         self.render("store/armor.html", armor=ArmoryArmor.get_all())
 
+    @authenticated
+    def post(self, *args, **kwargs):
+        pass
+
 
 class ShopPotionsHandler(UserBaseHandler):
 
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders potions store page '''
-        self.render("store/potions.html", potions=Items.get_potions())
+        self.render("store/potions.html", potions=[])
 
 
 class ShopAjaxHandler(UserBaseHandler):
@@ -72,6 +105,11 @@ class ShopAjaxHandler(UserBaseHandler):
                 'Name': weapon.name,
                 'Description': weapon.description,
                 'Avatar': weapon.avatar,
+                'RequiredLevel': weapon.required_level,
+                'Rating': weapon.rating,
+                'Damage': weapon.damage,
+                'Advanced': str(weapon.advanced),
+                'Classification': weapon.classification,
             }
             self.write(json.dumps(details))
         elif classification == "armor":

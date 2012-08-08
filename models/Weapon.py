@@ -37,13 +37,12 @@ class Weapon(BaseObject):
     ))
     description = Column(Unicode(1024), nullable=False)
     required_level = Column(Integer, nullable=False)
-    cost = Column(Integer, nullable=False)
     damage = Column(Integer, nullable=False)
     rating = Column(Integer, nullable=False)
     advanced = Column(Boolean, nullable=False)
     classification = Column(Unicode(64), nullable=False)
     avatar = Column(Unicode(1024), nullable=False)
-    equiped = Column(Boolean, nullable=False)
+    equiped = Column(Boolean, default=False, nullable=False)
 
     @classmethod
     def get_all(cls):

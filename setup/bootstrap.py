@@ -57,9 +57,10 @@ permission = Permission(
     user_id=user.id
 )
 dbsession.add(permission)
-dbsession.flush()
 
 ##### BOOT STRAP ITEMS ##### 
+
+### Weapons
 weapon = ArmoryWeapon(
     name="Short Sword",
     description="A very short blade",
@@ -72,7 +73,6 @@ weapon = ArmoryWeapon(
     avatar="/static/images/weapons/short_sword.png",
 )
 dbsession.add(weapon)
-dbsession.flush()
 
 weapon = ArmoryWeapon(
     name="Small Knife",
@@ -86,8 +86,34 @@ weapon = ArmoryWeapon(
     avatar="/static/images/weapons/small_knife.png",
 )
 dbsession.add(weapon)
-dbsession.flush()
 
+weapon = ArmoryWeapon(
+    name="Long Sword",
+    description="A long scottish blade",
+    required_level=5,
+    cost=500,
+    damage=100,
+    advanced=False,
+    classification="Sword",
+    rating=10,
+    avatar="/static/images/weapons/long_sword.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
+    name="Katana",
+    description="Choice weapon of the ninja",
+    required_level=10,
+    cost=500,
+    damage=50,
+    advanced=True,
+    classification="Sword",
+    rating=65,
+    avatar="/static/images/weapons/katana.png",
+)
+dbsession.add(weapon)
+
+### Armor
 armor = ArmoryArmor(
     name="Leather Straps",
     description="Weak armor",
@@ -98,8 +124,31 @@ armor = ArmoryArmor(
     avatar="/static/images/weapons/leather_straps.png",
 )
 dbsession.add(armor)
-dbsession.flush()
 
+armor = ArmoryArmor(
+    name="Scale Mail",
+    description="Steal Scales",
+    required_level=5,
+    cost=500,
+    classification="Light Armor",
+    rating=25,
+    avatar="/static/images/weapons/scale_mail.png",
+)
+dbsession.add(armor)
+
+armor = ArmoryArmor(
+    name="Plate Mail",
+    description="Solid steal armor",
+    required_level=5,
+    cost=500,
+    classification="Heavy Armor",
+    rating=50,
+    avatar="/static/images/weapons/scale_mail.png",
+)
+dbsession.add(armor)
+
+### Flush database session
+dbsession.flush()
 
 #### CONSOLE #### 
 if config.debug:

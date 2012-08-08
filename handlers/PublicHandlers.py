@@ -22,9 +22,7 @@ Created on Mar 13, 2012
 
 import logging
 
-from models.User import User
-from models.Weapon import Weapon
-from models.Armor import Armor
+from models import User, Armor, Weapon
 from libs.Form import Form
 from libs.ConfigManager import ConfigManager
 from libs.Session import SessionManager
@@ -129,47 +127,39 @@ class RegistrationHandler(RequestHandler):
         self.dbsession.add(user)
         self.dbsession.flush()
         user.password = password
-        self.dbsession.add(user)
-        self.dbsession.flush()
-        #Add start Weapon and Armor
         self.setup_new_weapon(user)
         self.setup_new_armor(user)
+        self.dbsession.add(user)
+        self.dbsession.flush()
 
     def setup_new_weapon(self, user):
-        all_weapons = Items.get_weapons()
-        short_sword = all_weapons['Short Sword']
         weapon = Weapon(
             user_id = user.id,
-            name = short_sword['name'],
-            description = short_sword['description'],
-            required_level = short_sword['required_level'],
-            cost = short_sword['cost'],
-            rating = short_sword['rating'],
-            damage = short_sword['damage'],
-            advanced = short_sword['advanced'],
-            avatar = short_sword['avatar'],
-            classification = short_sword['classification'],
+            name="Small Knife",
+            description="Slightly better than a butter knife",
+            required_level=0,
+            damage=10,
+            advanced=False,
+            classification="Sword",
+            rating=10,
+            avatar="/static/images/weapons/small_knife.png",
             equiped = True,
         )
         self.dbsession.add(weapon)
-        self.dbsession.flush()
 
     def setup_new_armor(self, user):
-        all_armors = Items.get_armor()
-        start_armor = all_armors['Leather Straps']
-        armor = Armor (
+        armor = Armor(
             user_id = user.id,
-            name = start_armor['name'],
-            description = start_armor['description'],
-            required_level = start_armor['required_level'],
-            cost = start_armor['cost'],
-            rating = start_armor['rating'],
-            avatar = start_armor['avatar'],
-            classification = start_armor['classification'],
+            name="Leather Straps",
+            description="Weak armor",
+            required_level=0,
+            classification="Light Armor",
+            rating=10,
+            avatar="/static/images/weapons/leather_straps.png",
             equiped = True,
         )
         self.dbsession.add(armor)
-        self.dbsession.flush()
+
 
 class AboutHandler(RequestHandler):
 
