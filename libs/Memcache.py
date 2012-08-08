@@ -20,7 +20,6 @@ Created on Mar 12, 2012
 '''
 
 
-import hashlib
 import logging
 import memcache
 
