@@ -1,0 +1,56 @@
+{% extends "../main.html" %}
+
+{% block title %}Welcome{% end %}
+
+{% block content %}
+	<h1>Highscores</h1>
+	<br />
+	<h2>{{ user.name }}</h2>
+	<br />
+	<div class="span10 well">
+		<table class="table">
+			<tr>
+				<th>Rankings: </th>
+				<th>Gold(Rank)</th>
+				<th>Experience(Rank)</th>
+			</tr>
+			<tr>
+				<th>{{ user.name }}</th>
+				<th>{{ user.gold }}({{ user.gold_rank }})</th>
+				<th>{{ user.experience }}({{ user.experience_rank }})</th>
+		</table>
+	</div>
+	<div class="row">
+		<div class="span5 well">
+			<h2>Gold</h2>
+			<hr>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Ranking</th>
+						<th>Username</th>
+						<th>Gold</th>					
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>Rank</li></th>
+						<th>user</li></th>
+						<th>gold</li></th>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="span5 well">
+			<table class="table">
+				<h2>Experience</h2>
+				<hr>
+				<tr>
+					<th>Ranking</th>
+					<th>Username</th>
+					<th>Experience</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% end %}
