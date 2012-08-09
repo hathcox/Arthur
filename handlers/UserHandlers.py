@@ -206,3 +206,5 @@ class HighscoreHandler(UserBaseHandler):
         user = self.get_current_user()
         self.render('user/highscore.html', user=user, all_users=User.get_all())
 
+        
+
