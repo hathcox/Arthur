@@ -29,8 +29,6 @@ from libs.Session import SessionManager
 from handlers.BaseHandlers import UserBaseHandler
 from tornado.web import RequestHandler
 from string import ascii_letters, digits
-from libs.Armory import Items
-
 
 class HomePageHandler(RequestHandler):
 
