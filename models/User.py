@@ -165,3 +165,18 @@ class User(BaseObject):
         all_users = User.get_all()
         sorted_list = sorted(all_users, key=lambda user: user.experience)
         return sorted_list[::-1].index(self) + 1
+
+    @property
+    def to_json(self):
+        json = { "name" : self.name,
+            "health" : self.health,
+            "mana" : self.mana,
+            "strength" : self.strength,
+            "defense" : self.defense,
+            "level" : self.level,
+            "avatar" : self.avatar }
+        return json
+
+    def lost_battle(self):
+        ''' chop your exp by 10% '''
+        self.experience -= self.experience * .1 

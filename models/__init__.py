@@ -32,7 +32,7 @@ db_connection = 'mysql://%s:%s@%s/%s' % (
 engine = create_engine(db_connection)
 
 Session = sessionmaker(bind=engine, autocommit=True)
-dbsession = Session(autoflush=True)
+dbsession = Session(autoflush=False)
 
 # import models
 from models.Armor import Armor

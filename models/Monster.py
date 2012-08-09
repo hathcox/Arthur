@@ -42,6 +42,7 @@ class Monster(BaseObject):
     experience = Column(Integer, default=100, nullable=False)
     avatar = Column(Unicode(128), default=unicode("default_avatar.jpeg"))  
     level = Column(Integer, nullable=False)
+    gold = Column(Integer, nullable=False)
 
     armor_id = Column(Integer, ForeignKey('armor.id'))
     weapon_id = Column(Integer, ForeignKey('weapon.id'))

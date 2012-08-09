@@ -21,20 +21,161 @@ import json
 from libs.Singleton import *
 from models.User import User
 from models.Monster import Monster
+from models.Quest import Quest
+from random import choice
+from models import dbsession
+from models.ArmoryWeapon import ArmoryWeapon
+from threading import Lock
+
+class BattleUser():
+    ''' This is a wraper for the database user object, this make sure we donnt mess things up '''
+    def __init__(self, user):
+        self.gold = user.gold
+        self.name = user.name
+        self.health = user.health
+        self.mana = user.mana
+        self.strength = user.strength
+        self.defense = user.defense
+        self.experience = user.experience
+        self.level = user.level
+        self.id = user.id
+        self.avatar = user.avatar
+
+    @property
+    def to_json(self):
+        json = { "name" : self.name,
+            "health" : self.health,
+            "mana" : self.mana,
+            "strength" : self.strength,
+            "defense" : self.defense,
+            "level" : self.level,
+            "avatar" : self.avatar }
+        return json
+
+    def attack_monster(self, monster):
+        ''' Calculates the damage toward a given monster '''
+        return 10
+
+
+class BattleMonster():
+    ''' lol pokemon reference '''
+
+    def __init__(self, monster):
+        self.gold = monster.gold
+        self.name = monster.name
+        self.health = monster.health
+        self.mana = monster.mana
+        self.strength = monster.strength
+        self.defense = monster.defense
+        self.experience = monster.experience
+        self.level = monster.level
+        self.id = monster.id
+        self.avatar = monster.avatar
+        self.weapon_id = monster.weapon_id
+
+    def attack_user(self, user):
+        ''' calculates damage agianst a provided user '''
+        return 3
+
+    @property
+    def to_json(self):
+        json = { "name" : self.name,
+            "health" : self.health,
+            "mana" : self.mana,
+            "strength" : self.strength,
+            "defense" : self.defense,
+            "level" : self.level,
+            "avatar" : self.avatar }
+        return json
 
 class Battle():
     ''' This is the battle instance that is linked to the players session '''
+
     def __init__(self, user):
         ''' Randomly generates a monster for the player to fight '''
-        self.user = user
-        self.monster = Monster.get_monster(user)
+        self.user = BattleUser(user)
+        self.monster = BattleMonster(Monster.get_monster(user))
         self.text = "A random "+self.monster.name+" appears!"
         #True means its the users turn, False means its the cpu's turn
         self.turn = True
 
-    def do_round(self, choice):
+    def check_ended(self):
+        valid_user = User.by_id(self.user.id)
+        #check is the user died
+        if self.monster.health <= 0:
+            #update the user
+            valid_user.experience += self.monster.experience
+            valid_user.gold += self.monster.gold
+
+            #Grab the quest
+            quest = Quest.by_id(user.current_quest_battle)
+            if quest != None:
+                #If we still have battles left in our quest
+                if valid_user.current_quest_battle < quest.number_of_battles:
+                    valid_user.current_quest_battle += 1
+                #If not, give us the next quest
+                else:
+                    valid_user.current_quest_battle = 0
+                    valid_user.quest_level += 1
+            dbsession.add(valid_user)
+            dbsession.flush()
+
+            #set variable for the client
+            self.victor = self.user
+            self.text = self.user.name+" has defeated "+self.monster.name+" !"
+            self.exp = self.monster.experience
+            self.gold = self.monster.gold
+            return True
+
+        elif self.user.health <= 0:
+            #decrement experience
+            valid_user.lost_battle()
+            dbsession.add(valid_user)
+            dbsession.flush()
+
+            #set variable for the client
+            self.victor = self.monster
+            self.text = self.monster.name+" has defeated "+self.user.name+" !"
+            self.exp = valid_user.experience
+            self.gold = 0
+            return True
+
+        #Both user and monster are alive
+        return False
+
+    def do_user_round(self, choice):
         ''' perform the users turn '''
-        pass
+        self.check_ended()
+        if choice == BattleMessage.ATTACK:
+            damage = self.user.attack_monster(self.monster)
+            self.monster.health -= damage
+            self.text = self.user.name+" hits "+self.monster.name +" for "+str(damage)+" damage!"
+
+    def do_computer_round(self):
+        ''' perform the computers turn '''
+        #Make sure its not already over
+        self.check_ended()
+        #Randomly choose a move
+        move = self.choose_random_computer_move()
+        #perform that move
+        # if move == BattleMessage.ATTACK:
+        damage = self.monster.attack_user(self.user)
+        self.user.health -= damage
+        self.text = self.monster.name+" hits "+self.user.name+" for "+str(damage)+" damage!"
+
+
+    def choose_random_computer_move(self):
+        ''' returns one or three possible moves '''
+        choices = [
+            BattleMessage.ATTACK,
+            BattleMessage.DEFEND
+        ]
+        monster_weapon = ArmoryWeapon.by_id(self.monster.weapon_id)
+        #If the monster can do advanced attacks
+        if monster_weapon.advanced:
+            choices.append(BattleMessage.ADVANCED)
+
+        return choice(choices)
 
 class BattleMessage():
     ''' 
@@ -58,6 +199,9 @@ class BattleMessage():
     '''
     
     START_BATTLE = "startbattle"
+    ATTACK = "attack"
+    DEFEND = "defend"
+    ADVANCED = "advanced"
 
     def __init__(self, json_string):
         try:
@@ -71,24 +215,24 @@ class BattleMessage():
             self.valid = False
 
     @classmethod
-    def send_end(cls, websocket, victor, text, exp, gold):
+    def send_end(cls, websocket, battle):
         websocket.write_message(json.dumps(
             {
             "type":"END",
-            "victor": victor.name,
-            "text":text,
-            "experience":exp,
-            "gold":gold
+            "victor": battle.victor.name,
+            "text":battle.text,
+            "experience":battle.exp,
+            "gold":battle.gold
             }))
 
     @classmethod
-    def send_update(cls, websocket, user, monster, text):
+    def send_update(cls, websocket, battle):
         websocket.write_message(json.dumps(
             {
             "type":"UPDATE",
-            "user": user.to_json(),
-            "monster":monster.to_json,
-            "text":text
+            "user": battle.user.to_json,
+            "monster":battle.monster.to_json,
+            "text":battle.text
             }))
 
     @classmethod
@@ -118,12 +262,23 @@ class BattleManager():
 
     def __init__(self):
         self.battles = {}
+        self.lock = Lock()
 
     def start_battle(self, session):
         ''' Creates a battle instance and links it to an sid '''
         user = User.by_name(session.data['name'])
+        self.lock.acquire()
         self.battles[session.id] = Battle(user)
+        self.lock.release()
         return self.battles[session.id]
 
     def get_battle(self, session):
-        return self.battles[session.id]
+        if session.id in self.battles.keys():
+            return self.battles[session.id]
+        return None
+
+    def remove_battle(self, session):
+        if session.id in self.battles.keys():
+            self.lock.acquire()
+            del self.battles[session.id]
+            self.lock.release()

@@ -69,19 +69,42 @@ class QuestWebsocketHandler(WebSocketHandler):
 
     def handle_message(self, message):
         ''' State machine to deal with battle commands '''
-        print message
-        print message.type
-        print message.sid
         session_manager = SessionManager.Instance()
-        battle_Manager = BattleManager.Instance()
-        if message.type == BattleMessage.START_BATTLE:
-            session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
-            if session != None:
-                #Valid session, lets make a battle
-                battle = battle_Manager.start_battle(session)
-                #Send GO back to client
-                BattleMessage.send_setup(self, battle.monster, battle.text)
-            else:
-                #Invalid session, send back to client
-                BattleMessage.send_invalid(self)
-        # if message.type == BattleMessage.ATTACK:
+        battle_manager = BattleManager.Instance()
+        print battle_manager.battles
+        session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
+        if session != None:
+            if message.type == BattleMessage.START_BATTLE:
+                    #Valid session, lets make a battle
+                    battle = battle_manager.start_battle(session)
+                    #Send GO back to client
+                    BattleMessage.send_setup(self, battle.monster, battle.text)
+                    BattleMessage.send_go(self)
+            if message.type == BattleMessage.ATTACK:
+                battle = battle_manager.get_battle(session)
+                if battle != None:
+                    #Make sure the battle isn't over
+                    if not battle.check_ended():
+                        #If it is the user's turn
+                        if battle.turn:
+                            #play the user's turn
+                            battle.do_user_round(BattleMessage.ATTACK)
+                            #Send the update
+                            BattleMessage.send_update(self, battle)
+                            #play the computer's turn
+                            battle.do_computer_round()
+                            #Send the update
+                            BattleMessage.send_update(self, battle)
+                        else:
+                            #It's not our turn yet
+                            BattleMessage.send_wait(self)
+                    else:
+                        #The battle has ended send it to the client
+                        BattleMessage.send_end(self, battle)
+                        battle_manager.remove_battle(session)
+                else:
+                    #No battle linked to that session
+                    BattleMessage.send_invalid(self)
+        else:
+            #Invalid session, send back to client
+            BattleMessage.send_invalid(self)

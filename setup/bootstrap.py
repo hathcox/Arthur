@@ -323,6 +323,7 @@ monster = Monster(
     defense = 2,
     experience = 200,
     level = 3,
+    gold = 20,
     avatar = "/static/images/monster/fuck.jpg",
     armor_id = armor.id,
     weapon_id = weapon.id,

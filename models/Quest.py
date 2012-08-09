@@ -39,6 +39,12 @@ class Quest(BaseObject):
     max_monster_level = Column(Integer, nullable=False)
 
     @classmethod
+    def by_id(cls, uid):
+        ''' Return the user object whose user id is uid '''
+        return dbsession.query(cls).filter_by(id=unicode(uid)).first()
+
+
+    @classmethod
     def filter_string(cls, string, extra_chars=''):
         char_white_list = ascii_letters + digits + extra_chars
         return filter(lambda char: char in char_white_list, string)

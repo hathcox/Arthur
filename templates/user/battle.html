@@ -34,10 +34,28 @@
         		addToGameFeed(message['text']);
         		fillInMonster(message['monster']);
         	}
+        	//Deal with update
+        	if (message['type'] == "UPDATE") {
+        		addToGameFeed(message['text']);
+        		updateMonster(message['monster']);
+        		updateUser(message['user']);
+        	}
+        	//Deal with end of battle
+        	if(message['type'] == "END") {
+        		addToGameFeed(message['text']);
+        		displayRoundOver(message);
+        	}
     	}
 
     	ws.onclose = function() {
     		alert("Websocket Closed!");
+    	}
+
+    	function displayRoundOver(message) {
+    		$('#game-over').modal('show');
+    		$('#victor').text(message['victor']);
+    		$('#gold').text(message['gold']);
+    		$('#experience').text(message['experience']);
     	}
 
     	//Loads data from the json structure into the page
@@ -54,6 +72,17 @@
     		$("#monster-avatar").css("background-image", "url("+monster["avatar"]+")");  
     	}
 
+    	function updateMonster(monster) {
+    		$("#monster-health").text(monster["health"]);
+    		$("#monster-mana").text(monster["mana"]);
+    	}
+
+    	function updateUser(user) {
+    		$("#user-health").text(user["health"]);
+    		$("#user-mana").text(user["mana"]);
+
+    	}
+
     	function sendMessage(type, value) {
     		if (value != null){
     			ws.send("{\"type\":\""+type+"\", \"sid\":\""+value+"\"}");
@@ -61,7 +90,7 @@
     	}
 
     	function addToGameFeed(text) {
-    		$("#gamefeed").append(text);
+    		$("#gamefeed").append(text+"<br>");
     	}
 
     	//Removes spaces from a given string
@@ -83,7 +112,7 @@
 		});
 
 		$('#run').bind('click', function() {
-		  sendMessage("run", sid);
+		  window.location = "/user/quest";
 		});
 
 
@@ -106,11 +135,22 @@
 
 
 
-
-
-
-
-
+	<!-- Hidden Game Over Screen -->
+	<div id="game-over" class="modal hide fade" style="display:none;">
+		 <div class="modal-header">
+		    <a type="button" class="close" href="/user/quest">×</a>
+		    <h3>Battle Over</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p><span id="victor" ></span> is Victorious!!</p>
+		    <p>Gold Earned - <span id="gold" ></span></p>
+		    <p>Experience Earned - <span id="experience"></span></p>
+		  </div>
+		  <div class="modal-footer">
+		    <a href="/user/quest" class="btn">Close</a>
+		    <a href="/user/battle" class="btn btn-primary">Battle Agian</a>
+		  </div>
+	</div>
 
 
 
@@ -125,8 +165,8 @@
 			<p><i class="icon-glass"></i> Level - [{{user.level}}]</p>
 			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
 			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
-			<p><i class="icon-heart"></i> Health - [{{user.health}}]</p>
-			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
+			<p><i class="icon-heart"></i> Health - [<span id="user-health">{{user.health}}</span>]</p>
+			<p><i class="icon-tint"></i> Mana - [<span id="user-mana">{{user.mana}}</span>]</p>
 		</div>
 		<!-- Sorry for this css hack -->
 		<div class="span3 well" id="monster-avatar" style="background-image: url(/avatars/{{ user.avatar }});">
