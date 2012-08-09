@@ -8,23 +8,23 @@
 	<h2>{{ user.name }}</h2>
 	<br />
 	<div class="span10 well">
-		<table class="table">
+		<table class="table table-condensed">
 			<tr>
-				<th>Rankings: </th>
-				<th>Gold(Rank)</th>
-				<th>Experience(Rank)</th>
+				<th><h4>Rankings:</h4></th>
+				<th><h4>Gold(Rank)</h4></th>
+				<th><h4>Experience(Rank)</h4></th>
 			</tr>
 			<tr>
 				<th>{{ user.name }}</th>
-				<th>{{ user.gold }}({{ user.gold_rank }})</th>
-				<th>{{ user.experience }}({{ user.experience_rank }})</th>
+				<th>{{ user.gold }}(#{{ user.gold_rank }})</th>
+				<th>{{ user.experience }}(#{{ user.experience_rank }})</th>
 		</table>
 	</div>
 	<div class="row">
 		<div class="span5 well">
 			<h2>Gold</h2>
 			<hr>
-			<table class="table">
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>Ranking</th>
@@ -33,23 +33,37 @@
 					</tr>
 				</thead>
 				<tbody>
+				{% for index,ranked_user in enumerate(sorted(all_users, key=lambda u: u.gold)[::-1]) %}
 					<tr>
-						<th>Rank</li></th>
-						<th>user</li></th>
-						<th>gold</li></th>
-						</tr>
+						<th>{{ index + 1 }}</th>
+						<th>{{ ranked_user.name }}</th>
+						<th>{{ ranked_user.gold }}</th>
+					</tr>
+				{% end %}
 				</tbody>
 			</table>
 		</div>
 		<div class="span5 well">
-			<table class="table">
 				<h2>Experience</h2>
 				<hr>
-				<tr>
-					<th>Ranking</th>
-					<th>Username</th>
-					<th>Experience</th>
-				</tr>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Ranking</th>
+							<th>Username</th>
+							<th>Experience</th>					
+						</tr>
+					</thead>
+					<tbody>
+					{% for index,ranked_user in enumerate(sorted(all_users, key=lambda u: u.experience)[::-1]) %}
+						<tr>
+							<th>{{ index + 1 }}</th>
+							<th>{{ ranked_user.name }}</th>
+							<th>{{ ranked_user.experience }}</th>
+						</tr>
+					{% end %}
+					</tbody>
+				</table>
 			</table>
 		</div>
 	</div>
