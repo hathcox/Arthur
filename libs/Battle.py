@@ -108,7 +108,7 @@ class Battle():
             valid_user.gold += self.monster.gold
 
             #Grab the quest
-            quest = Quest.by_id(user.current_quest_battle)
+            quest = Quest.by_id(valid_user.current_quest_battle)
             if quest != None:
                 #If we still have battles left in our quest
                 if valid_user.current_quest_battle < quest.number_of_battles:
