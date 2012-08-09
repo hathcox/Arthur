@@ -165,10 +165,3 @@ class User(BaseObject):
         all_users = User.get_all()
         sorted_list = sorted(all_users, key=lambda user: user.experience)
         return sorted_list[::-1].index(self) + 1
-
-
-    def test(cls):
-        ''' test func '''
-        all_users = User.get_all()
-        sorted_list = sorted(all_users, key=lambda user: user.experience)
-        return sorted_list.index() 
