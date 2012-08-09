@@ -22,8 +22,7 @@ import getpass
 
 from libs.ConsoleColors import *
 from libs.ConfigManager import ConfigManager
-from models import dbsession, User, Permission, ArmoryWeapon, ArmoryArmor
-
+from models import dbsession, User, Permission, ArmoryWeapon, ArmoryArmor, Quest, Monster
 
 # Fills the database with some startup data.
 config = ConfigManager.Instance()
@@ -302,6 +301,34 @@ armor = ArmoryArmor(
 )
 dbsession.add(armor)
 
+## Quick flush to generate id's
+dbsession.flush()
+
+### Quests ###
+quest = Quest(
+    name = "Quest for the Holy Grail",
+    level = 1,
+    number_of_battles = 2,
+    max_monster_level = 20
+)
+dbsession.add(quest)
+
+### Monsters ###
+
+monster = Monster(
+    name = "Faggot Monster",
+    health = 200,
+    mana = 300,
+    strength = 2,
+    defense = 2,
+    experience = 200,
+    level = 3,
+    avatar = "/static/images/monster/fuck.jpg",
+    armor_id = armor.id,
+    weapon_id = weapon.id,
+)
+
+dbsession.add(monster)
 ### Flush database session
 dbsession.flush()
 

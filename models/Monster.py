@@ -34,19 +34,16 @@ class Monster(BaseObject):
         lambda self, name: setattr(
             self, '_name', self.__class__.filter_string(name, " _-"))
     ))
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     health = Column(Integer, default=100, nullable=False)
     mana = Column(Integer, default=100, nullable=False)
     strength = Column(Integer, default=1, nullable=False)
     defense = Column(Integer, default=100, nullable=False)
     experience = Column(Integer, default=100, nullable=False)
     avatar = Column(Unicode(128), default=unicode("default_avatar.jpeg"))  
+    level = Column(Integer, nullable=False)
 
-    quest_id = Column(Integer, ForeignKey('quest.id'), nullable=False)
     armor_id = Column(Integer, ForeignKey('armor.id'))
-    armor = relationship("Armor", backref=backref("Monster", uselist=False))
     weapon_id = Column(Integer, ForeignKey('weapon.id'))
-    weapon = relationship("Weapon", backref=backref("Monster", uselist=False))
 
     @classmethod
     def filter_string(cls, string, extra_chars=''):
