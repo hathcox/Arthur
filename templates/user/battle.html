@@ -22,12 +22,37 @@
 	    ws.onmessage = function (evt) {
         	//message = jQuery.parseJSON(evt.data);
         	console.log(evt.data);
+        	var message;
+        	try {
+        		message = jQuery.parseJSON(evt.data);
+        	} catch (err) {
+        		//Invalid json GTFO
+        		console.log("Invalid JSON object");
+        	}
+        	//Load initial monster data 
+        	if (message['type'] == "SETUP") {
+        		addToGameFeed(message['text']);
+        		fillInMonster(message['monster']);
+        	}
     	}
 
     	ws.onclose = function() {
     		alert("Websocket Closed!");
     	}
 
+    	//Loads data from the json structure into the page
+    	function fillInMonster(monster) {
+    		console.log(monster);
+    		$("#monster-name").text(monster["name"]);
+    		$("#monster-health").text(monster["health"]);
+    		$("#monster-mana").text(monster["mana"]);
+    		$("#monster-strength").text(monster["strength"]);
+    		$("#monster-defense").text(monster["defense"]);
+    		$("#monster-level").text(monster["level"]);
+
+    		//Change avatar
+    		$("#monster-avatar").css("background-image", "url("+monster["avatar"]+")");  
+    	}
 
     	function sendMessage(type, value) {
     		if (value != null){
@@ -35,27 +60,8 @@
     		}
     	}
 
-    	function getCookieValue(key) {
-    		cookiearray  = document.cookie.split(';');
-    	
-    		// Now take key value pair out of this array
-		   for(var i=0; i<cookiearray.length; i++){
-		      if (cookiearray[i].indexOf(key) != -1) {
-		      	//We have auth cookie
-		      	// console.log(cookiearray[i])
-		      	var start_quote = cookiearray[i].indexOf("\"")+1;
-		      	var end_quote = cookiearray[i].indexOf("\"", start_quote);
-		      	if(cookiearray[i].substring(start_quote, end_quote) != "") {
-		      	//If we actually had quotes
-		      		return cookiearray[i].substring(start_quote, end_quote);
-		      	} else {	
-		      	//If for some reason we dont have quotes
-		      		var equals =cookiearray[i].indexOf("=")+1;
-		      		return cookiearray[i].substring(equals);
-		      	}
-		      } 
-		   }
-		   return null;
+    	function addToGameFeed(text) {
+    		$("#gamefeed").append(text);
     	}
 
     	//Removes spaces from a given string
@@ -123,17 +129,17 @@
 			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
 		</div>
 		<!-- Sorry for this css hack -->
-		<div class="span3 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">
-			<h1 style="text-shadow: 3px 3px 3px #000;" >Monster Name</h1>
+		<div class="span3 well" id="monster-avatar" style="background-image: url(/avatars/{{ user.avatar }});">
+			<h1 style="text-shadow: 3px 3px 3px #000;" id="monster-name" >Monster Name</h1>
 		</div>
 		<div class="well span2" id="stats">
 			<h2>Stats</h2>
 			<hr>
-			<p><i class="icon-glass"></i> Level - [{{user.level}}]</p>
-			<p><i class="icon-plus"></i> Strength - [{{user.strength}}]</p>
-			<p><i class="icon-tags"></i> Defense - [{{user.defense}}]</p>
-			<p><i class="icon-heart"></i> Health - [{{user.health}}]</p>
-			<p><i class="icon-tint"></i> Mana - [{{user.mana}}]</p>
+			<p><i class="icon-glass"></i> Level - [<span id="monster-level"></span>]</p>
+			<p><i class="icon-plus"></i> Strength - [<span id="monster-strength"></span>]</p>
+			<p><i class="icon-tags"></i> Defense - [<span id="monster-defense"></span>]</p>
+			<p><i class="icon-heart"></i> Health - [<span id="monster-health"></span>]</p>
+			<p><i class="icon-tint"></i> Mana - [<span id="monster-mana"></span>]</p>
 		</div>
 	</div>
 	<div class="well" >
@@ -157,26 +163,5 @@
 
 	<h2>Game Feed</h2>
 	<div class="well" id="gamefeed" style="overflow:auto; height:120px;" >
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
-		<div id="entry">Iggy hits Joe in the Face for 25 Dollars!</div>
 	</div>
 {% end %}

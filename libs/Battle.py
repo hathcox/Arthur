@@ -28,6 +28,7 @@ class Battle():
         ''' Randomly generates a monster for the player to fight '''
         self.user = user
         self.monster = Monster.get_monster(user)
+        self.text = "A random "+self.monster.name+" appears!"
         #True means its the users turn, False means its the cpu's turn
         self.turn = True
 
@@ -42,6 +43,8 @@ class BattleMessage():
     Response Types:
         Invalid - This means we got something that doesn't make send_response
         
+        Setup - Send all of the monster information back to the player
+
         Update - This is sent after every round, regardless of player or computer
             - This constains the user, monster, and text results
         
@@ -89,6 +92,15 @@ class BattleMessage():
             }))
 
     @classmethod
+    def send_setup(cls, websocket, monster, text):
+        websocket.write_message(json.dumps(
+            {
+            "type":"SETUP",
+            "monster":monster.to_json,
+            "text":text
+            }))
+
+    @classmethod
     def send_go(cls, websocket):
         websocket.write_message(json.dumps({"type":"GO"}))
 
@@ -111,3 +123,7 @@ class BattleManager():
         ''' Creates a battle instance and links it to an sid '''
         user = User.by_name(session.data['name'])
         self.battles[session.id] = Battle(user)
+        return self.battles[session.id]
+
+    def get_battle(self, session):
+        return self.battles[session.id]

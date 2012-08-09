@@ -24,6 +24,7 @@ from sqlalchemy.orm import synonym, relationship, backref
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 from string import ascii_letters, digits
+from models import dbsession
 
 
 class Monster(BaseObject):
@@ -46,6 +47,11 @@ class Monster(BaseObject):
     weapon_id = Column(Integer, ForeignKey('weapon.id'))
 
     @classmethod
+    def get_all(cls):
+        ''' Return all non-admin user objects '''
+        return dbsession.query(cls).filter(cls.name != u'admin').all()
+
+    @classmethod
     def filter_string(cls, string, extra_chars=''):
         char_white_list = ascii_letters + digits + extra_chars
         return filter(lambda char: char in char_white_list, string)
@@ -53,4 +59,15 @@ class Monster(BaseObject):
     @classmethod
     def get_monster(cls, user):
         ''' Based on the users quest and level this will choose an appropriate monster '''
-        return None
+        return cls.get_all()[0]
+
+    @property
+    def to_json(self):
+        json = { "name" : self.name,
+            "health" : self.health,
+            "mana" : self.mana,
+            "strength" : self.strength,
+            "defense" : self.defense,
+            "level" : self.level,
+            "avatar" : self.avatar }
+        return json

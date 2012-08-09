@@ -78,9 +78,9 @@ class QuestWebsocketHandler(WebSocketHandler):
             session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
             if session != None:
                 #Valid session, lets make a battle
-                battle_Manager.start_battle(session)
+                battle = battle_Manager.start_battle(session)
                 #Send GO back to client
-                BattleMessage.send_go(self)
+                BattleMessage.send_setup(self, battle.monster, battle.text)
             else:
                 #Invalid session, send back to client
                 BattleMessage.send_invalid(self)
