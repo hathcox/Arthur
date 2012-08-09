@@ -11,8 +11,12 @@
 
 	 	var ws = new WebSocket("ws://{{ handler.application.settings['ws_ip_address'] }}:{{ handler.application.settings['ws_port'] }}/ws/quest");
 
+	 	var sid = "{{auth}}";
+
 	 	ws.onopen = function() {
-        	//Do nothing, just leaving this here incase we need it
+        	//This should be the auth cookie, there should be a better way to do this
+        	sendMessage("startbattle", sid);
+        	console.log(sid);
 	    };
 
 	    ws.onmessage = function (evt) {
@@ -25,25 +29,55 @@
     	}
 
 
-    	function sendMessage(type) {
-    		ws.send("{\"message\":\""+type+"\"}");
+    	function sendMessage(type, value) {
+    		if (value != null){
+    			ws.send("{\"type\":\""+type+"\", \"sid\":\""+value+"\"}");
+    		}
     	}
+
+    	function getCookieValue(key) {
+    		cookiearray  = document.cookie.split(';');
+    	
+    		// Now take key value pair out of this array
+		   for(var i=0; i<cookiearray.length; i++){
+		      if (cookiearray[i].indexOf(key) != -1) {
+		      	//We have auth cookie
+		      	// console.log(cookiearray[i])
+		      	var start_quote = cookiearray[i].indexOf("\"")+1;
+		      	var end_quote = cookiearray[i].indexOf("\"", start_quote);
+		      	if(cookiearray[i].substring(start_quote, end_quote) != "") {
+		      	//If we actually had quotes
+		      		return cookiearray[i].substring(start_quote, end_quote);
+		      	} else {	
+		      	//If for some reason we dont have quotes
+		      		var equals =cookiearray[i].indexOf("=")+1;
+		      		return cookiearray[i].substring(equals);
+		      	}
+		      } 
+		   }
+		   return null;
+    	}
+
+    	//Removes spaces from a given string
+    	function trim (str) {
+ 		   return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+		}
     	//<!-- Bind to buttons -->
 
     	$('#attack').bind('click', function() {
-			sendMessage("attack");
+			sendMessage("attack", sid);
 		});
 
     	$('#defend').bind('click', function() {
-		  sendMessage("defend");
+		  sendMessage("defend", sid);
 		});
 
 		$('#advanced').bind('click', function() {
-		  sendMessage("advanced");
+		  sendMessage("advanced", sid);
 		});
 
 		$('#run').bind('click', function() {
-		  sendMessage("run");
+		  sendMessage("run", sid);
 		});
 
 

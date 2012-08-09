@@ -24,11 +24,10 @@ import logging
 from models import User, Weapon, Armor
 from libs.Form import Form
 from libs.Session import SessionManager
-from libs.Battle import BattleManager
 from libs.SecurityDecorators import authenticated
 from tornado.web import RequestHandler
 from BaseHandlers import UserBaseHandler
-
+from libs.Battle import Battle, BattleMessage, BattleManager
 from tornado.websocket import WebSocketHandler
 
 
@@ -47,7 +46,8 @@ class QuestBattleHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders Highscore page '''
-        self.render('user/battle.html', user=self.get_current_user())
+        auth_cookie = self.get_secure_cookie('auth')
+        self.render('user/battle.html', user=self.get_current_user(), auth=auth_cookie)
 
 
 class QuestWebsocketHandler(WebSocketHandler):
@@ -55,10 +55,33 @@ class QuestWebsocketHandler(WebSocketHandler):
 
     def open(self):
         logging.info("WebSocket opened with %s" % self.request.remote_ip)
-        print self.request.headers
         
     def on_message(self, message):
-        pass
+        client_message = BattleMessage(message)
+        #If the message translated to a format we know
+        if(client_message.valid):
+            #State machine time
+            self.handle_message(client_message)
+        print message
 
     def on_close(self):
         logging.info("WebSocket closed with %s" % self.request.remote_ip)
+
+    def handle_message(self, message):
+        ''' State machine to deal with battle commands '''
+        print message
+        print message.type
+        print message.sid
+        session_manager = SessionManager.Instance()
+        battle_Manager = BattleManager.Instance()
+        if message.type == BattleMessage.START_BATTLE:
+            session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
+            if session != None:
+                #Valid session, lets make a battle
+                battle_Manager.start_battle(session)
+                #Send GO back to client
+                BattleMessage.send_go(self)
+            else:
+                #Invalid session, send back to client
+                BattleMessage.send_invalid(self)
+        # if message.type == BattleMessage.ATTACK:

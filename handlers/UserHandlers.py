@@ -32,7 +32,6 @@ from models.Armor import Armor
 from mimetypes import guess_type
 from libs.Form import Form
 from libs.Session import SessionManager
-from libs.Battle import BattleManager
 from libs.SecurityDecorators import authenticated
 from tornado.web import RequestHandler
 from BaseHandlers import UserBaseHandler

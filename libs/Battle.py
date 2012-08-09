@@ -17,67 +17,97 @@ Created on Mar 12, 2012
     See the License for the specific language governing permissions and
     limitations under the License.
 '''
-
-from os import urandom
-from base64 import b64encode
-from threading import Lock
+import json
 from libs.Singleton import *
-from datetime import datetime, timedelta
+from models.User import User
+from models.Monster import Monster
 
+class Battle():
+    ''' This is the battle instance that is linked to the players session '''
+    def __init__(self, user):
+        ''' Randomly generates a monster for the player to fight '''
+        self.user = user
+        self.monster = Monster.get_monster(user)
+        #True means its the users turn, False means its the cpu's turn
+        self.turn = True
 
-BID_SIZE = 24
-battle_TIME = 60
+    def do_round(self, choice):
+        ''' perform the users turn '''
+        pass
+
+class BattleMessage():
+    ''' 
+    This is the serialized message from a websocket 
+
+    Response Types:
+        Invalid - This means we got something that doesn't make send_response
+        
+        Update - This is sent after every round, regardless of player or computer
+            - This constains the user, monster, and text results
+        
+        Battle End - This means that the battle has ended, either the player or the monster diead
+            - This contains the victor, the final text, experience gained, and gold gained
+        
+        Wait - This means its not your turn yet
+        
+        Go - This means it is your turn
+
+    '''
+    
+    START_BATTLE = "startbattle"
+
+    def __init__(self, json_string):
+        try:
+            print json.loads(json_string)
+            self.raw_json = json.loads(json_string)
+            self.type = self.raw_json["type"]
+            self.sid = self.raw_json["sid"]
+            self.valid = True
+        except Exception as e:
+            self.raw_json = None
+            self.valid = False
+
+    @classmethod
+    def send_end(cls, websocket, victor, text, exp, gold):
+        websocket.write_message(json.dumps(
+            {
+            "type":"END",
+            "victor": victor.name,
+            "text":text,
+            "experience":exp,
+            "gold":gold
+            }))
+
+    @classmethod
+    def send_update(cls, websocket, user, monster, text):
+        websocket.write_message(json.dumps(
+            {
+            "type":"UPDATE",
+            "user": user.to_json(),
+            "monster":monster.to_json,
+            "text":text
+            }))
+
+    @classmethod
+    def send_go(cls, websocket):
+        websocket.write_message(json.dumps({"type":"GO"}))
+
+    @classmethod
+    def send_wait(cls, websocket):
+        websocket.write_message(json.dumps({"type":"WAIT"}))
+
+    @classmethod
+    def send_invalid(cls, websocket):
+        websocket.write_message(json.dumps({"type":"INVALID"}))
 
 
 @Singleton
 class BattleManager():
-    ''' Mostly thread safe battle manager '''
 
     def __init__(self):
         self.battles = {}
-        self.battles_lock = Lock()
 
-    def start_battle(self):
-        ''' Creates a new battle and returns the battle id and the new battle object '''
-        bid = b64encode(urandom(BID_SIZE))
-        self.battles_lock.acquire()
-        self.battles[bid] = Battle(bid)
-        self.battles_lock.release()
-        return bid, self.battles[bid]
-
-    def remove_battle(self, bid):
-        ''' Removes a given battle '''
-        if bid in self.battles.keys():
-            self.battles_lock.acquire()
-            del self.battles[bid]
-            self.battles_lock.release()
-
-    def get_battle(self, bid, ip_address):
-        ''' Returns a battle object if it exists or None '''
-        if bid in self.battles.keys():
-            if self.battles[bid].is_expired():
-                self.remove_battle(bid)
-            elif self.battles[bid].data['ip'] == ip_address:
-                return self.battles[bid]
-        return None
-
-    def clean_up(self):
-        ''' Removes all expired battles '''
-        for bid in self.battles.keys():
-            if self.battles[bid].is_expired():
-                self.battles_lock.acquire()
-                del self.battles[bid]
-                self.battles_lock.release()
-
-
-class Battle():
-    ''' battle object stores data, time, id '''
-
-    def __init__(self, bid):
-        self.id = bid
-        self.data = {}
-        self.expiration = datetime.now() + timedelta(minutes=battle_TIME)
-
-    def is_expired(self):
-        ''' Returns boolean based on if battle has expired '''
-        return (timedelta(0) < (datetime.now() - self.expiration))
+    def start_battle(self, session):
+        ''' Creates a battle instance and links it to an sid '''
+        user = User.by_name(session.data['name'])
+        self.battles[session.id] = Battle(user)

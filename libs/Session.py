@@ -24,7 +24,7 @@ from base64 import b64encode
 from threading import Lock
 from libs.Singleton import *
 from datetime import datetime, timedelta
-
+from string import ascii_letters, digits
 
 SID_SIZE = 24
 SESSION_TIME = 60
@@ -40,11 +40,15 @@ class SessionManager():
 
     def start_session(self):
         ''' Creates a new session and returns the session id and the new session object '''
-        sid = b64encode(urandom(SID_SIZE))
+        sid = self.filter_string(b64encode(urandom(SID_SIZE)))
         self.sessions_lock.acquire()
         self.sessions[sid] = Session(sid)
         self.sessions_lock.release()
         return sid, self.sessions[sid]
+
+    def filter_string(self, string, extra_chars=''):
+        char_white_list = ascii_letters + digits + extra_chars
+        return filter(lambda char: char in char_white_list, string)
 
     def remove_session(self, sid):
         ''' Removes a given session '''

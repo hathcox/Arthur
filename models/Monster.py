@@ -52,3 +52,8 @@ class Monster(BaseObject):
     def filter_string(cls, string, extra_chars=''):
         char_white_list = ascii_letters + digits + extra_chars
         return filter(lambda char: char in char_white_list, string)
+
+    @classmethod
+    def get_monster(cls, user):
+        ''' Based on the users quest and level this will choose an appropriate monster '''
+        return None
