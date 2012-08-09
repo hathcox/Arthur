@@ -193,7 +193,7 @@ dbsession.add(weapon)
 ### Armor
 armor = ArmoryArmor(
     name="Simple Robe",
-    description="Weak cloth",
+    description="Weak cloth to cover your disgusting naked body...",
     required_level=0,
     cost=50,
     classification="Light Armor",

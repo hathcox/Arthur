@@ -137,14 +137,14 @@ class RegistrationHandler(RequestHandler):
     def setup_new_weapon(self, user):
         weapon = Weapon(
             user_id = user.id,
-            name="Small Knife",
+            name="Dagger",
             description="Slightly better than a butter knife",
             required_level=0,
             damage=10,
             advanced=False,
             classification="Sword",
             rating=10,
-            avatar="/static/images/weapons/small_knife.png",
+            avatar="/static/images/weapons/dagger.png",
             equiped = True,
         )
         self.dbsession.add(weapon)
@@ -152,12 +152,12 @@ class RegistrationHandler(RequestHandler):
     def setup_new_armor(self, user):
         armor = Armor(
             user_id = user.id,
-            name="Leather Straps",
-            description="Weak armor",
+            name="Simple Robe",
+            description="Weak cloth to cover your disgusting naked body...",
             required_level=0,
             classification="Light Armor",
             rating=10,
-            avatar="/static/images/weapons/leather_straps.png",
+            avatar="/static/images/armor/simple_robe.png",
             equiped = True,
         )
         self.dbsession.add(armor)
