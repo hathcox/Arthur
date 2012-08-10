@@ -22,10 +22,19 @@ from libs.Singleton import *
 from models.User import User
 from models.Monster import Monster
 from models.Quest import Quest
-from random import choice
+from models.ArmoryWeapon import ArmoryWeapon
+from models.ArmoryArmor import ArmoryArmor
+from random import choice, randint, random
 from models import dbsession
 from models.ArmoryWeapon import ArmoryWeapon
 from threading import Lock
+
+def get_random_damage(base_damage):
+    ''' This method returns +- %10 of the base damage '''
+    return randint(base_damage-(base_damage*.1), base_damage+(base_damage*.1))
+
+#This is what is used to balance rating
+REDUCTION_CONSTANT = 1000
 
 class BattleUser():
     ''' This is a wraper for the database user object, this make sure we donnt mess things up '''
@@ -52,10 +61,64 @@ class BattleUser():
             "avatar" : self.avatar }
         return json
 
+    def recover_mana(self):
+        ''' Recover between 10-20% mana '''
+        true_user = User.by_id(self.id)
+        max_mana = true_user.mana
+        #If there is health to gain
+        if self.mana < max_mana:
+            self.mana += min(int(max_mana*(random()%.2)), max_mana)
+
+    def recover_health(self):
+        ''' Recover between 10-20% health '''
+        true_user = User.by_id(self.id)
+        max_health = true_user.health
+        #If there is health to gain
+        if self.health < max_health:
+            #Random number between .0 <-> .2 take that percentage of max hp and add it back in capping at your max hp 
+            self.health += min(int(max_health*(random()%.1)), max_health)
+
+    def roll_hit(self):
+        ''' Chance to miss is 1/5 agianst monsters '''
+        return choice([True, False, True, True, True])
+
+    def roll_advanced_hit(self):
+        ''' Chance to miss is 3/5 agianst monsters '''
+        return choice([True, False, False, False, True])
+
     def attack_monster(self, monster):
         ''' Calculates the damage toward a given monster '''
-        return 10
+        true_monster = Monster.by_id(monster.id)
+        true_user = User.by_id(self.id)
+        monster_armor = ArmoryArmor.by_id(true_monster.armor_id)
+        weapon = true_user.equiped_weapon
+        if monster_armor != None and weapon != None:
+            hit = self.roll_hit()
+            if hit:
+                reduction = monster_armor.rating
+                damage = get_random_damage(weapon.damage)
+                print damage
+                damage -= int(reduction/REDUCTION_CONSTANT)
+                print damage
+                #Make sure we never return zero
+                return max(damage, 0)
+        return 0
 
+    def advanced_attack_monster(self, monster):
+        ''' Calculates the damage toward a given monster '''
+        true_monster = Monster.by_id(monster.id)
+        true_user = User.by_id(self.id)
+        monster_armor = ArmoryArmor.by_id(true_monster.armor_id)
+        weapon = true_user.equiped_weapon
+        if monster_armor != None and weapon != None:
+            hit = self.roll_advanced_hit()
+            if hit:
+                reduction = monster_armor.rating
+                damage = get_random_damage(weapon.damage)
+                damage -= int(reduction/REDUCTION_CONSTANT)
+                #Make sure we never return zero
+                return max(damage, 0)*2
+        return 0
 
 class BattleMonster():
     ''' lol pokemon reference '''
@@ -73,9 +136,25 @@ class BattleMonster():
         self.avatar = monster.avatar
         self.weapon_id = monster.weapon_id
 
+    def roll_hit(self):
+        ''' Chance to miss is 1/4 agianst users '''
+        return choice([True, False, True, True])
+
     def attack_user(self, user):
         ''' calculates damage agianst a provided user '''
-        return 3
+        true_monster = Monster.by_id(self.id)
+        true_user = User.by_id(user.id)
+        user_armor = true_user.equiped_armor
+        weapon = ArmoryWeapon.by_id(true_monster.weapon_id)
+        if user_armor != None and weapon != None:
+            hit = self.roll_hit()
+            if hit:
+                reduction = user_armor.rating
+                damage = get_random_damage(weapon.damage)
+                damage -= int(reduction/REDUCTION_CONSTANT)
+                #Make sure we never return zero
+                return max(damage, 0)
+        return 0
 
     @property
     def to_json(self):
@@ -100,6 +179,7 @@ class Battle():
         self.turn = True
 
     def check_ended(self):
+        ''' This checks wether a user or monster is dead '''
         valid_user = User.by_id(self.user.id)
         #check is the user died
         if self.monster.health <= 0:
@@ -108,7 +188,7 @@ class Battle():
             valid_user.gold += self.monster.gold
 
             #Grab the quest
-            quest = Quest.by_id(valid_user.current_quest_battle)
+            quest = Quest.by_id(valid_user.quest_level)
             if quest != None:
                 #If we still have battles left in our quest
                 if valid_user.current_quest_battle < quest.number_of_battles:
@@ -117,6 +197,8 @@ class Battle():
                 else:
                     valid_user.current_quest_battle = 0
                     valid_user.quest_level += 1
+            else:
+                print "No Quest ", valid_user.quest_level
             dbsession.add(valid_user)
             dbsession.flush()
 
@@ -136,7 +218,7 @@ class Battle():
             #set variable for the client
             self.victor = self.monster
             self.text = self.monster.name+" has defeated "+self.user.name+" !"
-            self.exp = valid_user.experience
+            self.exp = self.user.experience-valid_user.experience
             self.gold = 0
             return True
 
@@ -145,23 +227,42 @@ class Battle():
 
     def do_user_round(self, choice):
         ''' perform the users turn '''
-        self.check_ended()
         if choice == BattleMessage.ATTACK:
             damage = self.user.attack_monster(self.monster)
             self.monster.health -= damage
-            self.text = self.user.name+" hits "+self.monster.name +" for "+str(damage)+" damage!"
+            if damage > 0:
+                self.text = self.user.name+" hits "+self.monster.name +" for "+str(damage)+" damage!"
+            else:
+                self.text = self.user.name + " misses !"
+        elif choice == BattleMessage.DEFEND:
+            self.user.recover_health()
+            self.user.recover_mana()
+        elif choice == BattleMessage.ADVANCED:
+            true_user = User.by_id(self.user.id)
+            required_mana = true_user.equiped_weapon.rating
+            if self.user.mana > required_mana:
+                #Remove the mana we jsut used
+                self.user.mana -= required_mana
+                damage = self.user.advanced_attack_monster(self.monster)
+                self.monster.health -= damage
+                if damage > 0:
+                    self.text = self.user.name+"'s Advanced attack hits "+self.monster.name +" for "+str(damage)+" damage!"
+                else:
+                    self.text = self.user.name + "'s Advanced attack misses !"
 
     def do_computer_round(self):
         ''' perform the computers turn '''
-        #Make sure its not already over
-        self.check_ended()
         #Randomly choose a move
         move = self.choose_random_computer_move()
+        print move
         #perform that move
         # if move == BattleMessage.ATTACK:
         damage = self.monster.attack_user(self.user)
         self.user.health -= damage
-        self.text = self.monster.name+" hits "+self.user.name+" for "+str(damage)+" damage!"
+        if damage > 0:
+            self.text = self.monster.name+" hits "+self.user.name +" for "+str(damage)+" damage!"
+        else:
+            self.text = self.monster.name + " misses !"
 
 
     def choose_random_computer_move(self):

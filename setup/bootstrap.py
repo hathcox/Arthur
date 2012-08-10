@@ -325,8 +325,8 @@ monster = Monster(
     level = 3,
     gold = 20,
     avatar = "/static/images/monster/fuck.jpg",
-    armor_id = armor.id,
-    weapon_id = weapon.id,
+    armor_id = 1,
+    weapon_id = 1,
 )
 
 dbsession.add(monster)

@@ -48,6 +48,11 @@ class Monster(BaseObject):
     weapon_id = Column(Integer, ForeignKey('weapon.id'))
 
     @classmethod
+    def by_id(cls, uid):
+        ''' Return the user object whose user id is uid '''
+        return dbsession.query(cls).filter_by(id=unicode(uid)).first()
+
+    @classmethod
     def get_all(cls):
         ''' Return all non-admin user objects '''
         return dbsession.query(cls).filter(cls.name != u'admin').all()
