@@ -308,7 +308,7 @@ dbsession.flush()
 quest = Quest(
     name = "The Training Grounds",
     level = 1,
-    number_of_battles = 5,
+    number_of_battles = 10,
     min_monster_level = 1,
     max_monster_level = 1
 )
@@ -317,7 +317,7 @@ dbsession.add(quest)
 quest = Quest(
     name = "Into the Woods",
     level = 2,
-    number_of_battles = 10,
+    number_of_battles = 15,
     min_monster_level = 1,
     max_monster_level = 3
 )
@@ -328,7 +328,7 @@ quest = Quest(
     level = 3,
     number_of_battles = 15,
     min_monster_level = 3,
-    max_monster_level = 5
+    max_monster_level = 4
 )
 dbsession.add(quest)
 
@@ -336,8 +336,8 @@ quest = Quest(
     name = "The River of Bassas",
     level = 4,
     number_of_battles = 20,
-    min_monster_level = 5,
-    max_monster_level = 7
+    min_monster_level = 4,
+    max_monster_level = 6
 )
 dbsession.add(quest)
 
@@ -345,8 +345,8 @@ quest = Quest(
     name = "The City of Legion",
     level = 5,
     number_of_battles = 20,
-    min_monster_level = 7,
-    max_monster_level = 10
+    min_monster_level = 6,
+    max_monster_level = 9
 )
 dbsession.add(quest)
 
@@ -354,17 +354,17 @@ quest = Quest(
     name = "The River of Tribuit",
     level = 6,
     number_of_battles = 25,
-    min_monster_level = 10,
-    max_monster_level = 13
+    min_monster_level = 9,
+    max_monster_level = 12
 )
 dbsession.add(quest)
 
 quest = Quest(
     name = "Mount Agned",
     level = 7,
-    number_of_battles = 25,
-    min_monster_level = 13,
-    max_monster_level = 16
+    number_of_battles = 30,
+    min_monster_level = 12,
+    max_monster_level = 15
 )
 dbsession.add(quest)
 
@@ -372,8 +372,8 @@ quest = Quest(
     name = "Mount Badon",
     level = 8,
     number_of_battles = 30,
-    min_monster_level = 16,
-    max_monster_level = 18
+    min_monster_level = 15,
+    max_monster_level = 17
 )
 dbsession.add(quest)
 
@@ -381,7 +381,7 @@ quest = Quest(
     name = "Camlann",
     level = 9,
     number_of_battles = 40,
-    min_monster_level = 18,
+    min_monster_level = 17,
     max_monster_level = 20
 )
 dbsession.add(quest)
