@@ -79,10 +79,23 @@ weapon = ArmoryWeapon(
     required_level=3,
     cost=150,
     damage=20,
-    advanced=True,
+    advanced=False,
     classification="Sword",
     rating=30,
     avatar="/static/images/weapons/short_sword.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
+    name="Thief's Dagger",
+    description="A crude dagger used to steal from the rich",
+    required_level=4,
+    cost=250,
+    damage=30,
+    advanced=False,
+    classification="Mace",
+    rating=32,
+    avatar="/static/images/weapons/thiefs_dagger.png",
 )
 dbsession.add(weapon)
 
@@ -102,8 +115,8 @@ dbsession.add(weapon)
 weapon = ArmoryWeapon(
     name="Long Sword",
     description="A long sword",
-    required_level=8,
-    cost=700,
+    required_level=6,
+    cost=1500,
     damage=40,
     advanced=True,
     classification="Sword",
@@ -113,10 +126,23 @@ weapon = ArmoryWeapon(
 dbsession.add(weapon)
 
 weapon = ArmoryWeapon(
+    name="Broad Sword",
+    description="A thicker more powerful sword",
+    required_level=8,
+    cost=4000,
+    damage=45,
+    advanced=True,
+    classification="Sword",
+    rating=35,
+    avatar="/static/images/weapons/broad_sword.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
     name="Cutlass",
     description="A pirates sword! Yar!",
     required_level=10,
-    cost=1500,
+    cost=7000,
     damage=50,
     advanced=True,
     classification="Sword",
@@ -129,7 +155,7 @@ weapon = ArmoryWeapon(
     name="War Axe",
     description="A simple and small axe",
     required_level=13,
-    cost=4000,
+    cost=9500,
     damage=70,
     advanced=True,
     classification="Axe",
@@ -142,8 +168,8 @@ weapon = ArmoryWeapon(
     name="War Hammer",
     description="Large hammer like weapon",
     required_level=15,
-    cost=6000,
-    damage=900,
+    cost=15000,
+    damage=90,
     advanced=True,
     classification="Hammer",
     rating=70,
@@ -152,10 +178,23 @@ weapon = ArmoryWeapon(
 dbsession.add(weapon)
 
 weapon = ArmoryWeapon(
+    name="Orcish War Hammer",
+    description="An Orcish hammer used to crush skulls",
+    required_level=16,
+    cost=20000,
+    damage=120,
+    advanced=True,
+    classification="Hammer",
+    rating=70,
+    avatar="/static/images/weapons/orcish_warhammer.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
     name="Katana",
     description="Choice weapon for the Samurai",
     required_level=17,
-    cost=7000,
+    cost=25000,
     damage=150,
     advanced=True,
     classification="Sword",
@@ -168,7 +207,7 @@ weapon = ArmoryWeapon(
     name="Battle Axe",
     description="A large double-sided axe",
     required_level=18,
-    cost=9000,
+    cost=50000,
     damage=200,
     advanced=True,
     classification="Axe",
@@ -181,12 +220,38 @@ weapon = ArmoryWeapon(
     name="Claymore",
     description="A very large two handed sword",
     required_level=20,
-    cost=10000,
+    cost=100000,
     damage=400,
     advanced=True,
     classification="Sword",
     rating=95,
     avatar="/static/images/weapons/claymore.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
+    name="Superior Katana",
+    description="An even choicier weapon for the Samurai",
+    required_level=23,
+    cost=250000,
+    damage=550,
+    advanced=True,
+    classification="Sword",
+    rating=55,
+    avatar="/static/images/weapons/superior_katana.png",
+)
+dbsession.add(weapon)
+
+weapon = ArmoryWeapon(
+    name="Holy Sword",
+    description="A sword from the gods them selves",
+    required_level=25,
+    cost=400000,
+    damage=700,
+    advanced=True,
+    classification="Sword",
+    rating=99,
+    avatar="/static/images/weapons/holy_sword.png",
 )
 dbsession.add(weapon)
 
@@ -225,10 +290,21 @@ armor = ArmoryArmor(
 dbsession.add(armor)
 
 armor = ArmoryArmor(
+    name="Hardened Leather",
+    description="A sun hardened leather armor",
+    required_level=7,
+    cost=3000,
+    classification="Light Armor",
+    rating=150,
+    avatar="/static/images/armor/hardened_leather.png",
+)
+dbsession.add(armor)
+
+armor = ArmoryArmor(
     name="Scaled Armor",
     description="Scaled armor",
     required_level=10,
-    cost=1000,
+    cost=7000,
     classification="Light Armor",
     rating=150,
     avatar="/static/images/armor/scaled_armor.png",
@@ -239,7 +315,7 @@ armor = ArmoryArmor(
     name="Light Plated Armor",
     description="Lightly plated armor with leather",
     required_level=12,
-    cost=3000,
+    cost=13000,
     classification="Light Armor",
     rating=200,
     avatar="/static/images/armor/leather_plated_armor.png",
@@ -250,7 +326,7 @@ armor = ArmoryArmor(
     name="Studded Leather Straps",
     description="Fine leather with studded straps",
     required_level=15,
-    cost=5000,
+    cost=21000,
     classification="Light Armor",
     rating=250,
     avatar="/static/images/armor/studded_leather_armor.png",
@@ -258,10 +334,21 @@ armor = ArmoryArmor(
 dbsession.add(armor)
 
 armor = ArmoryArmor(
+    name="Steel Armor",
+    description="Crafted from the finest steel",
+    required_level=17,
+    cost=26500,
+    classification="Light Armor",
+    rating=275,
+    avatar="/static/images/armor/steel_armor.png",
+)
+dbsession.add(armor)
+
+armor = ArmoryArmor(
     name="Plated Armor",
     description="Steel plated armor",
     required_level=18,
-    cost=6500,
+    cost=30000,
     classification="Heavy Armor",
     rating=300,
     avatar="/static/images/armor/plated_armor.png",
@@ -272,7 +359,7 @@ armor = ArmoryArmor(
     name="Superior Leather Armor",
     description="The finest leather armor money can buy",
     required_level=20,
-    cost=8000,
+    cost=42000,
     classification="Light Armor",
     rating=350,
     avatar="/static/images/armor/superior_leather_armor.png",
@@ -283,7 +370,7 @@ armor = ArmoryArmor(
     name="Gold Plated Armor",
     description="Plated armor made of Gold",
     required_level=23,
-    cost=10000,
+    cost=100000,
     classification="Heavy Armor",
     rating=400,
     avatar="/static/images/armor/gold_plated_armor.png",
@@ -291,10 +378,21 @@ armor = ArmoryArmor(
 dbsession.add(armor)
 
 armor = ArmoryArmor(
+    name="Black Knight Armor",
+    description="Worn by the Black Knight himself",
+    required_level=24,
+    cost=200000,
+    classification="Heavy Armor",
+    rating=450,
+    avatar="/static/images/armor/black_knight_armor.png",
+)
+dbsession.add(armor)
+
+armor = ArmoryArmor(
     name="Dragon Plate",
     description="Armor made only of the bones of Dragons",
     required_level=25,
-    cost=12000,
+    cost=300000,
     classification="Heavy Armor",
     rating=500,
     avatar="/static/images/armor/dragon_armor.png",
@@ -327,7 +425,7 @@ quest = Quest(
     name = "The River of Glien",
     level = 3,
     number_of_battles = 15,
-    min_monster_level = 3,
+    min_monster_level = 2,
     max_monster_level = 4
 )
 dbsession.add(quest)
@@ -335,7 +433,7 @@ dbsession.add(quest)
 quest = Quest(
     name = "The River of Bassas",
     level = 4,
-    number_of_battles = 20,
+    number_of_battles = 15,
     min_monster_level = 4,
     max_monster_level = 6
 )
@@ -432,7 +530,7 @@ dbsession.add(monster)
 
 monster = Monster(
     name = "Wolf",
-    health = 250,
+    health = 200,
     experience = 200,
     level = 3,
     gold = 30,
@@ -444,7 +542,7 @@ dbsession.add(monster)
 
 monster = Monster(
     name = "Bear",
-    health = 400,
+    health = 350,
     experience = 300,
     level = 4,
     gold = 50,
@@ -471,7 +569,7 @@ monster = Monster(
     health = 650,
     experience = 500,
     level = 6,
-    gold = 120,
+    gold = 100,
     avatar = "/static/images/monsters/pre_teen_troll.jpg",
     armor_id = 4,
     weapon_id =4,
@@ -483,7 +581,7 @@ monster = Monster(
     health = 800,
     experience = 500,
     level = 7,
-    gold = 200,
+    gold = 150,
     avatar = "/static/images/monsters/bandit.jpg",
     armor_id = 5,
     weapon_id = 5,
@@ -495,7 +593,7 @@ monster = Monster(
     health = 800,
     experience = 800,
     level = 8,
-    gold = 300,
+    gold = 175,
     avatar = "/static/images/monsters/guinevere.jpg",
     armor_id = 7,
     weapon_id = 2,
