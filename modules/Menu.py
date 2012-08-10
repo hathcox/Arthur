@@ -32,7 +32,7 @@ class Menu(UIModule):
             if session.data['menu'] == 'user':
                 user = User.by_name(session.data['name'])
                 if user != None:
-                    return self.render_string('menu/user.html', experience=user.experience, gold=user.gold, name=user.name)
+                    return self.render_string('menu/user.html', experience=user.experience, gold=user.gold, name=user.name, level=user.level)
             elif session.data['menu'] == 'admin':
                 return self.render_string('menu/admin.html', uri=self.handler.request.uri)
         return self.render_string('menu/public.html', uri=self.handler.request.uri)
