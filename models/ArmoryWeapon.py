@@ -50,11 +50,18 @@ class ArmoryWeapon(BaseObject):
     advanced = Column(Boolean, nullable=False)
     classification = Column(Unicode(64), nullable=False)
     avatar = Column(Unicode(1024), nullable=False)
+    visible = Column(Boolean, default=True, nullable=False)
+
 
     @classmethod
     def get_all(cls):
         ''' Return all weapon objects '''
         return dbsession.query(cls).all()
+
+    @classmethod
+    def get_all_visible(cls):
+        ''' Return all visible weapon objects '''
+        return dbsession.query(cls).filter(cls.visible==True).all()
 
     @classmethod
     def by_id(cls, uid):

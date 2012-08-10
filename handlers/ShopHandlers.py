@@ -33,7 +33,7 @@ class ShopWeaponsHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders weapons store page '''
-        self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all())
+        self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all_visible())
 
     @authenticated
     def post(self, *args, **kwargs):
@@ -44,9 +44,9 @@ class ShopWeaponsHandler(UserBaseHandler):
             user = self.get_current_user()
             weapon = ArmoryWeapon.by_uuid(self.request.arguments['uuid'][0])
             if user == None or weapon == None:
-                self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all())
+                self.render("store/weapons.html", errors=None, weapons=ArmoryWeapon.get_all_visible())
             elif user.gold < weapon.cost:
-                self.render("store/weapons.html", errors=['You cannot afford this weapon'], weapons=ArmoryWeapon.get_all())
+                self.render("store/weapons.html", errors=['You cannot afford this weapon'], weapons=ArmoryWeapon.get_all_visible())
             else:
                 user.gold -= weapon.cost
                 new_weapon = Weapon(
@@ -65,7 +65,7 @@ class ShopWeaponsHandler(UserBaseHandler):
                 self.dbsession.flush()
                 self.render("store/purchase.html", item=weapon.name)
         else:
-            self.render("store/weapons.html", errors=form.errors, weapons=ArmoryWeapon.get_all())
+            self.render("store/weapons.html", errors=form.errors, weapons=ArmoryWeapon.get_all_visible())
 
 
 class ShopArmorHandler(UserBaseHandler):
@@ -73,7 +73,7 @@ class ShopArmorHandler(UserBaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
         ''' Renders armor store page '''
-        self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all())
+        self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all_visible())
 
     @authenticated
     def post(self, *args, **kwargs):
@@ -84,9 +84,9 @@ class ShopArmorHandler(UserBaseHandler):
             user = self.get_current_user()
             armor = ArmoryArmor.by_uuid(self.request.arguments['uuid'][0])
             if user == None or armor == None:
-                self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all())
+                self.render("store/armor.html", errors=None, armors=ArmoryArmor.get_all_visible())
             elif user.gold < armor.cost:
-                self.render("store/armor.html", errors=['You cannot afford this armor'], armors=ArmoryArmor.get_all())
+                self.render("store/armor.html", errors=['You cannot afford this armor'], armors=ArmoryArmor.get_all_visible())
             else:
                 user.gold -= armor.cost
                 new_armor = Armor(
@@ -103,7 +103,7 @@ class ShopArmorHandler(UserBaseHandler):
                 self.dbsession.flush()
                 self.render("store/purchase.html", item=armor.name)
         else:
-            self.render("store/armor.html", errors=form.errors, armors=ArmoryArmor.get_all())
+            self.render("store/armor.html", errors=form.errors, armors=ArmoryArmor.get_all_visible())
 
 
 class ShopPotionsHandler(UserBaseHandler):

@@ -31,7 +31,7 @@ from threading import Lock
 
 def get_random_damage(base_damage):
     ''' This method returns +- %10 of the base damage '''
-    return randint(base_damage-(base_damage*.1), base_damage+(base_damage*.1))
+    return randint(int(base_damage-(base_damage*.1)), int(base_damage+(base_damage*.1)))
 
 #This is what is used to balance rating
 REDUCTION_CONSTANT = 1000
