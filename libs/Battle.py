@@ -233,7 +233,6 @@ class Battle():
                 else:
                     valid_user.current_quest_battle = 0
                     valid_user.quest_level += 1
-            else:
             dbsession.add(valid_user)
             dbsession.flush()
 
