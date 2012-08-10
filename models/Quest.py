@@ -36,6 +36,7 @@ class Quest(BaseObject):
     ))
     level = Column(Integer, nullable=False)
     number_of_battles = Column(Integer, nullable=False)
+    min_monster_level = Column(Integer, default=1, nullable=False)
     max_monster_level = Column(Integer, nullable=False)
 
     @classmethod

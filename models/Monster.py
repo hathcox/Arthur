@@ -70,7 +70,7 @@ class Monster(BaseObject):
         #If we are still on quests
         if quest != None:
             #Get all valid monsters
-            all = dbsession.query(cls).filter(cls.level<=quest.max_monster_level).all()
+            all = dbsession.query(cls).filter(cls.level<=quest.max_monster_level).filter(cls.level>=quest.min_monster_level).all()
             return choice(all)
         return choice(cls.get_all())
 
