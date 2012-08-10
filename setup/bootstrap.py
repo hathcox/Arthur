@@ -27,8 +27,8 @@ from models import dbsession, User, Permission, ArmoryWeapon, ArmoryArmor, Quest
 # Fills the database with some startup data.
 config = ConfigManager.Instance()
 
-if config.debug:
-    password = 'nimda123'
+# if config.debug:
+password = 'nimda123'
 # else:
 #     sys.stdout.write(PROMPT + "New Admin ")
 #     sys.stdout.flush()
