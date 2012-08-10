@@ -309,6 +309,7 @@ quest = Quest(
     name = "The Training Grounds",
     level = 1,
     number_of_battles = 5,
+    min_monster_level = 1,
     max_monster_level = 1
 )
 dbsession.add(quest)
@@ -317,6 +318,7 @@ quest = Quest(
     name = "Into the Woods",
     level = 2,
     number_of_battles = 10,
+    min_monster_level = 1,
     max_monster_level = 3
 )
 dbsession.add(quest)
@@ -325,6 +327,7 @@ quest = Quest(
     name = "The River of Glien",
     level = 3,
     number_of_battles = 15,
+    min_monster_level = 3,
     max_monster_level = 5
 )
 dbsession.add(quest)
@@ -333,6 +336,7 @@ quest = Quest(
     name = "The River of Bassas",
     level = 4,
     number_of_battles = 20,
+    min_monster_level = 5,
     max_monster_level = 7
 )
 dbsession.add(quest)
@@ -341,6 +345,7 @@ quest = Quest(
     name = "The City of Legion",
     level = 5,
     number_of_battles = 20,
+    min_monster_level = 7,
     max_monster_level = 10
 )
 dbsession.add(quest)
@@ -349,38 +354,52 @@ quest = Quest(
     name = "The River of Tribuit",
     level = 6,
     number_of_battles = 25,
+    min_monster_level = 10,
     max_monster_level = 13
 )
 dbsession.add(quest)
 
 quest = Quest(
-    name = "Mount Badon",
+    name = "Mount Agned",
     level = 7,
     number_of_battles = 25,
+    min_monster_level = 13,
     max_monster_level = 16
 )
 dbsession.add(quest)
 
 quest = Quest(
-    name = "Camlann",
+    name = "Mount Badon",
     level = 8,
     number_of_battles = 30,
+    min_monster_level = 16,
     max_monster_level = 18
 )
 dbsession.add(quest)
 
 quest = Quest(
-    name = "The Holy Grail",
+    name = "Camlann",
     level = 9,
     number_of_battles = 40,
+    min_monster_level = 18,
     max_monster_level = 20
 )
 dbsession.add(quest)
 
 quest = Quest(
-    name = "Pokemon League",
+    name = "The Holy Grail",
     level = 10,
+    number_of_battles = 1,
+    min_monster_level = 25,
+    max_monster_level = 25,
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "Pokemon League",
+    level = 11,
     number_of_battles = 999,
+    min_monster_level = 999,
     max_monster_level = 999
 )
 dbsession.add(quest)
@@ -388,44 +407,257 @@ dbsession.add(quest)
 ### Monsters ###
 
 monster = Monster(
-    name = "Faggot Monster",
-    health = 200,
-    mana = 300,
-    experience = 200,
-    level = 3,
-    gold = 20,
-    avatar = "/static/images/monster/fuck.jpg",
+    name = "Bunny",
+    health = 50,
+    experience = 10,
+    level = 1,
+    gold = 10,
+    avatar = "/static/images/monsters/bunny.jpg",
     armor_id = 1,
+    weapon_id = 1,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Stag",
+    health = 100,
+    experience = 15,
+    level = 2,
+    gold = 15,
+    avatar = "/static/images/monsters/stag.jpg",
+    armor_id = 1,
+    weapon_id = 1,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Wolf",
+    health = 250,
+    experience = 50,
+    level = 3,
+    gold = 30,
+    avatar = "/static/images/monsters/wolf.jpg",
+    armor_id = 2,
+    weapon_id = 3,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Bear",
+    health = 400,
+    experience = 100,
+    level = 4,
+    gold = 50,
+    avatar = "/static/images/monsters/bear.jpg",
+    armor_id = 2,
+    weapon_id = 4,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Thief",
+    health = 500,
+    experience = 150,
+    level = 5,
+    gold = 90,
+    avatar = "/static/images/monsters/thief.jpg",
+    armor_id = 3,
+    weapon_id = 5,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Pre-Teen Troll",
+    health = 650,
+    experience = 200,
+    level = 6,
+    gold = 120,
+    avatar = "/static/images/monsters/pre_teen_troll.jpg",
+    armor_id = 4,
+    weapon_id =4,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Bandit",
+    health = 800,
+    experience = 250,
+    level = 7,
+    gold = 200,
+    avatar = "/static/images/monsters/bandit.jpg",
+    armor_id = 5,
+    weapon_id = 5,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Guinevere",
+    health = 800,
+    experience = 350,
+    level = 8,
+    gold = 300,
+    avatar = "/static/images/monsters/guinevere.jpg",
+    armor_id = 7,
+    weapon_id = 2,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Squire",
+    health = 1000,
+    experience = 400,
+    level = 9,
+    gold = 350,
+    avatar = "/static/images/monsters/squire.jpg",
+    armor_id = 5,
+    weapon_id = 6,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Knight",
+    health = 2000,
+    experience = 700,
+    level = 10,
+    gold = 400,
+    avatar = "/static/images/monsters/knight.jpg",
+    armor_id = 6,
+    weapon_id = 6,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Ogre",
+    health = 3000,
+    experience = 900,
+    level = 11,
+    gold = 450,
+    avatar = "/static/images/monsters/ogre.jpg",
+    armor_id = 5,
+    weapon_id = 7,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Baby Dragon",
+    health = 4500,
+    experience = 1000,
+    level = 12,
+    gold = 500,
+    avatar = "/static/images/monsters/baby_dragon.jpg",
+    armor_id = 5,
+    weapon_id = 6,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Troll",
+    health = 6000,
+    experience = 200,
+    level = 13,
+    gold = 550,
+    avatar = "/static/images/monsters/troll.jpg",
+    armor_id = 7,
+    weapon_id = 7,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "King's Guard",
+    health = 10000,
+    experience = 200,
+    level = 14,
+    gold = 600,
+    avatar = "/static/images/monsters/kings_guard.jpg",
+    armor_id = 8,
+    weapon_id = 7,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Sir Lancelot",
+    health = 12000,
+    experience = ,
+    level = 15,
+    gold = 700,
+    avatar = "/static/images/monsters/sir_lancelot.jpg",
+    armor_id = 7,
+    weapon_id = 9,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Griffon",
+    health = 13000,
+    experience = 1200,
+    level = 16,
+    gold = 600,
+    avatar = "/static/images/monsters/griffon.jpg",
+    armor_id = 9,
+    weapon_id = 9,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Leviathan",
+    health = 15000,
+    experience = 1400,
+    level = 17,
+    gold = 700,
+    avatar = "/static/images/monsters/leviathan.jpg",
+    armor_id = 10,
+    weapon_id = 9,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "Behemoth",
+    health = 18000,
+    experience = 1500,
+    level = 18,
+    gold = 850,
+    avatar = "/static/images/monsters/behemoth.jpg",
+    armor_id = 10,
     weapon_id = 10,
 )
 dbsession.add(monster)
 
 monster = Monster(
-    name = "LVL 1 Monster",
-    health = 1,
-    mana = 300,
-    experience = 200,
-    level = 1,
-    gold = 20,
-    avatar = "/static/images/monster/fuck.jpg",
-    armor_id = 1,
-    weapon_id = 1,
+    name = "Dragon",
+    health = 20000,
+    experience = 1700,
+    level = 19,
+    gold = 900,
+    avatar = "/static/images/monsters/dragon.jpg",
+    armor_id = 10,
+    weapon_id = 10,
 )
-
 dbsession.add(monster)
+
 monster = Monster(
-    name = "LVL 2 Monster",
-    health = 3,
-    mana = 300,
-    experience = 200,
-    level = 2,
-    gold = 20,
-    avatar = "/static/images/monster/fuck.jpg",
-    armor_id = 1,
-    weapon_id = 1,
+    name = "Elder Dragon",
+    health = 25000,
+    experience = 2000,
+    level = 20,
+    gold = 1000,
+    avatar = "/static/images/monsters/elder_dragon.jpg",
+    armor_id = 10,
+    weapon_id = 10,
 )
-
 dbsession.add(monster)
+
+monster = Monster(
+    name = "Guardian of the Holy Grail",
+    health = 50000,
+    experience = 5000,
+    level = 25,
+    gold = 1500,
+    avatar = "/static/images/monsters/guardian_of_the_holy_grail.jpg",
+    armor_id = 10,
+    weapon_id = 10,
+)
+dbsession.add(monster)
+
 ### Flush database session
 dbsession.flush()
 
