@@ -44,13 +44,13 @@ application = Application([
         (r'/avatars/(.*)', StaticFileHandler, {'path': path.abspath('files/avatars')}),
       
         # User Handlers
-        (r'/user', WelcomeUserHandler, {'dbsession': dbsession}),
         (r'/user/equipweapon', EquipWeaponHandler, {'dbsession': dbsession}),
         (r'/user/equiparmor', EquipArmorHandler, {'dbsession': dbsession}),
         (r'/user/settings(.*)', SettingsHandler, {'dbsession': dbsession}),
         (r'/user/highscore', HighscoreHandler, {'dbsession': dbsession}),
         (r'/user/quest', QuestHomeHandler, {'dbsession':dbsession}),
         (r'/user/battle', QuestBattleHandler, {'dbsession':dbsession}),
+        (r'/user(.*)', WelcomeUserHandler, {'dbsession': dbsession}),
 
         # Websocket Handlers
         (r'/ws/quest', QuestWebsocketHandler),

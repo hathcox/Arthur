@@ -5,6 +5,15 @@
 {% block content %}
 	<h1>{{ user.name }}</h1>
 	<br />
+
+	{% if error != None %}
+		<div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">ERROR</h4>
+        {{ error }}
+      	</div>
+	{% end %}
+
 	<div class="row" id="stats-container">
 		<!-- Sorry for this css hack -->
 		<div class="span4 well" id="avatar" style="background-image: url(/avatars/{{ user.avatar }});">

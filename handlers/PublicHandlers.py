@@ -67,7 +67,6 @@ class LoginHandler(RequestHandler):
         logging.info("Successful login: %s from %s" % (user.name, self.request.remote_ip))
         session_manager = SessionManager.Instance()
         sid, session = session_manager.start_session()
-        print "login handler", sid
         #We cant be http only for battles, this could open up security problems
         self.set_secure_cookie(name='auth', value=str(sid), expires_days=1)
         session.data['name'] = str(user.name)

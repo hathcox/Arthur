@@ -308,7 +308,23 @@ dbsession.flush()
 quest = Quest(
     name = "Quest for the Holy Grail",
     level = 1,
-    number_of_battles = 2,
+    number_of_battles = 5,
+    max_monster_level = 1
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "Quest for 2",
+    level = 2,
+    number_of_battles = 5,
+    max_monster_level = 2
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "3oly Grail",
+    level = 3,
+    number_of_battles = 5,
     max_monster_level = 20
 )
 dbsession.add(quest)
@@ -327,6 +343,36 @@ monster = Monster(
     avatar = "/static/images/monster/fuck.jpg",
     armor_id = 1,
     weapon_id = 10,
+)
+dbsession.add(monster)
+
+monster = Monster(
+    name = "LVL 1 Monster",
+    health = 1,
+    mana = 300,
+    strength = 2,
+    defense = 2,
+    experience = 200,
+    level = 1,
+    gold = 20,
+    avatar = "/static/images/monster/fuck.jpg",
+    armor_id = 1,
+    weapon_id = 1,
+)
+
+dbsession.add(monster)
+monster = Monster(
+    name = "LVL 2 Monster",
+    health = 3,
+    mana = 300,
+    strength = 2,
+    defense = 2,
+    experience = 200,
+    level = 2,
+    gold = 20,
+    avatar = "/static/images/monster/fuck.jpg",
+    armor_id = 1,
+    weapon_id = 1,
 )
 
 dbsession.add(monster)

@@ -21,7 +21,6 @@ Created on Mar 12, 2012
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import synonym, relationship, backref
-from models.Monster import Monster
 from models import dbsession
 from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject

@@ -21,7 +21,7 @@ Created on Mar 12, 2012
 
 import logging
 
-from models import User, Weapon, Armor
+from models import User, Weapon, Armor, Quest
 from libs.Form import Form
 from libs.Session import SessionManager
 from libs.SecurityDecorators import authenticated
@@ -35,9 +35,10 @@ class QuestHomeHandler(UserBaseHandler):
 
     @authenticated
     def get(self, *args, **kwargs):
-        ''' Renders Highscore page '''
+        ''' Renders Quest page '''
         user = self.get_current_user()
-        self.render('user/quest.html', user=self.get_current_user())
+        quest = Quest.by_id(user.quest_level)
+        self.render('user/quest.html', user=self.get_current_user(), quest=quest)
 
 
 class QuestBattleHandler(UserBaseHandler):
@@ -45,7 +46,7 @@ class QuestBattleHandler(UserBaseHandler):
     
     @authenticated
     def get(self, *args, **kwargs):
-        ''' Renders Highscore page '''
+        ''' Renders Battle page '''
         auth_cookie = self.get_secure_cookie('auth')
         self.render('user/battle.html', user=self.get_current_user(), auth=auth_cookie)
 
@@ -62,7 +63,6 @@ class QuestWebsocketHandler(WebSocketHandler):
         if(client_message.valid):
             #State machine time
             self.handle_message(client_message)
-        print message
 
     def on_close(self):
         logging.info("WebSocket closed with %s" % self.request.remote_ip)
@@ -71,7 +71,6 @@ class QuestWebsocketHandler(WebSocketHandler):
         ''' State machine to deal with battle commands '''
         session_manager = SessionManager.Instance()
         battle_manager = BattleManager.Instance()
-        print battle_manager.battles
         session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
         if session != None:
             if message.type == BattleMessage.START_BATTLE:

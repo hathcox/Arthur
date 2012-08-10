@@ -47,7 +47,16 @@ class WelcomeUserHandler(UserBaseHandler):
     def get(self, *args, **kwargs):
         ''' Display the default user page '''
         user = self.get_current_user()
-        self.render('user/home.html', user=user)
+        try:
+            error = int(self.get_argument('error'))
+        except Exception as e:
+            error = None
+        if error == 1:
+            error = "You are not the required level for that weapon!"
+        if error == 2:
+            error = "You are not the required level for that armor!"
+
+        self.render('user/home.html', user=user, error=error)
 
 
 class EquipWeaponHandler(UserBaseHandler):
@@ -71,12 +80,15 @@ class EquipWeaponHandler(UserBaseHandler):
                 new_weapon = Weapon.by_id(self.get_argument('weapon_id'))
                 # Make sure that we have the weapon they are attemping to equip
                 if new_weapon in user.get_all_weapons():
-                    old_weapon = user.equiped_weapon
-                    old_weapon.equiped = False
-                    new_weapon.equiped = True
-                    self.dbsession.add(new_weapon)
-                    self.dbsession.add(old_weapon)
-                    self.dbsession.flush()
+                    if new_weapon.required_level <= user.level:
+                        old_weapon = user.equiped_weapon
+                        old_weapon.equiped = False
+                        new_weapon.equiped = True
+                        self.dbsession.add(new_weapon)
+                        self.dbsession.add(old_weapon)
+                        self.dbsession.flush()
+                    else:
+                        self.redirect('/user?error=1')
         self.redirect('/user')
 
 
@@ -101,13 +113,16 @@ class EquipArmorHandler(UserBaseHandler):
                 new_armor = Armor.by_id(self.get_argument('armor_id'))
                 # Make sure that we have the weapon they are attemping to equip
                 if new_armor in user.get_all_armor():
-                    old_armor = user.equiped_armor
-                    old_armor.equiped = False
-                    new_armor.equiped = True
-                    self.dbsession.add(new_armor)
-                    self.dbsession.add(old_armor)
-                    self.dbsession.flush()
-        self.redirect('/user')
+                    if new_armor.required_level <= user.level:
+                        old_armor = user.equiped_armor
+                        old_armor.equiped = False
+                        new_armor.equiped = True
+                        self.dbsession.add(new_armor)
+                        self.dbsession.add(old_armor)
+                        self.dbsession.flush()
+                        self.redirect('/user')
+                    else:
+                        self.redirect('/user?error=2')
 
 
 class SettingsHandler(RequestHandler):

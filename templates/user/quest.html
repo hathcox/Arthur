@@ -3,18 +3,23 @@
 {% block title %}User Home{% end %}
 
 {% block content %}
-	<h1>Current Quest - [ {{ user.quest_level }} ]</h1>
-	<hr>
-	<h3>Battle Count - [ {{ user.current_quest_battle }} ]</h3>
-	<br>
+	{% if quest != None %}
+		<h1>{{ quest.name }} [{{quest.level}}]</h1>
+		<hr>
+		<h3>Battle Count - [ {{ user.current_quest_battle }} ]</h3>
+		<br>
+	{% else %}
+		<h1>You Won!</h1>
+		<p>Congradulations, you have beaten all of the quests, feel free to keep fighting monsters if you'd like!</p>
+	{% end %}
 
 	<style type="text/css">
 		a:hover {color:black;}
 	</style>
 	<a href="/user/battle" style=":hover">
-		<div class="well" style="background-image: url(/static/images/wood.jpg);">
+		<div class="well" style="background-image: url(/static/images/wood.jpg); background-repeat:no-repeat;background-size:1170px 112px;">
 			<br>
-			<center><h1 style="color:#FFFFFF;text-shadow: 3px 3px 3px #000;">Continue?</h1></center>
+			<center><h1 style="color:#FFFFFF;text-shadow: 3px 3px 3px #000;">To Battle!</h1></center>
 			<br>
 		</div>
 	</a>

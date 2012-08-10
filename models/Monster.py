@@ -25,7 +25,8 @@ from sqlalchemy.types import Unicode, Integer, Boolean
 from models.BaseGameObject import BaseObject
 from string import ascii_letters, digits
 from models import dbsession
-
+from models.Quest import Quest
+from random import choice
 
 class Monster(BaseObject):
 
@@ -65,7 +66,13 @@ class Monster(BaseObject):
     @classmethod
     def get_monster(cls, user):
         ''' Based on the users quest and level this will choose an appropriate monster '''
-        return cls.get_all()[0]
+        quest = Quest.by_id(user.quest_level)
+        #If we are still on quests
+        if quest != None:
+            #Get all valid monsters
+            all = dbsession.query(cls).filter(cls.level<=quest.max_monster_level).all()
+            return choice(all)
+        return choice(cls.get_all())
 
     @property
     def to_json(self):
