@@ -35,7 +35,7 @@
 				<tbody>
 				{% for index,ranked_user in enumerate(sorted(all_users, key=lambda u: u.gold)[::-1]) %}
 					<tr>
-						<th>{{ index + 1 }}</th>
+						<th>#{{ index + 1 }}</th>
 						<th>{{ ranked_user.name }}</th>
 						<th>{{ ranked_user.gold }}</th>
 					</tr>
@@ -57,7 +57,7 @@
 					<tbody>
 					{% for index,ranked_user in enumerate(sorted(all_users, key=lambda u: u.experience)[::-1]) %}
 						<tr>
-							<th>{{ index + 1 }}</th>
+							<th>#{{ index + 1 }}</th>
 							<th>{{ ranked_user.name }}</th>
 							<th>{{ ranked_user.experience }}</th>
 						</tr>

@@ -306,7 +306,7 @@ dbsession.flush()
 
 ### Quests ###
 quest = Quest(
-    name = "Quest for the Holy Grail",
+    name = "The Training Grounds",
     level = 1,
     number_of_battles = 5,
     max_monster_level = 1
@@ -314,18 +314,74 @@ quest = Quest(
 dbsession.add(quest)
 
 quest = Quest(
-    name = "Quest for 2",
+    name = "Into the Woods",
     level = 2,
-    number_of_battles = 5,
-    max_monster_level = 2
+    number_of_battles = 10,
+    max_monster_level = 3
 )
 dbsession.add(quest)
 
 quest = Quest(
-    name = "3oly Grail",
+    name = "The River of Glien",
     level = 3,
-    number_of_battles = 5,
+    number_of_battles = 15,
+    max_monster_level = 5
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "The River of Bassas",
+    level = 4,
+    number_of_battles = 20,
+    max_monster_level = 7
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "The City of Legion",
+    level = 5,
+    number_of_battles = 20,
+    max_monster_level = 10
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "The River of Tribuit",
+    level = 6,
+    number_of_battles = 25,
+    max_monster_level = 13
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "Mount Badon",
+    level = 7,
+    number_of_battles = 25,
+    max_monster_level = 16
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "Camlann",
+    level = 8,
+    number_of_battles = 30,
+    max_monster_level = 18
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "The Holy Grail",
+    level = 9,
+    number_of_battles = 40,
     max_monster_level = 20
+)
+dbsession.add(quest)
+
+quest = Quest(
+    name = "Pokemon League",
+    level = 10,
+    number_of_battles = 999,
+    max_monster_level = 999
 )
 dbsession.add(quest)
 
@@ -335,8 +391,6 @@ monster = Monster(
     name = "Faggot Monster",
     health = 200,
     mana = 300,
-    strength = 2,
-    defense = 2,
     experience = 200,
     level = 3,
     gold = 20,
@@ -350,8 +404,6 @@ monster = Monster(
     name = "LVL 1 Monster",
     health = 1,
     mana = 300,
-    strength = 2,
-    defense = 2,
     experience = 200,
     level = 1,
     gold = 20,
@@ -365,8 +417,6 @@ monster = Monster(
     name = "LVL 2 Monster",
     health = 3,
     mana = 300,
-    strength = 2,
-    defense = 2,
     experience = 200,
     level = 2,
     gold = 20,
