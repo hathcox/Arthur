@@ -71,7 +71,7 @@ class QuestWebsocketHandler(WebSocketHandler):
         ''' State machine to deal with battle commands '''
         session_manager = SessionManager.Instance()
         battle_manager = BattleManager.Instance()
-        session = session_manager.get_session(str(message.sid), str(self.request.remote_ip))
+        session = session_manager.get_session_alternate(str(message.sid))
         if session != None:
             if message.type == BattleMessage.START_BATTLE:
                     #Valid session, lets make a battle

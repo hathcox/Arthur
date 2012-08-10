@@ -66,6 +66,13 @@ class SessionManager():
                 return self.sessions[sid]
         return None
 
+    def get_session_alternate(self, sid):
+        if sid in self.sessions.keys():
+            if self.sessions[sid].is_expired():
+                self.remove_session(sid)
+            else
+                return self.sessions[sid]
+
     def clean_up(self):
         ''' Removes all expired sessions '''
         for sid in self.sessions.keys():

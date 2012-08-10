@@ -9,7 +9,7 @@
 	<script>
 	$(document).ready(function() {
 
-	 	var ws = new WebSocket("ws://{{ handler.application.settings['ws_ip_address'] }}:{{ handler.application.settings['ws_port'] }}/ws/quest");
+	 	var ws = new WebSocket("ws://rootthebox.com:{{ handler.application.settings['ws_port'] }}/ws/quest");
 
 	 	var sid = "{{auth}}";
 
