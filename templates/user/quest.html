@@ -6,7 +6,7 @@
 	{% if quest != None %}
 		<h1>{{ quest.name }} [{{quest.level}}]</h1>
 		<hr>
-		<h3>Battle Count - [ {{ user.current_quest_battle }} ]</h3>
+		<h3>Battle Count - [ {{ user.current_quest_battle }} / {{quest.number_of_battles}}]</h3>
 		<br>
 	{% else %}
 		<h1>You Won!</h1>
@@ -20,6 +20,14 @@
 		<div class="well" style="background-image: url(/static/images/wood.jpg); background-repeat:no-repeat;background-size:1170px 112px;">
 			<br>
 			<center><h1 style="color:#FFFFFF;text-shadow: 3px 3px 3px #000;">To Battle!</h1></center>
+			<br>
+		</div>
+	</a>
+
+	<a href="/user/retreat" style=":hover">
+		<div class="well" style="background-image: url(/static/images/bw_wood.jpg); background-repeat:no-repeat;background-size:1170px 112px;">
+			<br>
+			<center><h1 style="color:#FFFFFF;text-shadow: 3px 3px 3px #000;">Retreat!</h1></center>
 			<br>
 		</div>
 	</a>

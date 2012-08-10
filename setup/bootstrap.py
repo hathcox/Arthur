@@ -290,6 +290,17 @@ armor = ArmoryArmor(
 dbsession.add(armor)
 
 armor = ArmoryArmor(
+    name="Plated Hide",
+    description="Re-enforced boar hide, sewen with metal stakes",
+    required_level=6,
+    cost=1000,
+    classification="Light Armor",
+    rating=100,
+    avatar="/static/images/armor/plated_hide.png",
+)
+dbsession.add(armor)
+
+armor = ArmoryArmor(
     name="Hardened Leather",
     description="A sun hardened leather armor",
     required_level=7,

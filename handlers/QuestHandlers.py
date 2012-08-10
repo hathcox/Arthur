@@ -40,6 +40,21 @@ class QuestHomeHandler(UserBaseHandler):
         quest = Quest.by_id(user.quest_level)
         self.render('user/quest.html', user=self.get_current_user(), quest=quest)
 
+class QuestRetreatHandler(UserBaseHandler):
+
+    @authenticated
+    def get(self, *args, **kwargs):
+        ''' Retreats from the current quest '''
+        user = self.get_current_user()
+        quest = Quest.by_id(user.quest_level)
+        user.quest_level -=1
+        user.quest_level = max(user.quest_level, 1)
+        user.current_quest_battle = 0
+        self.dbsession.add(user)
+        self.dbsession.flush()
+        self.render('user/quest.html', user=self.get_current_user(), quest=quest)
+
+
 
 class QuestBattleHandler(UserBaseHandler):
     ''' This loads the starting point of a given battle '''

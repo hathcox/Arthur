@@ -50,6 +50,7 @@ application = Application([
         (r'/user/highscore', HighscoreHandler, {'dbsession': dbsession}),
         (r'/user/quest', QuestHomeHandler, {'dbsession':dbsession}),
         (r'/user/battle', QuestBattleHandler, {'dbsession':dbsession}),
+        (r'/user/retreat', QuestRetreatHandler, {'dbsession':dbsession}),
         (r'/user(.*)', WelcomeUserHandler, {'dbsession': dbsession}),
 
         # Websocket Handlers
