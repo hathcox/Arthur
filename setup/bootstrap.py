@@ -317,8 +317,8 @@ dbsession.add(quest)
 quest = Quest(
     name = "Into the Woods",
     level = 2,
-    number_of_battles = 15,
-    min_monster_level = 1,
+    number_of_battles = 10,
+    min_monster_level = 2,
     max_monster_level = 3
 )
 dbsession.add(quest)
