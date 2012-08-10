@@ -63,38 +63,38 @@ dbsession.add(permission)
 weapon = ArmoryWeapon(
     name="Dagger",
     description="Slightly better than a butter knife",
-    required_level=0,
+    required_level=1,
     cost=50,
     damage=10,
-    advanced=False,
+    advanced=True,
     classification="Sword",
-    rating=10,
+    rating=30,
     avatar="/static/images/weapons/dagger.png",
 )
 dbsession.add(weapon)
 
 weapon = ArmoryWeapon(
     name="Short Sword",
-    description="A sword that is short",
-    required_level=0,
-    cost=70,
-    damage=10,
-    advanced=False,
+    description="A small light sword",
+    required_level=3,
+    cost=150,
+    damage=20,
+    advanced=True,
     classification="Sword",
-    rating=15,
+    rating=30,
     avatar="/static/images/weapons/short_sword.png",
 )
 dbsession.add(weapon)
 
 weapon = ArmoryWeapon(
     name="Mace",
-    description="Its just a mace... idk",
+    description="Metal rod with a spiked ball on top",
     required_level=5,
-    cost=200,
-    damage=15,
+    cost=300,
+    damage=35,
     advanced=False,
-    classification="Sword",
-    rating=20,
+    classification="Mace",
+    rating=35,
     avatar="/static/images/weapons/mace.png",
 )
 dbsession.add(weapon)
@@ -102,12 +102,12 @@ dbsession.add(weapon)
 weapon = ArmoryWeapon(
     name="Long Sword",
     description="A long sword",
-    required_level=10,
-    cost=500,
-    damage=30,
+    required_level=8,
+    cost=700,
+    damage=40,
     advanced=True,
     classification="Sword",
-    rating=25,
+    rating=35,
     avatar="/static/images/weapons/long_sword.png",
 )
 dbsession.add(weapon)
@@ -120,20 +120,20 @@ weapon = ArmoryWeapon(
     damage=50,
     advanced=True,
     classification="Sword",
-    rating=35,
+    rating=40,
     avatar="/static/images/weapons/cutlass.png",
 )
 dbsession.add(weapon)
 
 weapon = ArmoryWeapon(
     name="War Axe",
-    description="A simple war axe",
-    required_level=10,
-    cost=1000,
-    damage=55,
+    description="A simple and small axe",
+    required_level=13,
+    cost=4000,
+    damage=70,
     advanced=True,
     classification="Axe",
-    rating=30,
+    rating=50,
     avatar="/static/images/weapons/war_axe.png",
 )
 dbsession.add(weapon)
@@ -142,11 +142,11 @@ weapon = ArmoryWeapon(
     name="War Hammer",
     description="Large hammer like weapon",
     required_level=15,
-    cost=3000,
-    damage=70,
+    cost=6000,
+    damage=900,
     advanced=True,
     classification="Hammer",
-    rating=25,
+    rating=70,
     avatar="/static/images/weapons/war_hammer.png",
 )
 dbsession.add(weapon)
@@ -154,12 +154,12 @@ dbsession.add(weapon)
 weapon = ArmoryWeapon(
     name="Katana",
     description="Choice weapon for the Samurai",
-    required_level=18,
-    cost=4000,
-    damage=85,
+    required_level=17,
+    cost=7000,
+    damage=150,
     advanced=True,
     classification="Sword",
-    rating=50,
+    rating=75,
     avatar="/static/images/weapons/katana.png",
 )
 dbsession.add(weapon)
@@ -167,12 +167,12 @@ dbsession.add(weapon)
 weapon = ArmoryWeapon(
     name="Battle Axe",
     description="A large double-sided axe",
-    required_level=20,
-    cost=4500,
-    damage=95,
+    required_level=18,
+    cost=9000,
+    damage=200,
     advanced=True,
     classification="Axe",
-    rating=40,
+    rating=90,
     avatar="/static/images/weapons/battle_axe.png",
 )
 dbsession.add(weapon)
@@ -181,11 +181,11 @@ weapon = ArmoryWeapon(
     name="Claymore",
     description="A very large two handed sword",
     required_level=20,
-    cost=5000,
-    damage=100,
+    cost=10000,
+    damage=400,
     advanced=True,
     classification="Sword",
-    rating=40,
+    rating=95,
     avatar="/static/images/weapons/claymore.png",
 )
 dbsession.add(weapon)
@@ -194,7 +194,7 @@ dbsession.add(weapon)
 armor = ArmoryArmor(
     name="Simple Robe",
     description="Weak cloth to cover your disgusting naked body...",
-    required_level=0,
+    required_level=1,
     cost=50,
     classification="Light Armor",
     rating=10,
@@ -205,10 +205,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Fur Hide",
     description="Armor made from the hide of an animal",
-    required_level=0,
-    cost=100,
+    required_level=3,
+    cost=200,
     classification="Light Armor",
-    rating=15,
+    rating=35,
     avatar="/static/images/armor/fur_armor.png",
 )
 dbsession.add(armor)
@@ -217,9 +217,9 @@ armor = ArmoryArmor(
     name="Leather Straps",
     description="Armor made from hide",
     required_level=5,
-    cost=300,
+    cost=500,
     classification="Light Armor",
-    rating=15,
+    rating=55,
     avatar="/static/images/armor/leather_straps.png",
 )
 dbsession.add(armor)
@@ -227,10 +227,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Scaled Armor",
     description="Scaled armor",
-    required_level=7,
-    cost=500,
+    required_level=10,
+    cost=1000,
     classification="Light Armor",
-    rating=20,
+    rating=150,
     avatar="/static/images/armor/scaled_armor.png",
 )
 dbsession.add(armor)
@@ -238,10 +238,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Light Plated Armor",
     description="Lightly plated armor with leather",
-    required_level=10,
-    cost=900,
+    required_level=12,
+    cost=3000,
     classification="Light Armor",
-    rating=25,
+    rating=200,
     avatar="/static/images/armor/leather_plated_armor.png",
 )
 dbsession.add(armor)
@@ -249,10 +249,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Studded Leather Straps",
     description="Fine leather with studded straps",
-    required_level=10,
-    cost=1000,
+    required_level=15,
+    cost=5000,
     classification="Light Armor",
-    rating=30,
+    rating=250,
     avatar="/static/images/armor/studded_leather_armor.png",
 )
 dbsession.add(armor)
@@ -260,10 +260,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Plated Armor",
     description="Steel plated armor",
-    required_level=15,
-    cost=1500,
+    required_level=18,
+    cost=6500,
     classification="Heavy Armor",
-    rating=35,
+    rating=300,
     avatar="/static/images/armor/plated_armor.png",
 )
 dbsession.add(armor)
@@ -271,10 +271,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Superior Leather Armor",
     description="The finest leather armor money can buy",
-    required_level=15,
-    cost=3000,
+    required_level=20,
+    cost=8000,
     classification="Light Armor",
-    rating=70,
+    rating=350,
     avatar="/static/images/armor/superior_leather_armor.png",
 )
 dbsession.add(armor)
@@ -282,10 +282,10 @@ dbsession.add(armor)
 armor = ArmoryArmor(
     name="Gold Plated Armor",
     description="Plated armor made of Gold",
-    required_level=20,
-    cost=5000,
+    required_level=23,
+    cost=10000,
     classification="Heavy Armor",
-    rating=100,
+    rating=400,
     avatar="/static/images/armor/gold_plated_armor.png",
 )
 dbsession.add(armor)
@@ -294,9 +294,9 @@ armor = ArmoryArmor(
     name="Dragon Plate",
     description="Armor made only of the bones of Dragons",
     required_level=25,
-    cost=10000,
+    cost=12000,
     classification="Heavy Armor",
-    rating=150,
+    rating=500,
     avatar="/static/images/armor/dragon_armor.png",
 )
 dbsession.add(armor)
