@@ -45,8 +45,8 @@ class Monster(BaseObject):
     level = Column(Integer, nullable=False)
     gold = Column(Integer, nullable=False)
 
-    armor_id = Column(Integer, ForeignKey('armor.id'))
-    weapon_id = Column(Integer, ForeignKey('weapon.id'))
+    armor_id = Column(Integer, nullable=False)
+    weapon_id = Column(Integer, nullable=False)
 
     @classmethod
     def by_id(cls, uid):
