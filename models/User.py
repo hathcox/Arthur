@@ -67,7 +67,7 @@ class User(BaseObject):
     uuid = Column(Unicode(36), unique=True, nullable=False, default=gen_uuid)
     avatar = Column(Unicode(128), default=unicode("default_avatar.jpeg"))
     gold = Column(Integer, default=0, nullable=False)
-    health = Column(Integer, default=100)
+    #health = Column(Integer, default=100)
     mana = Column(Integer, default=100)
     strength = Column(Integer, default=1)
     defense = Column(Integer, default=1)
@@ -123,6 +123,11 @@ class User(BaseObject):
         if self.experience > 100:
             return int(sqrt(self.experience*.01))
         return 1
+
+    @property
+    def health(self):
+        ''' This scales based on level '''
+        return 100 * self.level
 
     @property
     def equiped_weapon(self):

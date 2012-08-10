@@ -97,9 +97,7 @@ class BattleUser():
             if hit:
                 reduction = monster_armor.rating
                 damage = get_random_damage(weapon.damage)
-                print damage
                 damage -= int(reduction/REDUCTION_CONSTANT)
-                print damage
                 #Make sure we never return zero
                 return max(damage, 0)
         return 0
@@ -236,7 +234,6 @@ class Battle():
                     valid_user.current_quest_battle = 0
                     valid_user.quest_level += 1
             else:
-                print "No Quest ", valid_user.quest_level
             dbsession.add(valid_user)
             dbsession.flush()
 
@@ -295,7 +292,6 @@ class Battle():
         ''' perform the computers turn '''
         #Randomly choose a move
         move = self.choose_random_computer_move()
-        print move
         #perform that move
         if move == BattleMessage.ATTACK:
             damage = self.monster.attack_user(self.user)
@@ -367,7 +363,6 @@ class BattleMessage():
 
     def __init__(self, json_string):
         try:
-            print json.loads(json_string)
             self.raw_json = json.loads(json_string)
             self.type = self.raw_json["type"]
             self.sid = self.raw_json["sid"]

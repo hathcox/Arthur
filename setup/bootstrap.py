@@ -409,7 +409,7 @@ dbsession.add(quest)
 monster = Monster(
     name = "Bunny",
     health = 50,
-    experience = 10,
+    experience = 50,
     level = 1,
     gold = 10,
     avatar = "/static/images/monsters/bunny.jpg",
@@ -421,7 +421,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Stag",
     health = 100,
-    experience = 15,
+    experience = 100,
     level = 2,
     gold = 15,
     avatar = "/static/images/monsters/stag.jpg",
@@ -433,7 +433,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Wolf",
     health = 250,
-    experience = 50,
+    experience = 200,
     level = 3,
     gold = 30,
     avatar = "/static/images/monsters/wolf.jpg",
@@ -445,7 +445,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Bear",
     health = 400,
-    experience = 100,
+    experience = 300,
     level = 4,
     gold = 50,
     avatar = "/static/images/monsters/bear.jpg",
@@ -457,7 +457,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Thief",
     health = 500,
-    experience = 150,
+    experience = 350,
     level = 5,
     gold = 90,
     avatar = "/static/images/monsters/thief.jpg",
@@ -469,7 +469,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Pre-Teen Troll",
     health = 650,
-    experience = 200,
+    experience = 500,
     level = 6,
     gold = 120,
     avatar = "/static/images/monsters/pre_teen_troll.jpg",
@@ -481,7 +481,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Bandit",
     health = 800,
-    experience = 250,
+    experience = 500,
     level = 7,
     gold = 200,
     avatar = "/static/images/monsters/bandit.jpg",
@@ -493,7 +493,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Guinevere",
     health = 800,
-    experience = 350,
+    experience = 800,
     level = 8,
     gold = 300,
     avatar = "/static/images/monsters/guinevere.jpg",
@@ -505,7 +505,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Squire",
     health = 1000,
-    experience = 400,
+    experience = 800,
     level = 9,
     gold = 350,
     avatar = "/static/images/monsters/squire.jpg",
@@ -517,7 +517,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Knight",
     health = 2000,
-    experience = 700,
+    experience = 900,
     level = 10,
     gold = 400,
     avatar = "/static/images/monsters/knight.jpg",
@@ -553,7 +553,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Troll",
     health = 6000,
-    experience = 200,
+    experience = 1100,
     level = 13,
     gold = 550,
     avatar = "/static/images/monsters/troll.jpg",
@@ -565,7 +565,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "King's Guard",
     health = 10000,
-    experience = 200,
+    experience = 1150,
     level = 14,
     gold = 600,
     avatar = "/static/images/monsters/kings_guard.jpg",
@@ -577,7 +577,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Sir Lancelot",
     health = 12000,
-    experience = ,
+    experience = 1200,
     level = 15,
     gold = 700,
     avatar = "/static/images/monsters/sir_lancelot.jpg",
@@ -589,7 +589,7 @@ dbsession.add(monster)
 monster = Monster(
     name = "Griffon",
     health = 13000,
-    experience = 1200,
+    experience = 1300,
     level = 16,
     gold = 600,
     avatar = "/static/images/monsters/griffon.jpg",
