@@ -52,7 +52,7 @@ class QuestRetreatHandler(UserBaseHandler):
         user.current_quest_battle = 0
         self.dbsession.add(user)
         self.dbsession.flush()
-        self.render('user/quest.html', user=self.get_current_user(), quest=quest)
+        self.redirect('/user/quest')
 
 
 
