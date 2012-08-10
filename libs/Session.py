@@ -70,7 +70,7 @@ class SessionManager():
         if sid in self.sessions.keys():
             if self.sessions[sid].is_expired():
                 self.remove_session(sid)
-            else
+            else:
                 return self.sessions[sid]
 
     def clean_up(self):
