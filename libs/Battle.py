@@ -136,9 +136,31 @@ class BattleMonster():
         self.avatar = monster.avatar
         self.weapon_id = monster.weapon_id
 
+    def recover_mana(self):
+        ''' Recover between 10-20% mana '''
+        true_user = Monster.by_id(self.id)
+        max_mana = true_user.mana
+        #If there is health to gain
+        if self.mana < max_mana:
+            self.mana += min(int(max_mana*(random()%.2)), max_mana)
+
+    def recover_health(self):
+        ''' Recover between 10-20% health '''
+        true_user = Monster.by_id(self.id)
+        max_health = true_user.health
+        #If there is health to gain
+        if self.health < max_health:
+            #Random number between .0 <-> .2 take that percentage of max hp and add it back in capping at your max hp 
+            self.health += min(int(max_health*(random()%.1)), max_health)
+
+
     def roll_hit(self):
         ''' Chance to miss is 1/4 agianst users '''
         return choice([True, False, True, True])
+
+    def roll_advanced_hit(self):
+        ''' Change to miss is 1/2 agianst users '''
+        return choice([True, False])
 
     def attack_user(self, user):
         ''' calculates damage agianst a provided user '''
@@ -154,6 +176,22 @@ class BattleMonster():
                 damage -= int(reduction/REDUCTION_CONSTANT)
                 #Make sure we never return zero
                 return max(damage, 0)
+        return 0
+
+    def advanced_attack_user(self, user):
+        ''' calculates damage agianst a provided user '''
+        true_monster = Monster.by_id(self.id)
+        true_user = User.by_id(user.id)
+        user_armor = true_user.equiped_armor
+        weapon = ArmoryWeapon.by_id(true_monster.weapon_id)
+        if user_armor != None and weapon != None:
+            hit = self.roll_advanced_hit()
+            if hit:
+                reduction = user_armor.rating
+                damage = get_random_damage(weapon.damage)
+                damage -= int(reduction/REDUCTION_CONSTANT)
+                #Make sure we never return zero
+                return max(damage, 0)*2
         return 0
 
     @property
@@ -235,8 +273,11 @@ class Battle():
             else:
                 self.text = self.user.name + " misses !"
         elif choice == BattleMessage.DEFEND:
+            initial_health = self.user.health
+            initial_mana = self.user.mana
             self.user.recover_health()
             self.user.recover_mana()
+            self.text = self.user.name +" defends and recovers "+str(self.user.health-initial_health)+" health and "+str(self.user.mana-initial_mana)+" mana!"
         elif choice == BattleMessage.ADVANCED:
             true_user = User.by_id(self.user.id)
             required_mana = true_user.equiped_weapon.rating
@@ -256,20 +297,40 @@ class Battle():
         move = self.choose_random_computer_move()
         print move
         #perform that move
-        # if move == BattleMessage.ATTACK:
-        damage = self.monster.attack_user(self.user)
-        self.user.health -= damage
-        if damage > 0:
-            self.text = self.monster.name+" hits "+self.user.name +" for "+str(damage)+" damage!"
-        else:
-            self.text = self.monster.name + " misses !"
+        if move == BattleMessage.ATTACK:
+            damage = self.monster.attack_user(self.user)
+            self.user.health -= damage
+            if damage > 0:
+                self.text = self.monster.name+" hits "+self.user.name +" for "+str(damage)+" damage!"
+            else:
+                self.text = self.monster.name + " misses !"
+        elif move == BattleMessage.DEFEND:
+            initial_health = self.monster.health
+            initial_mana = self.monster.mana
+            self.monster.recover_health()
+            self.monster.recover_mana()
+            self.text = self.monster.name +" defends and recovers "+str(self.monster.health-initial_health)+" health and "+str(self.monster.mana-initial_mana)+" mana!"
+        elif move == BattleMessage.ADVANCED:
+            monster = Monster.by_id(self.monster.id)
+            monster_weapon = ArmoryWeapon.by_id(monster.weapon_id)
+            required_mana = monster_weapon.rating
+            if self.monster.mana > required_mana:
+                #Remove the mana we just used
+                self.monster.mana -= required_mana
+                damage = self.monster.advanced_attack_user(self.user)
+                self.user.health -= damage
+                if damage > 0:
+                    self.text = self.monster.name+"'s Advanced attack hits "+self.user.name +" for "+str(damage)+" damage!"
+                else:
+                    self.text = self.monster.name + "'s Advanced attack misses !"
 
 
     def choose_random_computer_move(self):
         ''' returns one or three possible moves '''
         choices = [
             BattleMessage.ATTACK,
-            BattleMessage.DEFEND
+            BattleMessage.DEFEND,
+            BattleMessage.ATTACK,
         ]
         monster_weapon = ArmoryWeapon.by_id(self.monster.weapon_id)
         #If the monster can do advanced attacks
